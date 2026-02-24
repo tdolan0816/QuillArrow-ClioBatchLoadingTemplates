@@ -1,0 +1,16 @@
+# Clio Templates & Custom Fields Update Automation Project
+
+## Changes
+- Added CSV reporting of replacements per document to `mass_update_templates.py`.
+- Introduced a `Replacement` dataclass to retain original Old/New text with compiled regex.
+- Updated replacement flow to track per-replacement counts alongside total counts.
+- Added `--report` CLI option and default report output (`replacement_report.csv`).
+- Report output includes columns: `document`, `old_value`, `new_value`, `count`.
+- Added `--join-runs` option to replace placeholders spanning Word runs.
+- Join-runs mode preserves surrounding formatting and uses the first run's style for replacements.
+- Added `clio_templates_sync.py` to bulk list/download templates via Clio API.
+- Added manifest-based workflow to reuse downloaded IDs for uploads.
+- Added `requests` dependency for Clio API calls.
+- Added `clio_oauth_app.py` for OAuth login and token capture.
+- Added token-file support and refresh handling in `clio_templates_sync.py`.
+- Added `Flask` dependency for the OAuth helper app.

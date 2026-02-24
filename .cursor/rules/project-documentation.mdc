@@ -1,0 +1,11 @@
+---
+description: Documentation, summaries, and action items
+alwaysApply: true
+---
+
+# Documentation and Summaries
+- For every change request, provide a concise summary of what changed, what it affects, why it was done, and how it achieves the intent.
+- For larger changes (multi-file edits, new features, or significant behavior changes), create a Markdown documentation file saved as `.txt` with Markdown content. Focus only on the actual changes (no qualitative results). Default name: `CHANGELOG_YYYY-MM-DD.txt` in the project root unless the user specifies otherwise.
+
+# Action Item List
+- When asked for next steps or project planning, include an "Action Item List" with discrete tasks suitable for project tracking.
