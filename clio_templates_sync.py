@@ -22,6 +22,9 @@ from typing import Dict, Iterable, List, Optional, Tuple
 import requests
 
 
+# -------------------------------
+# Default configuration values
+# -------------------------------
 DEFAULT_BASE_URL = "https://app.clio.com/api/v4"
 DEFAULT_AUTH_BASE = "https://app.clio.com"
 DEFAULT_LIMIT = 200
@@ -33,6 +36,7 @@ TOKEN_EXPIRY_SKEW_SECONDS = 60
 
 
 def build_session(access_token: str, api_version: str | None) -> requests.Session:
+    """Create a requests session preloaded with Clio auth headers."""
     session = requests.Session()
     session.headers.update(
         {
@@ -54,6 +58,12 @@ def request_json(
     files: Optional[Dict] = None,
     max_retries: int = 3,
 ) -> requests.Response:
+    """
+    Make an HTTP request with retry handling for 429 and 5xx responses.
+
+    - 429: respects Retry-After header.
+    - 5xx: retries with exponential backoff.
+    """
     for attempt in range(max_retries + 1):
         response = session.request(method, url, params=params, data=data, files=files)
         if response.status_code == 429:
@@ -68,6 +78,7 @@ def request_json(
 
 
 def load_token_file(path: Path) -> Dict:
+    """Load OAuth tokens from a JSON file on disk."""
     if not path.exists():
         raise FileNotFoundError(f"Token file not found: {path}")
     with path.open("r", encoding="utf-8") as handle:
@@ -75,6 +86,7 @@ def load_token_file(path: Path) -> Dict:
 
 
 def write_token_file(path: Path, payload: Dict) -> None:
+    """Persist OAuth tokens to disk as JSON."""
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as handle:
         json.dump(payload, handle, indent=2)
@@ -83,6 +95,7 @@ def write_token_file(path: Path, payload: Dict) -> None:
 def request_token(
     url: str, data: Dict[str, str], max_retries: int
 ) -> requests.Response:
+    """POST to the OAuth token endpoint with basic retry handling."""
     for attempt in range(max_retries + 1):
         response = requests.post(url, data=data, timeout=30)
         if response.status_code == 429:
@@ -103,6 +116,7 @@ def refresh_access_token(
     refresh_token: str,
     max_retries: int,
 ) -> Dict:
+    """Refresh an expired access token using the stored refresh token."""
     token_url = f"{auth_base.rstrip('/')}/oauth/token"
     response = request_token(
         token_url,
@@ -127,6 +141,7 @@ def refresh_access_token(
 
 
 def token_expired(payload: Dict) -> bool:
+    """Return True if the token is expired (with a small safety skew)."""
     expires_at = payload.get("expires_at")
     if not expires_at:
         return False
@@ -137,10 +152,16 @@ def token_expired(payload: Dict) -> bool:
 
 
 def resolve_access_token(args: argparse.Namespace) -> str:
+    """
+    Resolve an access token from (in order):
+    1) CLI flag or environment variable.
+    2) Token file, with optional refresh if expired.
+    """
     access_token = args.access_token or os.environ.get("CLIO_ACCESS_TOKEN")
     if access_token:
         return access_token
 
+    # Fall back to a token file produced by the OAuth helper.
     token_path = Path(
         args.token_file
         or os.environ.get("CLIO_TOKEN_FILE", DEFAULT_TOKEN_FILE)
@@ -148,6 +169,7 @@ def resolve_access_token(args: argparse.Namespace) -> str:
     payload = load_token_file(token_path)
 
     if token_expired(payload):
+        # Attempt a refresh if the access token is expired.
         refresh_token = payload.get("refresh_token")
         if not refresh_token:
             raise RuntimeError(
@@ -164,6 +186,7 @@ def resolve_access_token(args: argparse.Namespace) -> str:
         refreshed = refresh_access_token(
             auth_base, client_id, client_secret, refresh_token, args.max_retries
         )
+        # Store refreshed tokens back to the same file.
         payload.update(refreshed)
         write_token_file(token_path, payload)
 
@@ -174,6 +197,7 @@ def resolve_access_token(args: argparse.Namespace) -> str:
 
 
 def extract_next_page_token(meta: Dict) -> Optional[str]:
+    """Return the next page token from a Clio paging metadata object."""
     paging = meta.get("paging", {}) if isinstance(meta, dict) else {}
     for key in ("next_page_token", "next_page", "next", "page_token"):
         token = paging.get(key)
@@ -188,6 +212,11 @@ def iter_pages(
     params: Dict[str, str],
     max_retries: int,
 ) -> Iterable[Dict]:
+    """
+    Yield items across all pages for a list endpoint.
+
+    Uses Clio's paging token in the response metadata.
+    """
     page_token: Optional[str] = None
     while True:
         page_params = dict(params)
@@ -213,12 +242,14 @@ def iter_pages(
 
 
 def sanitize_filename(name: str) -> str:
+    """Make a safe filename for Windows by removing invalid characters."""
     cleaned = re.sub(r"[\\/:*?\"<>|]+", "_", name)
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
     return cleaned or "template"
 
 
 def unique_path(path: Path) -> Path:
+    """Return a path that does not overwrite an existing file."""
     if not path.exists():
         return path
     stem = path.stem
@@ -237,6 +268,11 @@ def try_list_document_templates(
     limit: int,
     max_retries: int,
 ) -> Tuple[Optional[List[Dict]], Optional[str]]:
+    """
+    Attempt to list templates using the document_templates endpoint.
+
+    Returns (items, None) if supported, or (None, error_message) if not.
+    """
     url = f"{base_url}/document_templates.json"
     response = request_json(
         session, "GET", url, params={"limit": str(limit)}, max_retries=max_retries
@@ -259,6 +295,11 @@ def resolve_folder_id(
     limit: int,
     max_retries: int,
 ) -> str:
+    """
+    Resolve a folder ID by name when an explicit folder_id is not provided.
+
+    Raises if the folder name is missing or ambiguous.
+    """
     if folder_id:
         return folder_id
 
@@ -294,6 +335,7 @@ def list_documents_in_folder(
     limit: int,
     max_retries: int,
 ) -> List[Dict]:
+    """List documents inside a single Clio folder."""
     url = f"{base_url}/documents.json"
     return list(
         iter_pages(
@@ -312,6 +354,7 @@ def download_document(
     target_path: Path,
     max_retries: int,
 ) -> None:
+    """Download a document file by ID to a local path."""
     url = f"{base_url}/documents/{document_id}/download"
     for attempt in range(max_retries + 1):
         response = session.get(url, allow_redirects=True, stream=True)
@@ -342,6 +385,12 @@ def download_document_template(
     target_path: Path,
     max_retries: int,
 ) -> None:
+    """
+    Download a document template by trying common template endpoints.
+
+    This is separate from documents because some accounts expose templates
+    via a dedicated endpoint.
+    """
     candidate_paths = [
         f"{base_url}/document_templates/{template_id}/contents",
         f"{base_url}/document_templates/{template_id}/download",
@@ -370,12 +419,14 @@ def download_document_template(
 
 
 def write_manifest(path: Path, entries: List[Dict]) -> None:
+    """Write a manifest JSON describing downloaded templates."""
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", encoding="utf-8") as handle:
         json.dump(entries, handle, indent=2)
 
 
 def load_manifest(path: Path) -> List[Dict]:
+    """Load a manifest JSON file created during download."""
     with path.open("r", encoding="utf-8") as handle:
         return json.load(handle)
 
@@ -387,6 +438,11 @@ def upload_document_version(
     file_path: Path,
     max_retries: int,
 ) -> None:
+    """
+    Upload a new version of a document using common endpoint variants.
+
+    Some Clio accounts expect different field names; this tries a few.
+    """
     candidate_paths = [
         f"{base_url}/documents/{document_id}/document_versions.json",
         f"{base_url}/documents/{document_id}/versions.json",
@@ -422,6 +478,7 @@ def upload_document_version(
 
 
 def parse_args() -> argparse.Namespace:
+    """Define and parse CLI arguments for list/download/upload commands."""
     parser = argparse.ArgumentParser(
         description="Bulk download and upload Clio templates via API."
     )
@@ -483,6 +540,7 @@ def parse_args() -> argparse.Namespace:
 
 
 def main() -> int:
+    """Entry point: resolve auth, then run list/download/upload flows."""
     args = parse_args()
     try:
         access_token = resolve_access_token(args)
@@ -490,9 +548,11 @@ def main() -> int:
         print(str(exc))
         return 1
 
+    # Build an HTTP session with auth headers.
     session = build_session(access_token, args.api_version)
 
     if args.command in ("list", "download"):
+        # Determine which source to use for templates.
         items: List[Dict] = []
         source_used = args.source
 
@@ -511,6 +571,7 @@ def main() -> int:
                 return 1
 
         if not items and args.source in ("auto", "documents-folder"):
+            # Fall back to documents stored in a "Templates" folder.
             folder_id = resolve_folder_id(
                 session,
                 args.base_url,
@@ -534,6 +595,7 @@ def main() -> int:
         manifest_entries: List[Dict] = []
 
         for item in items:
+            # Normalize a safe filename and plan an output path.
             template_id = str(item.get("id"))
             name = item.get("name") or item.get("filename") or f"template_{template_id}"
             filename = sanitize_filename(str(name))
@@ -554,6 +616,7 @@ def main() -> int:
                 continue
 
             if source_used == "documents-folder":
+                # Document download endpoint for regular files.
                 download_document(
                     session,
                     args.base_url,
@@ -562,6 +625,7 @@ def main() -> int:
                     args.max_retries,
                 )
             else:
+                # Template download endpoint if supported by this account.
                 download_document_template(
                     session,
                     args.base_url,
@@ -576,6 +640,7 @@ def main() -> int:
         return 0
 
     if args.command == "upload":
+        # Upload updated templates by reading the manifest file.
         manifest_path = Path(args.manifest).resolve()
         entries = load_manifest(manifest_path)
         for entry in entries:
