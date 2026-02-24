@@ -43,6 +43,23 @@ def get_token_file() -> Path:
     return Path(token_file).resolve()
 
 
+def get_ssl_context():
+    """
+    Resolve optional SSL settings for local HTTPS.
+
+    - If CLIO_SSL_CERT and CLIO_SSL_KEY are set, use that pair.
+    - If CLIO_SSL_CONTEXT=adhoc, use a temporary self-signed cert.
+    - Otherwise return None (HTTP).
+    """
+    cert_path = os.environ.get("CLIO_SSL_CERT")
+    key_path = os.environ.get("CLIO_SSL_KEY")
+    if cert_path and key_path:
+        return (cert_path, key_path)
+    if os.environ.get("CLIO_SSL_CONTEXT", "").lower() == "adhoc":
+        return "adhoc"
+    return None
+
+
 def save_tokens(payload: dict) -> Path:
     now = int(time.time())
     payload["created_at"] = now
@@ -134,4 +151,9 @@ def deauthorize():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", "8787")))
+    ssl_context = get_ssl_context()
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", "8787")),
+        ssl_context=ssl_context,
+    )
