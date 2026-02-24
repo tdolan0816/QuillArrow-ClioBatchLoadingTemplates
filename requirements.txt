@@ -2,3 +2,4 @@ python-docx
 openpyxl
 requests
 Flask
+cryptography

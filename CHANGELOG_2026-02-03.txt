@@ -15,3 +15,4 @@
 - Added token-file support and refresh handling in `clio_templates_sync.py`.
 - Added `Flask` dependency for the OAuth helper app.
 - Added optional HTTPS support for the local OAuth helper.
+- Added `cryptography` dependency for adhoc HTTPS certificates.
