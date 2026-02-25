@@ -30,7 +30,7 @@ DEFAULT_AUTH_BASE = "https://app.clio.com"
 DEFAULT_LIMIT = 200
 DEFAULT_FOLDER_NAME = "Templates"
 DEFAULT_MANIFEST = "clio_templates_manifest.json"
-DEFAULT_OUTPUT_DIR = "clio_templates_download"
+DEFAULT_OUTPUT_DIR = "Template_Download"
 DEFAULT_TOKEN_FILE = "clio_tokens.json"
 TOKEN_EXPIRY_SKEW_SECONDS = 60
 
@@ -203,6 +203,23 @@ def extract_next_page_token(meta: Dict) -> Optional[str]:
         token = paging.get(key)
         if token:
             return token
+    return None
+
+
+def find_payload_value(payload: object, keys: Tuple[str, ...]) -> Optional[object]:
+    """Recursively search a JSON payload for the first matching key."""
+    if isinstance(payload, dict):
+        for key, value in payload.items():
+            if key in keys:
+                return value
+            found = find_payload_value(value, keys)
+            if found is not None:
+                return found
+    elif isinstance(payload, list):
+        for item in payload:
+            found = find_payload_value(item, keys)
+            if found is not None:
+                return found
     return None
 
 
@@ -437,6 +454,7 @@ def upload_document_version(
     document_id: str,
     file_path: Path,
     max_retries: int,
+    verbose: bool,
 ) -> None:
     """
     Upload a new version of a document using common endpoint variants.
@@ -455,6 +473,7 @@ def upload_document_version(
         ("document_version[file]", {"document_version[document_id]": document_id}),
     ]
 
+    attempts: List[str] = []
     for url in candidate_paths:
         for file_field, data in payload_options:
             with file_path.open("rb") as handle:
@@ -469,11 +488,124 @@ def upload_document_version(
                 )
                 if response.status_code in (200, 201, 204):
                     return
+            attempts.append(
+                f"POST {url} field={file_field} -> {response.status_code} "
+                f"{response.text[:300]}"
+            )
             if response.status_code not in (404, 422):
                 break
     raise RuntimeError(
         "Upload failed. The document version endpoint may require different fields. "
         "Check Clio API documentation or contact api@clio.com."
+    )
+
+
+def upload_document_template(
+    session: requests.Session,
+    base_url: str,
+    template_id: str,
+    file_path: Path,
+    max_retries: int,
+    verbose: bool,
+) -> None:
+    """
+    Upload updated contents for a document template.
+
+    Clio's template upload endpoints are not documented in the public OpenAPI,
+    so this attempts several common endpoint and field combinations.
+    """
+    candidate_requests = [
+        ("PUT", f"{base_url}/document_templates/{template_id}/contents"),
+        ("POST", f"{base_url}/document_templates/{template_id}/contents"),
+        ("PATCH", f"{base_url}/document_templates/{template_id}.json"),
+        ("POST", f"{base_url}/document_templates/{template_id}.json"),
+    ]
+    payload_options = [
+        ("file", {}),
+        ("document_template[file]", {}),
+        ("document_template[file]", {"document_template[id]": template_id}),
+        ("file", {"id": template_id}),
+    ]
+
+    attempts: List[str] = []
+    for method, url in candidate_requests:
+        for file_field, data in payload_options:
+            with file_path.open("rb") as handle:
+                files = {file_field: (file_path.name, handle)}
+                response = request_json(
+                    session,
+                    method,
+                    url,
+                    data=data,
+                    files=files,
+                    max_retries=max_retries,
+                )
+                if response.status_code in (200, 201, 204):
+                    upload_url = None
+                    payload = None
+                    if response.headers.get("Content-Type", "").startswith(
+                        "application/json"
+                    ):
+                        try:
+                            payload = response.json()
+                        except ValueError:
+                            payload = None
+                        upload_url = find_payload_value(payload, ("upload_url", "put_url"))
+
+                    # If the API provided a pre-signed upload URL, follow the 3-step flow.
+                    if upload_url:
+                        content_type = (
+                            "application/vnd.openxmlformats-officedocument."
+                            "wordprocessingml.document"
+                        )
+                        with file_path.open("rb") as upload_handle:
+                            put_response = requests.put(
+                                str(upload_url),
+                                data=upload_handle,
+                                headers={"Content-Type": content_type},
+                                timeout=60,
+                            )
+                        if put_response.status_code in (200, 201, 204):
+                            finalize_urls = [
+                                f"{base_url}/document_templates/{template_id}.json",
+                                f"{base_url}/document_templates/{template_id}/contents",
+                            ]
+                            finalize_payloads = [
+                                {"document_template[fully_uploaded]": "true"},
+                                {"fully_uploaded": "true"},
+                            ]
+                            for finalize_url in finalize_urls:
+                                for finalize_data in finalize_payloads:
+                                    finalize_response = request_json(
+                                        session,
+                                        "PATCH",
+                                        finalize_url,
+                                        data=finalize_data,
+                                        max_retries=max_retries,
+                                    )
+                                    if finalize_response.status_code in (200, 204):
+                                        return
+                                    attempts.append(
+                                        "PATCH "
+                                        f"{finalize_url} -> {finalize_response.status_code} "
+                                        f"{finalize_response.text[:300]}"
+                                    )
+                        attempts.append(
+                            f"PUT {upload_url} -> {put_response.status_code} "
+                            f"{put_response.text[:300]}"
+                        )
+                    else:
+                        return
+            attempts.append(
+                f"{method} {url} field={file_field} -> {response.status_code} "
+                f"{response.text[:300]}"
+            )
+            if response.status_code not in (404, 405, 415, 422):
+                break
+    raise RuntimeError(
+        "Template upload failed. The template upload endpoint may be unavailable "
+        "or require different fields. Contact api@clio.com for the correct route."
+        + (f"\nAttempts:\n- " + "\n- ".join(attempts) if verbose else "")
     )
 
 
@@ -499,6 +631,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--limit", type=int, default=DEFAULT_LIMIT)
     parser.add_argument("--max-retries", type=int, default=3)
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Include detailed API attempt info in error messages.",
+    )
 
     sub = parser.add_subparsers(dest="command", required=True)
 
@@ -533,6 +670,13 @@ def parse_args() -> argparse.Namespace:
     upload_cmd.add_argument(
         "--manifest",
         default=DEFAULT_MANIFEST,
+    )
+    upload_cmd.add_argument(
+        "--upload-dir",
+        help=(
+            "Override manifest paths and upload files from this directory. "
+            "Uses the manifest file_name (or file_path basename)."
+        ),
     )
     upload_cmd.add_argument("--dry-run", action="store_true")
 
@@ -608,6 +752,7 @@ def main() -> int:
                     "id": template_id,
                     "name": name,
                     "source": source_used,
+                    "file_name": filename,
                     "file_path": str(target_path),
                 }
             )
@@ -647,15 +792,28 @@ def main() -> int:
             source = entry.get("source")
             template_id = entry.get("id")
             file_path = Path(entry.get("file_path", ""))
+            if args.upload_dir:
+                file_name = entry.get("file_name") or file_path.name
+                if not file_name:
+                    raise RuntimeError(
+                        "Upload dir provided but manifest does not contain "
+                        "file_name or file_path."
+                    )
+                file_path = Path(args.upload_dir).resolve() / file_name
 
             if args.dry_run:
                 continue
 
             if source != "documents-folder":
-                raise RuntimeError(
-                    "Upload is only supported for documents-folder source. "
-                    "Document templates upload requires Clio API confirmation."
+                upload_document_template(
+                    session,
+                    args.base_url,
+                    str(template_id),
+                    file_path,
+                    args.max_retries,
+                    args.verbose,
                 )
+                continue
 
             upload_document_version(
                 session,
@@ -663,6 +821,7 @@ def main() -> int:
                 str(template_id),
                 file_path,
                 args.max_retries,
+                args.verbose,
             )
 
         print(f"Uploaded {len(entries)} templates from manifest.")

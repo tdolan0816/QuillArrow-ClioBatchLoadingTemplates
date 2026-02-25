@@ -16,3 +16,9 @@
 - Added `Flask` dependency for the OAuth helper app.
 - Added optional HTTPS support for the local OAuth helper.
 - Added `cryptography` dependency for adhoc HTTPS certificates.
+- Added best-effort upload attempts for document templates.
+- Default download directory set to `Template_Download`.
+- Manifest now includes `file_name` for upload path mapping.
+- Upload supports `--upload-dir` override.
+- Added `--verbose` to show upload attempt details on failure.
+- Added 3-step upload follow-up when template endpoints return upload_url.
