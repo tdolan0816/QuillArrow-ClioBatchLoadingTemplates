@@ -22,3 +22,8 @@
 - Upload supports `--upload-dir` override.
 - Added `--verbose` to show upload attempt details on failure.
 - Added 3-step upload follow-up when template endpoints return upload_url.
+- Added template upload mode (update/create) using UI-style multipart fields.
+- Manifest stores document category ID when available.
+- Template upload now uses data[filename]/data[file]/data[document_category][id].
+- Added --delete-old option to remove originals after create.
+- Document template list now requests filename in fields.

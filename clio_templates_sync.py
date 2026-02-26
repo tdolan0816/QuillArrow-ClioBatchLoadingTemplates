@@ -291,8 +291,13 @@ def try_list_document_templates(
     Returns (items, None) if supported, or (None, error_message) if not.
     """
     url = f"{base_url}/document_templates.json"
+    fields = "document_category{id,name},filename,id"
     response = request_json(
-        session, "GET", url, params={"limit": str(limit)}, max_retries=max_retries
+        session,
+        "GET",
+        url,
+        params={"limit": str(limit), "fields": fields},
+        max_retries=max_retries,
     )
     if response.status_code in (404, 403):
         return None, response.text
@@ -505,106 +510,99 @@ def upload_document_template(
     base_url: str,
     template_id: str,
     file_path: Path,
+    file_name: str,
+    document_category_id: Optional[object],
+    mode: str,
     max_retries: int,
     verbose: bool,
-) -> None:
+) -> Optional[str]:
     """
-    Upload updated contents for a document template.
+    Upload a document template using the same multipart format as the UI.
 
-    Clio's template upload endpoints are not documented in the public OpenAPI,
-    so this attempts several common endpoint and field combinations.
+    Observed UI payload:
+      - data[filename]
+      - data[file] (binary)
+      - data[document_category][id]
     """
-    candidate_requests = [
-        ("PUT", f"{base_url}/document_templates/{template_id}/contents"),
-        ("POST", f"{base_url}/document_templates/{template_id}/contents"),
-        ("PATCH", f"{base_url}/document_templates/{template_id}.json"),
-        ("POST", f"{base_url}/document_templates/{template_id}.json"),
-    ]
-    payload_options = [
-        ("file", {}),
-        ("document_template[file]", {}),
-        ("document_template[file]", {"document_template[id]": template_id}),
-        ("file", {"id": template_id}),
-    ]
+    category_value = (
+        "null" if document_category_id in (None, "", "null") else str(document_category_id)
+    )
+    form_data = {
+        "data[filename]": file_name,
+        "data[document_category][id]": category_value,
+    }
+
+    if mode == "update":
+        request_plan = [
+            ("PATCH", f"{base_url}/document_templates/{template_id}.json"),
+            ("PATCH", f"{base_url}/document_templates/{template_id}"),
+        ]
+    elif mode == "create":
+        request_plan = [("POST", f"{base_url}/document_templates")]
+    else:
+        raise RuntimeError(f"Unsupported template upload mode: {mode}")
 
     attempts: List[str] = []
-    for method, url in candidate_requests:
-        for file_field, data in payload_options:
-            with file_path.open("rb") as handle:
-                files = {file_field: (file_path.name, handle)}
-                response = request_json(
-                    session,
-                    method,
-                    url,
-                    data=data,
-                    files=files,
-                    max_retries=max_retries,
-                )
-                if response.status_code in (200, 201, 204):
-                    upload_url = None
-                    payload = None
-                    if response.headers.get("Content-Type", "").startswith(
-                        "application/json"
-                    ):
-                        try:
-                            payload = response.json()
-                        except ValueError:
-                            payload = None
-                        upload_url = find_payload_value(payload, ("upload_url", "put_url"))
-
-                    # If the API provided a pre-signed upload URL, follow the 3-step flow.
-                    if upload_url:
-                        content_type = (
-                            "application/vnd.openxmlformats-officedocument."
-                            "wordprocessingml.document"
-                        )
-                        with file_path.open("rb") as upload_handle:
-                            put_response = requests.put(
-                                str(upload_url),
-                                data=upload_handle,
-                                headers={"Content-Type": content_type},
-                                timeout=60,
-                            )
-                        if put_response.status_code in (200, 201, 204):
-                            finalize_urls = [
-                                f"{base_url}/document_templates/{template_id}.json",
-                                f"{base_url}/document_templates/{template_id}/contents",
-                            ]
-                            finalize_payloads = [
-                                {"document_template[fully_uploaded]": "true"},
-                                {"fully_uploaded": "true"},
-                            ]
-                            for finalize_url in finalize_urls:
-                                for finalize_data in finalize_payloads:
-                                    finalize_response = request_json(
-                                        session,
-                                        "PATCH",
-                                        finalize_url,
-                                        data=finalize_data,
-                                        max_retries=max_retries,
-                                    )
-                                    if finalize_response.status_code in (200, 204):
-                                        return
-                                    attempts.append(
-                                        "PATCH "
-                                        f"{finalize_url} -> {finalize_response.status_code} "
-                                        f"{finalize_response.text[:300]}"
-                                    )
-                        attempts.append(
-                            f"PUT {upload_url} -> {put_response.status_code} "
-                            f"{put_response.text[:300]}"
-                        )
-                    else:
-                        return
-            attempts.append(
-                f"{method} {url} field={file_field} -> {response.status_code} "
-                f"{response.text[:300]}"
+    for method, url in request_plan:
+        with file_path.open("rb") as handle:
+            files = {"data[file]": (file_name, handle)}
+            response = request_json(
+                session,
+                method,
+                url,
+                data=form_data,
+                files=files,
+                max_retries=max_retries,
             )
-            if response.status_code not in (404, 405, 415, 422):
-                break
+        if response.status_code in (200, 201, 204):
+            new_id = None
+            if response.headers.get("Content-Type", "").startswith("application/json"):
+                try:
+                    payload = response.json()
+                except ValueError:
+                    payload = None
+                if isinstance(payload, dict):
+                    data_payload = payload.get("data", payload)
+                    if isinstance(data_payload, dict) and "id" in data_payload:
+                        new_id = str(data_payload["id"])
+            return new_id
+        attempts.append(
+            f"{method} {url} -> {response.status_code} {response.text[:300]}"
+        )
+        if response.status_code not in (404, 405, 415, 422):
+            break
+
     raise RuntimeError(
         "Template upload failed. The template upload endpoint may be unavailable "
         "or require different fields. Contact api@clio.com for the correct route."
+        + (f"\nAttempts:\n- " + "\n- ".join(attempts) if verbose else "")
+    )
+
+
+def delete_document_template(
+    session: requests.Session,
+    base_url: str,
+    template_id: str,
+    max_retries: int,
+    verbose: bool,
+) -> None:
+    """Attempt to delete an existing document template by ID."""
+    candidate_urls = [
+        f"{base_url}/document_templates/{template_id}.json",
+        f"{base_url}/document_templates/{template_id}",
+    ]
+    attempts: List[str] = []
+    for url in candidate_urls:
+        response = request_json(
+            session, "DELETE", url, params=None, data=None, max_retries=max_retries
+        )
+        if response.status_code in (200, 204):
+            return
+        attempts.append(f"DELETE {url} -> {response.status_code} {response.text[:300]}")
+        if response.status_code not in (404, 405, 422):
+            break
+    raise RuntimeError(
+        "Template delete failed. The delete endpoint may be unavailable or forbidden."
         + (f"\nAttempts:\n- " + "\n- ".join(attempts) if verbose else "")
     )
 
@@ -678,6 +676,23 @@ def parse_args() -> argparse.Namespace:
             "Uses the manifest file_name (or file_path basename)."
         ),
     )
+    upload_cmd.add_argument(
+        "--template-upload-mode",
+        choices=["update", "create"],
+        default="update",
+        help=(
+            "How to upload document templates. "
+            "update=PATCH existing template id, create=POST new template."
+        ),
+    )
+    upload_cmd.add_argument(
+        "--delete-old",
+        action="store_true",
+        help=(
+            "When using template upload mode create, attempt to delete the "
+            "original template id after a successful create."
+        ),
+    )
     upload_cmd.add_argument("--dry-run", action="store_true")
 
     return parser.parse_args()
@@ -741,12 +756,17 @@ def main() -> int:
         for item in items:
             # Normalize a safe filename and plan an output path.
             template_id = str(item.get("id"))
-            name = item.get("name") or item.get("filename") or f"template_{template_id}"
+            name = item.get("filename") or item.get("name") or f"template_{template_id}"
             filename = sanitize_filename(str(name))
             if not filename.lower().endswith(".docx"):
                 filename = f"{filename}.docx"
 
             target_path = unique_path(output_dir / filename)
+            document_category_id = None
+            document_category = item.get("document_category")
+            if isinstance(document_category, dict):
+                document_category_id = document_category.get("id")
+
             manifest_entries.append(
                 {
                     "id": template_id,
@@ -754,6 +774,7 @@ def main() -> int:
                     "source": source_used,
                     "file_name": filename,
                     "file_path": str(target_path),
+                    "document_category_id": document_category_id,
                 }
             )
 
@@ -792,6 +813,8 @@ def main() -> int:
             source = entry.get("source")
             template_id = entry.get("id")
             file_path = Path(entry.get("file_path", ""))
+            file_name = entry.get("file_name") or file_path.name
+            document_category_id = entry.get("document_category_id")
             if args.upload_dir:
                 file_name = entry.get("file_name") or file_path.name
                 if not file_name:
@@ -805,14 +828,31 @@ def main() -> int:
                 continue
 
             if source != "documents-folder":
-                upload_document_template(
+                created_id = upload_document_template(
                     session,
                     args.base_url,
                     str(template_id),
                     file_path,
+                    file_name,
+                    document_category_id,
+                    args.template_upload_mode,
                     args.max_retries,
                     args.verbose,
                 )
+                if args.template_upload_mode == "create" and args.delete_old:
+                    if created_id:
+                        delete_document_template(
+                            session,
+                            args.base_url,
+                            str(template_id),
+                            args.max_retries,
+                            args.verbose,
+                        )
+                    else:
+                        print(
+                            "Warning: create succeeded but no new id returned; "
+                            "skipping delete of original template."
+                        )
                 continue
 
             upload_document_version(

@@ -1,0 +1,84 @@
+{
+    "title": "Recording 2/25/2026 at 3:51:55 PM",
+    "steps": [
+        {
+            "type": "setViewport",
+            "width": 868,
+            "height": 911,
+            "deviceScaleFactor": 1,
+            "isMobile": false,
+            "hasTouch": false,
+            "isLandscape": false
+        },
+        {
+            "type": "navigate",
+            "url": "https://app.clio.com/nc#/documents/templates",
+            "assertedEvents": [
+                {
+                    "type": "navigation",
+                    "url": "https://app.clio.com/nc#/documents/templates",
+                    "title": "Documents | Clio"
+                }
+            ]
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "th-button span"
+                ],
+                [
+                    "xpath///*[@id=\"templates-tab\"]/cc-page-content/div/cc-document-templates/cc-dropzone/div/ng-transclude/th-data-table/ng-transclude/th-data-table-toolbar/div[2]/custom-actions/th-actions-group/th-button/button/ng-transclude/span"
+                ],
+                [
+                    "pierce/th-button span"
+                ],
+                [
+                    "text/New templates"
+                ]
+            ],
+            "offsetY": 11.5,
+            "offsetX": 61.0625
+        },
+        {
+            "type": "change",
+            "value": "C:\\fakepath\\Federal SUBP-DLR No. 2 (PMQ).docx",
+            "selectors": [
+                [
+                    "cc-file-selector > input"
+                ],
+                [
+                    "xpath///*[@id=\"templates-tab\"]/cc-page-content/div/cc-document-templates/cc-file-selector/input"
+                ],
+                [
+                    "pierce/cc-file-selector > input"
+                ],
+                [
+                    "text/C:\\fakepath\\Federal"
+                ]
+            ],
+            "target": "main"
+        },
+        {
+            "type": "click",
+            "target": "main",
+            "selectors": [
+                [
+                    "div.th-modal-backdrop th-button:nth-of-type(1) span"
+                ],
+                [
+                    "xpath///*[@data-test=\"new-template-modal\"]/div/cc-template-actions-modal/th-modal-footer/th-button-group/th-button[1]/button/ng-transclude/span"
+                ],
+                [
+                    "pierce/div.th-modal-backdrop th-button:nth-of-type(1) span"
+                ],
+                [
+                    "text/Upload 1 item"
+                ]
+            ],
+            "offsetY": 9,
+            "offsetX": 66
+        }
+    ]
+}

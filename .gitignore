@@ -205,3 +205,12 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Template Folders
+Template_Download/
+Template_Inventory/
+Template_Upload/
+
+#JSON Files
+clio_templates_manifest.json
+clio_tokens.json
