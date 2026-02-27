@@ -27,3 +27,5 @@
 - Template upload now uses data[filename]/data[file]/data[document_category][id].
 - Added --delete-old option to remove originals after create.
 - Document template list now requests filename in fields.
+- Added filename suffix support for template uploads (_Updated_{date}).
+- Document template listing now requests filename on all pages and supports non-.json endpoint.

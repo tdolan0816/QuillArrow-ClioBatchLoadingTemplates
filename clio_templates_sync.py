@@ -16,6 +16,7 @@ import json
 import os
 import re
 import time
+from datetime import datetime
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
 
@@ -265,6 +266,20 @@ def sanitize_filename(name: str) -> str:
     return cleaned or "template"
 
 
+def apply_name_suffix(filename: str, suffix: str) -> str:
+    """Append a suffix before the file extension."""
+    if not suffix:
+        return filename
+    path = Path(filename)
+    if path.suffix:
+        return f"{path.stem}{suffix}{path.suffix}"
+    return f"{filename}{suffix}"
+
+
+def format_suffix(template: str, current_date: datetime) -> str:
+    """Replace {date} with MMDDYY."""
+    return template.replace("{date}", current_date.strftime("%m%d%y"))
+
 def unique_path(path: Path) -> Path:
     """Return a path that does not overwrite an existing file."""
     if not path.exists():
@@ -290,23 +305,32 @@ def try_list_document_templates(
 
     Returns (items, None) if supported, or (None, error_message) if not.
     """
-    url = f"{base_url}/document_templates.json"
+    candidate_urls = [
+        f"{base_url}/document_templates",
+        f"{base_url}/document_templates.json",
+    ]
     fields = "document_category{id,name},filename,id"
-    response = request_json(
-        session,
-        "GET",
-        url,
-        params={"limit": str(limit), "fields": fields},
-        max_retries=max_retries,
-    )
-    if response.status_code in (404, 403):
-        return None, response.text
-    if response.status_code != 200:
-        raise RuntimeError(
-            f"Document templates list failed ({response.status_code}): {response.text}"
+    last_error = None
+    for url in candidate_urls:
+        response = request_json(
+            session,
+            "GET",
+            url,
+            params={"limit": str(limit), "fields": fields},
+            max_retries=max_retries,
         )
-    items = list(iter_pages(session, url, {"limit": str(limit)}, max_retries))
-    return items, None
+        if response.status_code in (404, 403):
+            last_error = response.text
+            continue
+        if response.status_code != 200:
+            raise RuntimeError(
+                f"Document templates list failed ({response.status_code}): {response.text}"
+            )
+        items = list(
+            iter_pages(session, url, {"limit": str(limit), "fields": fields}, max_retries)
+        )
+        return items, None
+    return None, last_error
 
 
 def resolve_folder_id(
@@ -512,6 +536,7 @@ def upload_document_template(
     file_path: Path,
     file_name: str,
     document_category_id: Optional[object],
+    upload_filename: str,
     mode: str,
     max_retries: int,
     verbose: bool,
@@ -528,7 +553,7 @@ def upload_document_template(
         "null" if document_category_id in (None, "", "null") else str(document_category_id)
     )
     form_data = {
-        "data[filename]": file_name,
+        "data[filename]": upload_filename,
         "data[document_category][id]": category_value,
     }
 
@@ -545,7 +570,7 @@ def upload_document_template(
     attempts: List[str] = []
     for method, url in request_plan:
         with file_path.open("rb") as handle:
-            files = {"data[file]": (file_name, handle)}
+            files = {"data[file]": (upload_filename, handle)}
             response = request_json(
                 session,
                 method,
@@ -684,6 +709,18 @@ def parse_args() -> argparse.Namespace:
             "How to upload document templates. "
             "update=PATCH existing template id, create=POST new template."
         ),
+    )
+    upload_cmd.add_argument(
+        "--name-suffix",
+        help=(
+            "Suffix to append to template filenames (before extension). "
+            "Use {date} for MMDDYY. Default: _Updated_{date}"
+        ),
+    )
+    upload_cmd.add_argument(
+        "--no-name-suffix",
+        action="store_true",
+        help="Disable appending a suffix to template filenames.",
     )
     upload_cmd.add_argument(
         "--delete-old",
@@ -828,6 +865,12 @@ def main() -> int:
                 continue
 
             if source != "documents-folder":
+                upload_filename = file_name
+                if not args.no_name_suffix:
+                    suffix_template = args.name_suffix or "_Updated_{date}"
+                    suffix = format_suffix(suffix_template, datetime.now())
+                    upload_filename = apply_name_suffix(file_name, suffix)
+
                 created_id = upload_document_template(
                     session,
                     args.base_url,
@@ -835,6 +878,7 @@ def main() -> int:
                     file_path,
                     file_name,
                     document_category_id,
+                    upload_filename,
                     args.template_upload_mode,
                     args.max_retries,
                     args.verbose,

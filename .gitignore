@@ -210,6 +210,8 @@ __marimo__/
 Template_Download/
 Template_Inventory/
 Template_Upload/
+Templates_Box/
+
 
 #JSON Files
 clio_templates_manifest.json
