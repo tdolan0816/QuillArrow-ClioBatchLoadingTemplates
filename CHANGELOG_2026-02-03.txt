@@ -29,3 +29,4 @@
 - Document template list now requests filename in fields.
 - Added filename suffix support for template uploads (_Updated_{date}).
 - Document template listing now requests filename on all pages and supports non-.json endpoint.
+- Added --skip-unchanged and --skip-invalid options for uploads.

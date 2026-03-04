@@ -12,6 +12,7 @@ It writes a manifest JSON file that can be reused for uploads.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import os
 import re
@@ -604,6 +605,22 @@ def upload_document_template(
     )
 
 
+def load_replacement_report(report_path: Path) -> Dict[str, int]:
+    """Load replacement counts per document from a CSV report."""
+    counts: Dict[str, int] = {}
+    if not report_path.exists():
+        return counts
+    with report_path.open("r", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle)
+        for row in reader:
+            document = (row.get("document") or "").strip()
+            if not document:
+                continue
+            count = int(row.get("count") or 0)
+            counts[document] = counts.get(document, 0) + count
+    return counts
+
+
 def delete_document_template(
     session: requests.Session,
     base_url: str,
@@ -721,6 +738,23 @@ def parse_args() -> argparse.Namespace:
         "--no-name-suffix",
         action="store_true",
         help="Disable appending a suffix to template filenames.",
+    )
+    upload_cmd.add_argument(
+        "--skip-unchanged",
+        action="store_true",
+        help="Skip uploads for templates with zero replacements.",
+    )
+    upload_cmd.add_argument(
+        "--report-path",
+        help=(
+            "Path to replacement_report.csv. Defaults to upload-dir/replacement_report.csv "
+            "when --skip-unchanged is used."
+        ),
+    )
+    upload_cmd.add_argument(
+        "--skip-invalid",
+        action="store_true",
+        help="Skip templates with missing or zero-byte files instead of failing.",
     )
     upload_cmd.add_argument(
         "--delete-old",
@@ -846,6 +880,17 @@ def main() -> int:
         # Upload updated templates by reading the manifest file.
         manifest_path = Path(args.manifest).resolve()
         entries = load_manifest(manifest_path)
+        replacement_counts: Dict[str, int] = {}
+        if args.skip_unchanged:
+            if args.report_path:
+                report_path = Path(args.report_path).resolve()
+            elif args.upload_dir:
+                report_path = Path(args.upload_dir).resolve() / "replacement_report.csv"
+            else:
+                report_path = Path("replacement_report.csv").resolve()
+            replacement_counts = load_replacement_report(report_path)
+            if args.verbose:
+                print(f"Loaded replacement report: {report_path}")
         for entry in entries:
             source = entry.get("source")
             template_id = entry.get("id")
@@ -863,6 +908,23 @@ def main() -> int:
 
             if args.dry_run:
                 continue
+
+            if args.skip_unchanged:
+                count = replacement_counts.get(file_name, 0)
+                if count == 0:
+                    if args.verbose:
+                        print(f"Skipping unchanged template: {file_name}")
+                    continue
+
+            if not file_path.exists() or file_path.stat().st_size == 0:
+                message = (
+                    f"Invalid file for upload: {file_path} "
+                    f"(exists={file_path.exists()}, size={file_path.stat().st_size if file_path.exists() else 'n/a'})"
+                )
+                if args.skip_invalid:
+                    print(f"Warning: {message}")
+                    continue
+                raise RuntimeError(message)
 
             if source != "documents-folder":
                 upload_filename = file_name
