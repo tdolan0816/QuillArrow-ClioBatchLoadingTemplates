@@ -22,6 +22,12 @@ python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_
 
 
 
+\*The above PowerShell Script is for Downloading Word Documents (.docx) ***ONLY,*** In order to Download ***All*** files within the folder you need to include this additional parameter:
+
+
+
+**--include-non-docx**
+
 
 
 
@@ -60,37 +66,63 @@ python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_
 
 python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_sync.py" `
 
-  --token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `
+&nbsp; --token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `
 
-  --verbose `
+&nbsp; --verbose `
 
-  upload `
+&nbsp; upload `
 
-  --manifest "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_manifest.json" `
+&nbsp; --manifest "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_manifest.json" `
 
-  --upload-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
+&nbsp; --upload-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
 
-  --template-upload-mode create `
+&nbsp; --template-upload-mode create `
 
-  --name-suffix "\_Updated\_{date}"
+&nbsp; --skip-unchanged `
 
-  --delete-old
+&nbsp; --skip-invalid `
 
-
-
-
-
-python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_sync.py" `
-
-  --token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `
-
-  --verbose `
+&nbsp; --delete-old
 
 
 
-  --manifest "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_manifest.json" `
 
-  --upload-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
 
-  --delete-old
+**Clio Batch Delete Processing - PowerShell Script:**
+
+
+
+$token = (Get-Content ".\\clio\_tokens.json" | ConvertFrom-Json).access\_token
+
+$headers = @{ Authorization = "Bearer $token" }
+
+
+
+\# Example list of IDs
+
+$ids = @(
+
+"10232345",
+
+"10232375",
+
+"10232390",
+
+"10232405",
+
+"10232420"
+
+)
+
+
+
+foreach ($id in $ids) {
+
+&nbsp; Invoke-RestMethod -Method Delete `
+
+&nbsp;   -Headers $headers `
+
+&nbsp;   -Uri "https://app.clio.com/api/v4/document\_templates/$id.json"
+
+}
 
