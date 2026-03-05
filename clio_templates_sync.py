@@ -705,6 +705,11 @@ def parse_args() -> argparse.Namespace:
     download_cmd.add_argument("--folder-id")
     download_cmd.add_argument("--folder-name", default=DEFAULT_FOLDER_NAME)
     download_cmd.add_argument("--dry-run", action="store_true")
+    download_cmd.add_argument(
+        "--include-non-docx",
+        action="store_true",
+        help="Allow downloading non-.docx files (default skips them).",
+    )
 
     upload_cmd = sub.add_parser("upload", help="Upload updated templates from manifest.")
     upload_cmd.add_argument(
@@ -828,9 +833,14 @@ def main() -> int:
             # Normalize a safe filename and plan an output path.
             template_id = str(item.get("id"))
             name = item.get("filename") or item.get("name") or f"template_{template_id}"
-            filename = sanitize_filename(str(name))
-            if not filename.lower().endswith(".docx"):
-                filename = f"{filename}.docx"
+            raw_filename = sanitize_filename(str(name))
+            suffix = Path(raw_filename).suffix.lower()
+            if suffix and suffix != ".docx" and not args.include_non_docx:
+                print(f"Skipping non-docx template: {raw_filename} (id={template_id})")
+                continue
+            if not suffix and not args.include_non_docx:
+                raw_filename = f"{raw_filename}.docx"
+            filename = raw_filename
 
             target_path = unique_path(output_dir / filename)
             document_category_id = None
