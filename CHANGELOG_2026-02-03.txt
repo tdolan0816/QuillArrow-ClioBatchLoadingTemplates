@@ -32,3 +32,4 @@
 - Added --skip-unchanged and --skip-invalid options for uploads.
 - Downloads now skip non-.docx templates by default.
 - Added `verify_template_updates.py` for automated validation reports.
+- Added `inventory_custom_fields.py` for baseline custom field mapping.
