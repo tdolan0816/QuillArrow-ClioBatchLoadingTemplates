@@ -4,7 +4,9 @@
 
 
 
-**Clio Template Batch Download Processing - PowerShell Execution Script:**
+
+
+**Clio Template Batch Download Processing - Python File "clio\_templates\_sync.py"** **- PowerShell Execution Script:**
 
 
 
@@ -22,7 +24,7 @@ python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_
 
 
 
-\*The above PowerShell Script is for Downloading Word Documents (.docx) ***ONLY,*** In order to Download ***All*** files within the folder you need to include this additional parameter:
+\*The above PowerShell Script is for Downloading Word Documents (.docx) ***ONLY,*** In order to Download ***All*** files within the folder you need to include this additional flag:
 
 
 
@@ -32,7 +34,25 @@ python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_
 
 
 
-**Clio Template RegEx Dictionary Mapping for Custom Fields - PowerShell Execution Script:**
+**Validation Script for Determining All Custom Fields w/in a Template and All Templates w/in - Python File "verify\_template\_updates.py" - PowerShell Execution Script:**
+
+
+
+python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\inventory\_custom\_fields.py" `
+
+  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `
+
+  --output "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\custom\_field\_inventory.xlsx" `
+
+  --deep-scan
+
+
+
+
+
+
+
+**Clio Template RegEx Dictionary Mapping for Custom Fields - Python File "mass\_update\_templates.py" - PowerShell Execution Script:**
 
 
 
@@ -60,7 +80,33 @@ python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_
 
 
 
-**Clio Template Batch Upload Processing - PowerShell Execution Script:**
+**Validation Script for the Verification of Custom Field Update - Python File "verify\_template\_updates.py" - PowerShell Execution Script:**
+
+
+
+python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\verify\_template\_updates.py" `
+
+&nbsp; --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
+
+&nbsp; --excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" `
+
+&nbsp; --sheet "LookupTable" `
+
+&nbsp; --old-col "Old\_Value" `
+
+&nbsp; --new-col "New\_Value" `
+
+&nbsp; --literal `
+
+&nbsp; --ignore-case `
+
+&nbsp; --deep-scan
+
+
+
+
+
+**Clio Template Batch Upload Processing - Python File "clio\_templates\_sync.py"** **- PowerShell Execution Script:**
 
 
 
@@ -102,15 +148,15 @@ $headers = @{ Authorization = "Bearer $token" }
 
 $ids = @(
 
-"10232345",
+"10233800",
 
-"10232375",
+"10233815",
 
-"10232390",
+"10233830",
 
-"10232405",
+"10233845",
 
-"10232420"
+"10233860"
 
 )
 
@@ -125,4 +171,10 @@ foreach ($id in $ids) {
 &nbsp;   -Uri "https://app.clio.com/api/v4/document\_templates/$id.json"
 
 }
+
+
+
+
+
+
 
