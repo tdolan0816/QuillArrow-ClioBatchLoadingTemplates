@@ -58,7 +58,7 @@ def collect_text(doc: Document, include_headers_footers: bool) -> str:
     return "\n".join(chunks)
 
 
-def collect_text_from_xml(docx_path: Path) -> str:
+def collect_text_from_xml(docx_path: Path, strip_fallback: bool) -> str:
     chunks: List[str] = []
     with zipfile.ZipFile(docx_path) as archive:
         for name in archive.namelist():
@@ -72,15 +72,25 @@ def collect_text_from_xml(docx_path: Path) -> str:
             ):
                 continue
             xml_text = archive.read(name).decode("utf-8", errors="ignore")
+            if strip_fallback:
+                xml_text = re.sub(
+                    r"<mc:Fallback[^>]*>.*?</mc:Fallback>",
+                    "",
+                    xml_text,
+                    flags=re.DOTALL,
+                )
             plain = re.sub(r"<[^>]+>", "", xml_text)
             chunks.append(html.unescape(plain))
     return "\n".join(chunks)
 
 
-def count_fields(text: str, pattern: re.Pattern[str]) -> Dict[str, int]:
+def count_fields(
+    text: str, pattern: re.Pattern[str], normalize_case: bool
+) -> Dict[str, int]:
     counts: Dict[str, int] = {}
     for match in pattern.findall(text):
-        counts[match] = counts.get(match, 0) + 1
+        key = match.lower() if normalize_case else match
+        counts[key] = counts.get(key, 0) + 1
     return counts
 
 
@@ -123,6 +133,16 @@ def main() -> int:
         help="Scan underlying XML to catch fields in text boxes and shapes.",
     )
     parser.add_argument(
+        "--no-strip-fallback",
+        action="store_true",
+        help="Do not remove mc:Fallback XML content (can cause double counts).",
+    )
+    parser.add_argument(
+        "--normalize-case",
+        action="store_true",
+        help="Lowercase custom field names for case-insensitive counting.",
+    )
+    parser.add_argument(
         "--skip-headers-footers",
         action="store_true",
         help="Skip headers and footers when scanning with python-docx.",
@@ -152,7 +172,7 @@ def main() -> int:
         template_name = docx_path.name
         try:
             if args.deep_scan:
-                text = collect_text_from_xml(docx_path)
+                text = collect_text_from_xml(docx_path, strip_fallback=not args.no_strip_fallback)
             else:
                 doc = Document(str(docx_path))
                 text = collect_text(
@@ -162,7 +182,7 @@ def main() -> int:
             print(f"Skipping {template_name}: {exc}")
             continue
 
-        counts = count_fields(text, pattern)
+        counts = count_fields(text, pattern, normalize_case=args.normalize_case)
         for field, count in sorted(counts.items()):
             rows.append((template_name, field, count))
 
