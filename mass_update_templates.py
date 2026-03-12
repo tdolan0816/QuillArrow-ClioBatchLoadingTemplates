@@ -246,28 +246,30 @@ def apply_xml_replacements(
         xml_patterns.append((re.compile(re.escape(xml_old), flags), xml_new))
 
     counts = [0] * len(replacements)
-    with zipfile.ZipFile(docx_path, "r") as source:
-        infos = source.infolist()
 
-        def should_process(filename: str) -> bool:
-            if not filename.startswith("word/") or not filename.endswith(".xml"):
-                return False
-            if not include_headers_footers and (
-                filename.startswith("word/header") or filename.startswith("word/footer")
-            ):
-                return False
-            return True
+    def should_process(filename: str) -> bool:
+        if not filename.startswith("word/") or not filename.endswith(".xml"):
+            return False
+        if not include_headers_footers and (
+            filename.startswith("word/header") or filename.startswith("word/footer")
+        ):
+            return False
+        return True
 
-        if not apply_changes:
+    if not apply_changes:
+        with zipfile.ZipFile(docx_path, "r") as source:
+            infos = source.infolist()
             for info in infos:
                 if not should_process(info.filename):
                     continue
                 xml_text = source.read(info.filename).decode("utf-8", errors="ignore")
                 for idx, (pattern, _) in enumerate(xml_patterns):
                     counts[idx] += len(pattern.findall(xml_text))
-            return counts
+        return counts
 
-        temp_path = docx_path.with_suffix(docx_path.suffix + ".tmp")
+    temp_path = docx_path.with_suffix(docx_path.suffix + ".tmp")
+    with zipfile.ZipFile(docx_path, "r") as source:
+        infos = source.infolist()
         with zipfile.ZipFile(temp_path, "w") as target:
             for info in infos:
                 data = source.read(info.filename)
@@ -282,8 +284,8 @@ def apply_xml_replacements(
                         data = updated.encode("utf-8")
                 target.writestr(info, data)
 
-        _replace_with_retries(temp_path, docx_path)
-        return counts
+    _replace_with_retries(temp_path, docx_path)
+    return counts
 def _replace_with_retries(
     source_path: Path,
     target_path: Path,
