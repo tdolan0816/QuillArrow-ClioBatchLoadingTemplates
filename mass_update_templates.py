@@ -16,6 +16,8 @@ import html
 import re
 import shutil
 import sys
+import time
+import uuid
 import zipfile
 from dataclasses import dataclass
 from pathlib import Path
@@ -280,8 +282,38 @@ def apply_xml_replacements(
                         data = updated.encode("utf-8")
                 target.writestr(info, data)
 
-        temp_path.replace(docx_path)
+        _replace_with_retries(temp_path, docx_path)
         return counts
+def _replace_with_retries(
+    source_path: Path,
+    target_path: Path,
+    attempts: int = 12,
+    delay_seconds: float = 0.5,
+) -> None:
+    last_error: Exception | None = None
+    for _ in range(attempts):
+        try:
+            source_path.replace(target_path)
+            return
+        except PermissionError as exc:
+            last_error = exc
+            time.sleep(delay_seconds)
+    raise PermissionError(
+        f"Failed to replace output file after {attempts} attempts. "
+        "Close any apps or preview panes using the file and try again. "
+        f"Updated file is at: {source_path}"
+    ) from last_error
+
+
+def _working_path(output_path: Path) -> Path:
+    for idx in range(100):
+        suffix = f".working-{idx}" if idx else ".working"
+        candidate = output_path.with_name(f"{output_path.name}{suffix}")
+        if not candidate.exists():
+            return candidate
+    unique_suffix = uuid.uuid4().hex[:8]
+    return output_path.with_name(f"{output_path.name}.working-{unique_suffix}")
+
 
 # Find the run index for a character position
 def _find_run_index(run_spans: List[Tuple[int, int]], position: int) -> int:
@@ -457,15 +489,20 @@ def process_document(
 
     # Ensure output exists before applying XML replacement.
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    work_path = output_path
+    if xml_replace:
+        # Write to a working file first to avoid OneDrive/preview locks.
+        work_path = _working_path(output_path)
+
     if total_replacements > 0:
-        doc.save(str(output_path))
+        doc.save(str(work_path))
     else:
-        if output_path.resolve() != input_path.resolve():
-            shutil.copy2(input_path, output_path)
+        if work_path.resolve() != input_path.resolve():
+            shutil.copy2(input_path, work_path)
 
     if xml_replace:
         xml_counts = apply_xml_replacements(
-            output_path,
+            work_path,
             replacements,
             ignore_case=ignore_case,
             include_headers_footers=include_headers_footers,
@@ -475,6 +512,8 @@ def process_document(
             if count:
                 counts[idx] += count
                 total_replacements += count
+        if work_path != output_path:
+            _replace_with_retries(work_path, output_path)
 
     changed = total_replacements > 0
     return changed, total_replacements, counts
