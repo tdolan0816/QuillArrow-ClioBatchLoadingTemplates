@@ -34,3 +34,4 @@
 - Added `verify_template_updates.py` for automated validation reports.
 - Added `inventory_custom_fields.py` for baseline custom field mapping.
 - Inventory script now supports case normalization and fallback de-dup.
+- Added `--xml-replace` option in `mass_update_templates.py` to update placeholders inside docx XML (text boxes/shapes).

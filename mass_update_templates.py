@@ -12,9 +12,11 @@ from __future__ import annotations
 
 import argparse
 import csv
+import html
 import re
 import shutil
 import sys
+import zipfile
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Tuple
@@ -226,6 +228,61 @@ def apply_replacements(
     return updated, total
 
 
+# Replace placeholders inside docx XML (e.g., text boxes/shapes)
+def apply_xml_replacements(
+    docx_path: Path,
+    replacements: List[Replacement],
+    ignore_case: bool,
+    include_headers_footers: bool,
+    apply_changes: bool,
+) -> List[int]:
+    flags = re.IGNORECASE if ignore_case else 0
+    xml_patterns: List[Tuple[re.Pattern[str], str]] = []
+    for replacement in replacements:
+        xml_old = html.escape(replacement.old_text)
+        xml_new = html.escape(replacement.new_text)
+        xml_patterns.append((re.compile(re.escape(xml_old), flags), xml_new))
+
+    counts = [0] * len(replacements)
+    with zipfile.ZipFile(docx_path, "r") as source:
+        infos = source.infolist()
+
+        def should_process(filename: str) -> bool:
+            if not filename.startswith("word/") or not filename.endswith(".xml"):
+                return False
+            if not include_headers_footers and (
+                filename.startswith("word/header") or filename.startswith("word/footer")
+            ):
+                return False
+            return True
+
+        if not apply_changes:
+            for info in infos:
+                if not should_process(info.filename):
+                    continue
+                xml_text = source.read(info.filename).decode("utf-8", errors="ignore")
+                for idx, (pattern, _) in enumerate(xml_patterns):
+                    counts[idx] += len(pattern.findall(xml_text))
+            return counts
+
+        temp_path = docx_path.with_suffix(docx_path.suffix + ".tmp")
+        with zipfile.ZipFile(temp_path, "w") as target:
+            for info in infos:
+                data = source.read(info.filename)
+                if should_process(info.filename):
+                    xml_text = data.decode("utf-8", errors="ignore")
+                    updated = xml_text
+                    for idx, (pattern, repl) in enumerate(xml_patterns):
+                        updated, count = pattern.subn(repl, updated)
+                        if count:
+                            counts[idx] += count
+                    if updated != xml_text:
+                        data = updated.encode("utf-8")
+                target.writestr(info, data)
+
+        temp_path.replace(docx_path)
+        return counts
+
 # Find the run index for a character position
 def _find_run_index(run_spans: List[Tuple[int, int]], position: int) -> int:
     for idx, (start, end) in enumerate(run_spans):
@@ -327,6 +384,8 @@ def process_document(
     include_headers_footers: bool,
     dry_run: bool,
     join_runs: bool,
+    xml_replace: bool,
+    ignore_case: bool,
 ) -> Tuple[bool, int, List[int]]:
     # Load the document from the input path
     doc = Document(str(input_path))
@@ -379,24 +438,45 @@ def process_document(
                 # Process the container
                 process_container(header_footer)
 
-    # If the total count of replacements is greater than 0, set the changed flag to True
-    changed = total_replacements > 0
-    # If dry run is enabled, return the changed flag and the total count of replacements
+    xml_counts = [0] * len(replacements)
     if dry_run:
+        if xml_replace:
+            xml_counts = apply_xml_replacements(
+                input_path,
+                replacements,
+                ignore_case=ignore_case,
+                include_headers_footers=include_headers_footers,
+                apply_changes=False,
+            )
+            for idx, count in enumerate(xml_counts):
+                if count:
+                    counts[idx] += count
+                    total_replacements += count
+        changed = total_replacements > 0
         return changed, total_replacements, counts
 
-    # Create the output directory if it doesn't exist
+    # Ensure output exists before applying XML replacement.
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    # If the changed flag is True, save the document to the output path
-    if changed:
+    if total_replacements > 0:
         doc.save(str(output_path))
     else:
-        # If the changed flag is False, copy the input path to the output path
         if output_path.resolve() != input_path.resolve():
-            # Copy the input path to the output path
             shutil.copy2(input_path, output_path)
-    # Return the changed flag and the total count of replacements
 
+    if xml_replace:
+        xml_counts = apply_xml_replacements(
+            output_path,
+            replacements,
+            ignore_case=ignore_case,
+            include_headers_footers=include_headers_footers,
+            apply_changes=True,
+        )
+        for idx, count in enumerate(xml_counts):
+            if count:
+                counts[idx] += count
+                total_replacements += count
+
+    changed = total_replacements > 0
     return changed, total_replacements, counts
 
 
@@ -472,6 +552,11 @@ def main() -> int:
         help="Preview matches without writing files.",
     )
     parser.add_argument(
+        "--xml-replace",
+        action="store_true",
+        help="Also replace placeholders inside docx XML (text boxes/shapes).",
+    )
+    parser.add_argument(
         "--join-runs",
         action="store_true",
         help=(
@@ -489,6 +574,13 @@ def main() -> int:
     # Parse the arguments
     args = parser.parse_args()
     # Resolve the input directory
+
+    if args.xml_replace and not args.literal:
+        print(
+            "Warning: --xml-replace uses literal matching for XML text nodes; "
+            "regex patterns are not applied in XML.",
+            file=sys.stderr,
+        )
 
     input_dir = Path(args.input_dir).resolve()
     # If the input directory does not exist or is not a directory, raise an error
@@ -578,7 +670,12 @@ def main() -> int:
             include_headers_footers=not args.skip_headers_footers,
             # If dry run is enabled, dry run the document
             dry_run=args.dry_run,
+            # If join runs is enabled, allow run-spanning replacements
             join_runs=args.join_runs,
+            # If XML replace is enabled, update XML text nodes
+            xml_replace=args.xml_replace,
+            # If ignore case is enabled, match case-insensitively
+            ignore_case=args.ignore_case,
         )
         # Increment the total count of replacements
         total_replacements += count
