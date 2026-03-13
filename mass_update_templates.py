@@ -238,6 +238,8 @@ def apply_xml_replacements(
     include_headers_footers: bool,
     apply_changes: bool,
 ) -> List[int]:
+    # Build literal XML-safe patterns for each replacement.
+    # We escape text because the docx XML encodes special characters.
     flags = re.IGNORECASE if ignore_case else 0
     xml_patterns: List[Tuple[re.Pattern[str], str]] = []
     for replacement in replacements:
@@ -248,6 +250,7 @@ def apply_xml_replacements(
     counts = [0] * len(replacements)
 
     def should_process(filename: str) -> bool:
+        # Only operate on Word XML parts, optionally skipping headers/footers.
         if not filename.startswith("word/") or not filename.endswith(".xml"):
             return False
         if not include_headers_footers and (
@@ -257,6 +260,7 @@ def apply_xml_replacements(
         return True
 
     if not apply_changes:
+        # Read-only mode: count matches without writing any files.
         with zipfile.ZipFile(docx_path, "r") as source:
             infos = source.infolist()
             for info in infos:
@@ -267,6 +271,7 @@ def apply_xml_replacements(
                     counts[idx] += len(pattern.findall(xml_text))
         return counts
 
+    # Write a new zip to a temp file, then replace the original.
     temp_path = docx_path.with_suffix(docx_path.suffix + ".tmp")
     with zipfile.ZipFile(docx_path, "r") as source:
         infos = source.infolist()
@@ -292,6 +297,7 @@ def _replace_with_retries(
     attempts: int = 12,
     delay_seconds: float = 0.5,
 ) -> None:
+    # Windows and sync tools can lock files briefly; retry the move.
     last_error: Exception | None = None
     for _ in range(attempts):
         try:
@@ -308,6 +314,7 @@ def _replace_with_retries(
 
 
 def _working_path(output_path: Path) -> Path:
+    # Pick a stable working path to avoid OneDrive/preview locks.
     for idx in range(100):
         suffix = f".working-{idx}" if idx else ".working"
         candidate = output_path.with_name(f"{output_path.name}{suffix}")
@@ -363,8 +370,10 @@ def replace_in_paragraph_join_runs(
         run_texts = [run.text or "" for run in runs]
         if not any(run_texts):
             break
+        # Treat the paragraph as one string so matches can cross runs.
         full_text = "".join(run_texts)
 
+        # Find the earliest match among all replacement patterns.
         earliest_match = None
         earliest_index = -1
         for idx, replacement in enumerate(replacements):
@@ -382,6 +391,7 @@ def replace_in_paragraph_join_runs(
         if start == end:
             break
 
+        # Map character positions back to run boundaries.
         run_spans: List[Tuple[int, int]] = []
         pos = 0
         for text in run_texts:
@@ -394,6 +404,7 @@ def replace_in_paragraph_join_runs(
         start_run_start = run_spans[start_run][0]
         end_run_start = run_spans[end_run][0]
 
+        # Replace the match inside the start run and clear intervening runs.
         prefix = run_texts[start_run][: start - start_run_start]
         suffix = run_texts[end_run][end - end_run_start :]
 
@@ -472,9 +483,11 @@ def process_document(
                 # Process the container
                 process_container(header_footer)
 
+    # Optional XML pass: required for text boxes/shapes not exposed by python-docx.
     xml_counts = [0] * len(replacements)
     if dry_run:
         if xml_replace:
+            # Count XML matches without writing output.
             xml_counts = apply_xml_replacements(
                 input_path,
                 replacements,
@@ -496,6 +509,7 @@ def process_document(
         # Write to a working file first to avoid OneDrive/preview locks.
         work_path = _working_path(output_path)
 
+    # Write the updated docx (or copy original when no text changes).
     if total_replacements > 0:
         doc.save(str(work_path))
     else:
@@ -503,6 +517,7 @@ def process_document(
             shutil.copy2(input_path, work_path)
 
     if xml_replace:
+        # Apply XML replacements to the working file and move into place.
         xml_counts = apply_xml_replacements(
             work_path,
             replacements,
