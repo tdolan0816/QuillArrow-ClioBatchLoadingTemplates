@@ -37,3 +37,4 @@
 - Added `--xml-replace` option in `mass_update_templates.py` to update placeholders inside docx XML (text boxes/shapes).
 - Added retry handling for XML file replacement to avoid Windows file lock errors.
 - XML replacement now writes to a working file first to reduce OneDrive/preview locks.
+- Added `xml_replace_templates.py` for isolated XML-only replacement testing.
