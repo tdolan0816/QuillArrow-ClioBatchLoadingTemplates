@@ -159,8 +159,9 @@ def resolve_access_token(args: argparse.Namespace) -> str:
     1) CLI flag or environment variable.
     2) Token file, with optional refresh if expired.
     """
-    access_token = args.access_token or os.environ.get("CLIO_ACCESS_TOKEN")
-    if access_token:
+    if access_token := args.access_token or os.environ.get(
+        "CLIO_ACCESS_TOKEN"
+    ):
         return access_token
 
     # Fall back to a token file produced by the OAuth helper.
@@ -171,59 +172,20 @@ def resolve_access_token(args: argparse.Namespace) -> str:
     payload = load_token_file(token_path)
 
     if token_expired(payload):
-        # Attempt a refresh if the access token is expired.
-        refresh_token = payload.get("refresh_token")
-        if not refresh_token:
-            raise RuntimeError(
-                "Access token expired and no refresh token found in token file."
-            )
-        client_id = os.environ.get("CLIO_CLIENT_ID")
-        client_secret = os.environ.get("CLIO_CLIENT_SECRET")
-        if not client_id or not client_secret:
-            raise RuntimeError(
-                "Access token expired. Set CLIO_CLIENT_ID and CLIO_CLIENT_SECRET "
-                "to refresh automatically."
-            )
-        auth_base = args.auth_base or os.environ.get("CLIO_AUTH_BASE", DEFAULT_AUTH_BASE)
-        refreshed = refresh_access_token(
-            auth_base, client_id, client_secret, refresh_token, args.max_retries
-        )
-        # Store refreshed tokens back to the same file.
-        payload.update(refreshed)
-        write_token_file(token_path, payload)
-
-    access_token = payload.get("access_token")
-    if not access_token:
+        resolve_access_token(payload, args, token_path)
+    if access_token := payload.get("access_token"):
+        return access_token
+    else:
         raise RuntimeError("Token file does not include an access_token.")
-    return access_token
 
 
-def extract_next_page_token(meta: Dict) -> Optional[str]:
-    """Return the next page token from a Clio paging metadata object."""
-    paging = meta.get("paging", {}) if isinstance(meta, dict) else {}
-    for key in ("next_page_token", "next_page", "next", "page_token"):
-        token = paging.get(key)
-        if token:
-            return token
-    return None
-
-
-def find_payload_value(payload: object, keys: Tuple[str, ...]) -> Optional[object]:
-    """Recursively search a JSON payload for the first matching key."""
-    if isinstance(payload, dict):
-        for key, value in payload.items():
-            if key in keys:
-                return value
-            found = find_payload_value(value, keys)
-            if found is not None:
-                return found
-    elif isinstance(payload, list):
-        for item in payload:
-            found = find_payload_value(item, keys)
-            if found is not None:
-                return found
-    return None
-
+# TODO Rename this here and in `resolve_access_token`
+def resolve_access_token(payload, args, token_path):
+    # Attempt a refresh if the access token is expired.
+    if refresh_token := payload.get("refresh_token"):
+        return refresh_token
+    else:
+        raise RuntimeError("Access token expired and no refresh token found in token file.")
 
 def iter_pages(
     session: requests.Session,
@@ -250,14 +212,18 @@ def iter_pages(
                 f"Request failed ({response.status_code}): {response.text}"
             )
         payload = response.json()
+        # Get the data from the payload
         data = payload.get("data", [])
+        # If the data is a list, iterate through the items and yield the items
         if isinstance(data, list):
-            for item in data:
-                yield item
-
-        page_token = extract_next_page_token(payload.get("meta", {}))
+            # Iterate through the items and yield the items
+            yield from data
+        # Get the next page token from the payload
+        page_token = payload.get("meta", {}).get("next_page_token")
         if not page_token:
             break
+        page_token = page_token
+    return None
 
 
 def sanitize_filename(name: str) -> str:
@@ -384,11 +350,12 @@ def list_documents_in_folder(
 ) -> List[Dict]:
     """List documents inside a single Clio folder."""
     url = f"{base_url}/documents.json"
+    # Get the documents from the folder
     return list(
         iter_pages(
             session,
             url,
-            {"limit": str(limit), "folder_id": str(folder_id)},
+            {"limit": str(limit), "folder_id": folder_id},
             max_retries,
         )
     )
@@ -780,209 +747,211 @@ def main() -> int:
     try:
         access_token = resolve_access_token(args)
     except Exception as exc:
-        print(str(exc))
+        print(f"Error resolving access token: {str(exc)}")
         return 1
 
     # Build an HTTP session with auth headers.
     session = build_session(access_token, args.api_version)
 
     if args.command in ("list", "download"):
-        # Determine which source to use for templates.
-        items: List[Dict] = []
-        source_used = args.source
+        return main_download(args, session)
+    return main_upload(args, session) if args.command == "upload" else 0
 
-        if args.source in ("auto", "document-templates"):
-            templates, error = try_list_document_templates(
-                session, args.base_url, args.limit, args.max_retries
-            )
-            if templates is not None:
-                items = templates
-                source_used = "document-templates"
-            elif args.source == "document-templates":
-                print(
-                    "Document templates endpoint not available for this account. "
-                    f"Server response: {error}"
-                )
-                return 1
 
-        if not items and args.source in ("auto", "documents-folder"):
-            # Fall back to documents stored in a "Templates" folder.
-            folder_id = resolve_folder_id(
-                session,
-                args.base_url,
-                args.folder_id,
-                args.folder_name,
-                args.limit,
-                args.max_retries,
-            )
-            items = list_documents_in_folder(
-                session, args.base_url, folder_id, args.limit, args.max_retries
-            )
-            source_used = "documents-folder"
-
-        if args.command == "list":
-            print(f"Source: {source_used}")
-            print(f"Templates found: {len(items)}")
-            return 0
-
-        output_dir = Path(args.output_dir).resolve()
-        manifest_path = Path(args.manifest).resolve()
-        manifest_entries: List[Dict] = []
-
-        for item in items:
-            # Normalize a safe filename and plan an output path.
-            template_id = str(item.get("id"))
-            name = item.get("filename") or item.get("name") or f"template_{template_id}"
-            raw_filename = sanitize_filename(str(name))
-            suffix = Path(raw_filename).suffix.lower()
-            if suffix and suffix != ".docx" and not args.include_non_docx:
-                print(f"Skipping non-docx template: {raw_filename} (id={template_id})")
-                continue
-            if not suffix and not args.include_non_docx:
-                raw_filename = f"{raw_filename}.docx"
-            filename = raw_filename
-
-            target_path = unique_path(output_dir / filename)
-            document_category_id = None
-            document_category = item.get("document_category")
-            if isinstance(document_category, dict):
-                document_category_id = document_category.get("id")
-
-            manifest_entries.append(
-                {
-                    "id": template_id,
-                    "name": name,
-                    "source": source_used,
-                    "file_name": filename,
-                    "file_path": str(target_path),
-                    "document_category_id": document_category_id,
-                }
-            )
-
-            if args.dry_run:
-                continue
-
-            if source_used == "documents-folder":
-                # Document download endpoint for regular files.
-                download_document(
-                    session,
-                    args.base_url,
-                    template_id,
-                    target_path,
-                    args.max_retries,
-                )
-            else:
-                # Template download endpoint if supported by this account.
-                download_document_template(
-                    session,
-                    args.base_url,
-                    template_id,
-                    target_path,
-                    args.max_retries,
-                )
-
-        write_manifest(manifest_path, manifest_entries)
-        print(f"Downloaded {len(items)} templates to {output_dir}")
-        print(f"Manifest written to {manifest_path}")
-        return 0
-
-    if args.command == "upload":
-        # Upload updated templates by reading the manifest file.
-        manifest_path = Path(args.manifest).resolve()
-        entries = load_manifest(manifest_path)
-        replacement_counts: Dict[str, int] = {}
-        if args.skip_unchanged:
-            if args.report_path:
-                report_path = Path(args.report_path).resolve()
-            elif args.upload_dir:
-                report_path = Path(args.upload_dir).resolve() / "replacement_report.csv"
-            else:
-                report_path = Path("replacement_report.csv").resolve()
-            replacement_counts = load_replacement_report(report_path)
-            if args.verbose:
-                print(f"Loaded replacement report: {report_path}")
-        for entry in entries:
-            source = entry.get("source")
-            template_id = entry.get("id")
-            file_path = Path(entry.get("file_path", ""))
+# TODO Rename this here and in `main`
+def main_upload(args, session):  # sourcery skip: low-code-quality
+    # Upload updated templates by reading the manifest file.
+    manifest_path = Path(args.manifest).resolve()
+    entries = load_manifest(manifest_path)
+    replacement_counts: Dict[str, int] = {}
+    if args.skip_unchanged:
+        if args.report_path:
+            report_path = Path(args.report_path).resolve()
+        elif args.upload_dir:
+            report_path = Path(args.upload_dir).resolve() / "replacement_report.csv"
+        else:
+            report_path = Path("replacement_report.csv").resolve()
+        replacement_counts = load_replacement_report(report_path)
+        if args.verbose:
+            print(f"Loaded replacement report: {report_path}")
+    for entry in entries:
+        source = entry.get("source")
+        template_id = entry.get("id")
+        file_path = Path(entry.get("file_path", ""))
+        file_name = entry.get("file_name") or file_path.name
+        document_category_id = entry.get("document_category_id")
+        if args.upload_dir:
             file_name = entry.get("file_name") or file_path.name
-            document_category_id = entry.get("document_category_id")
-            if args.upload_dir:
-                file_name = entry.get("file_name") or file_path.name
-                if not file_name:
-                    raise RuntimeError(
-                        "Upload dir provided but manifest does not contain "
-                        "file_name or file_path."
-                    )
-                file_path = Path(args.upload_dir).resolve() / file_name
+            if not file_name:
+                raise RuntimeError(
+                    "Upload dir provided but manifest does not contain "
+                    "file_name or file_path."
+                )
+            file_path = Path(args.upload_dir).resolve() / file_name
 
-            if args.dry_run:
+        if args.dry_run:
+            continue
+
+        if args.skip_unchanged:
+            count = replacement_counts.get(file_name, 0)
+            if count == 0:
+                if args.verbose:
+                    print(f"Skipping unchanged template: {file_name}")
                 continue
 
-            if args.skip_unchanged:
-                count = replacement_counts.get(file_name, 0)
-                if count == 0:
-                    if args.verbose:
-                        print(f"Skipping unchanged template: {file_name}")
-                    continue
-
-            if not file_path.exists() or file_path.stat().st_size == 0:
-                message = (
-                    f"Invalid file for upload: {file_path} "
-                    f"(exists={file_path.exists()}, size={file_path.stat().st_size if file_path.exists() else 'n/a'})"
-                )
-                if args.skip_invalid:
-                    print(f"Warning: {message}")
-                    continue
-                raise RuntimeError(message)
-
-            if source != "documents-folder":
-                upload_filename = file_name
-                if not args.no_name_suffix:
-                    suffix_template = args.name_suffix or "_Updated_{date}"
-                    suffix = format_suffix(suffix_template, datetime.now())
-                    upload_filename = apply_name_suffix(file_name, suffix)
-
-                created_id = upload_document_template(
-                    session,
-                    args.base_url,
-                    str(template_id),
-                    file_path,
-                    file_name,
-                    document_category_id,
-                    upload_filename,
-                    args.template_upload_mode,
-                    args.max_retries,
-                    args.verbose,
-                )
-                if args.template_upload_mode == "create" and args.delete_old:
-                    if created_id:
-                        delete_document_template(
-                            session,
-                            args.base_url,
-                            str(template_id),
-                            args.max_retries,
-                            args.verbose,
-                        )
-                    else:
-                        print(
-                            "Warning: create succeeded but no new id returned; "
-                            "skipping delete of original template."
-                        )
+        if not file_path.exists() or file_path.stat().st_size == 0:
+            message = (
+                f"Invalid file for upload: {file_path} "
+                f"(exists={file_path.exists()}, size={file_path.stat().st_size if file_path.exists() else 'n/a'})"
+            )
+            if args.skip_invalid:
+                print(f"Warning: {message}")
                 continue
+            raise RuntimeError(message)
 
-            upload_document_version(
+        if source != "documents-folder":
+            upload_filename = file_name
+            if not args.no_name_suffix:
+                suffix_template = args.name_suffix or "_Updated_{date}"
+                suffix = format_suffix(suffix_template, datetime.now())
+                upload_filename = apply_name_suffix(file_name, suffix)
+
+            created_id = upload_document_template(
                 session,
                 args.base_url,
                 str(template_id),
                 file_path,
+                file_name,
+                document_category_id,
+                upload_filename,
+                args.template_upload_mode,
                 args.max_retries,
                 args.verbose,
             )
+            if args.template_upload_mode == "create" and args.delete_old:
+                if created_id:
+                    delete_document_template(
+                        session,
+                        args.base_url,
+                        str(template_id),
+                        args.max_retries,
+                        args.verbose,
+                    )
+                else:
+                    print(
+                        "Warning: create succeeded but no new id returned; "
+                        "skipping delete of original template."
+                    )
+            continue
 
-        print(f"Uploaded {len(entries)} templates from manifest.")
+        upload_document_version(
+            session,
+            args.base_url,
+            str(template_id),
+            file_path,
+            args.max_retries,
+            args.verbose,
+        )
+
+    print(f"Uploaded {len(entries)} templates from manifest.")
+    return 0
+
+
+# TODO Rename this here and in `main`
+def main_download(args, session):
+    # Determine which source to use for templates.
+    items: List[Dict] = []
+    error: Optional[str] = None
+    source_used = args.source
+
+    if args.source in ("auto", "document-templates"):
+        templates, error = try_list_document_templates(
+            session, args.base_url, args.limit, args.max_retries
+        )
+        if templates is not None:
+            items = templates
+            source_used = "document-templates"
+        elif args.source == "document-templates":
+            print(
+                "Document templates endpoint not available for this account. "
+                f"Server response: {error}"
+            )
+            return 1
+
+    if not items and args.source in ("auto", "documents-folder"):
+        # Fall back to documents stored in a "Templates" folder.
+        folder_id = resolve_folder_id(
+            session,
+            args.base_url,
+            args.folder_id,
+            args.folder_name,
+            args.limit,
+            args.max_retries,
+        )
+        items = list_documents_in_folder(
+            session, args.base_url, folder_id, args.limit, args.max_retries
+        )
+        source_used = "documents-folder"
+
+    if args.command == "list":
+        print(f"Source: {source_used}")
+        print(f"Templates found: {len(items)}")
         return 0
 
+    output_dir = Path(args.output_dir).resolve()
+    manifest_path = Path(args.manifest).resolve()
+    manifest_entries: List[Dict] = []
+
+    for item in items:
+        # Normalize a safe filename and plan an output path.
+        template_id = str(item.get("id"))
+        name = item.get("filename") or item.get("name") or f"template_{template_id}"
+        filename = sanitize_filename(str(name))
+        if not filename.lower().endswith(".docx"):
+            filename = f"{filename}.docx"
+
+        target_path = unique_path(output_dir / filename)
+        document_category_id = None
+        document_category = item.get("document_category")
+        if isinstance(document_category, dict):
+            document_category_id = document_category.get("id")
+
+        manifest_entries.append(
+            {
+                "id": template_id,
+                "name": name,
+                "source": source_used,
+                "file_name": filename,
+                "file_path": str(target_path),
+                "document_category_id": document_category_id,
+            }
+        )
+
+        if args.dry_run:
+            continue
+
+        if source_used == "documents-folder":
+            # Document download endpoint for regular files.
+            download_document(
+                session,
+                args.base_url,
+                template_id,
+                target_path,
+                args.max_retries,
+            )
+        else:
+            # Template download endpoint if supported by this account.
+            download_document_template(
+                session,
+                args.base_url,
+                template_id,
+                target_path,
+                args.max_retries,
+            )
+
+    write_manifest(manifest_path, manifest_entries)
+    print(f"Downloaded {len(items)} templates to {output_dir}")
+    print(f"Manifest written to {manifest_path}")
     return 0
 
 
