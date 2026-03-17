@@ -12,13 +12,13 @@ from __future__ import annotations
 
 import argparse
 import csv
-import html
 import re
 import shutil
 import sys
 import time
 import uuid
 import zipfile
+import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Tuple
@@ -231,6 +231,85 @@ def apply_replacements(
 
 
 # Replace placeholders inside docx XML (e.g., text boxes/shapes)
+def _local_name(tag: str) -> str:
+    if "}" in tag:
+        return tag.split("}", 1)[1]
+    return tag
+
+
+def _extract_namespaces(xml_text: str) -> dict[str, str]:
+    namespaces: dict[str, str] = {}
+    for prefix, uri in re.findall(
+        r'\sxmlns(?::([A-Za-z0-9_]+))?="([^"]+)"', xml_text
+    ):
+        key = prefix or ""
+        namespaces[key] = uri
+    return namespaces
+
+
+def _register_namespaces(namespaces: dict[str, str]) -> None:
+    for prefix, uri in namespaces.items():
+        ET.register_namespace(prefix, uri)
+
+
+def _replace_in_text_chunks(
+    run_texts: List[str],
+    replacements: List[Replacement],
+    counts: List[int],
+) -> Tuple[List[str], int]:
+    total = 0
+    safety_limit = 10000
+    iterations = 0
+    texts = list(run_texts)
+
+    while iterations < safety_limit:
+        if not any(texts):
+            break
+        full_text = "".join(texts)
+
+        earliest_match = None
+        earliest_index = -1
+        for idx, replacement in enumerate(replacements):
+            match = replacement.pattern.search(full_text)
+            if match and (
+                earliest_match is None or match.start() < earliest_match.start()
+            ):
+                earliest_match = match
+                earliest_index = idx
+
+        if earliest_match is None:
+            break
+
+        start, end = earliest_match.span()
+        if start == end:
+            break
+
+        run_spans: List[Tuple[int, int]] = []
+        pos = 0
+        for text in texts:
+            run_spans.append((pos, pos + len(text)))
+            pos += len(text)
+
+        start_run = _find_run_index(run_spans, start)
+        end_run = _find_run_index(run_spans, end - 1)
+
+        start_run_start = run_spans[start_run][0]
+        end_run_start = run_spans[end_run][0]
+
+        prefix = texts[start_run][: start - start_run_start]
+        suffix = texts[end_run][end - end_run_start :]
+
+        texts[start_run] = prefix + replacements[earliest_index].new_text + suffix
+        for idx in range(start_run + 1, end_run + 1):
+            texts[idx] = ""
+
+        counts[earliest_index] += 1
+        total += 1
+        iterations += 1
+
+    return texts, total
+
+
 def apply_xml_replacements(
     docx_path: Path,
     replacements: List[Replacement],
@@ -238,15 +317,9 @@ def apply_xml_replacements(
     include_headers_footers: bool,
     apply_changes: bool,
 ) -> List[int]:
-    # Build literal XML-safe patterns for each replacement.
-    # We escape text because the docx XML encodes special characters.
-    flags = re.IGNORECASE if ignore_case else 0
-    xml_patterns: List[Tuple[re.Pattern[str], str]] = []
-    for replacement in replacements:
-        xml_old = html.escape(replacement.old_text)
-        xml_new = html.escape(replacement.new_text)
-        xml_patterns.append((re.compile(re.escape(xml_old), flags), xml_new))
-
+    # Parse XML parts and replace across text nodes (including text boxes/shapes).
+    # ignore_case is baked into the compiled replacement patterns.
+    _ = ignore_case
     counts = [0] * len(replacements)
 
     def should_process(filename: str) -> bool:
@@ -262,31 +335,50 @@ def apply_xml_replacements(
     if not apply_changes:
         # Read-only mode: count matches without writing any files.
         with zipfile.ZipFile(docx_path, "r") as source:
-            infos = source.infolist()
-            for info in infos:
+            for info in source.infolist():
                 if not should_process(info.filename):
                     continue
                 xml_text = source.read(info.filename).decode("utf-8", errors="ignore")
-                for idx, (pattern, _) in enumerate(xml_patterns):
-                    counts[idx] += len(pattern.findall(xml_text))
+                namespaces = _extract_namespaces(xml_text)
+                _register_namespaces(namespaces)
+                root = ET.fromstring(xml_text)
+                text_elements = [
+                    elem
+                    for elem in root.iter()
+                    if _local_name(elem.tag) in {"t", "instrText"}
+                ]
+                run_texts = [elem.text or "" for elem in text_elements]
+                _replace_in_text_chunks(run_texts, replacements, counts)
         return counts
 
     # Write a new zip to a temp file, then replace the original.
     temp_path = docx_path.with_suffix(docx_path.suffix + ".tmp")
     with zipfile.ZipFile(docx_path, "r") as source:
-        infos = source.infolist()
         with zipfile.ZipFile(temp_path, "w") as target:
-            for info in infos:
+            for info in source.infolist():
                 data = source.read(info.filename)
                 if should_process(info.filename):
                     xml_text = data.decode("utf-8", errors="ignore")
-                    updated = xml_text
-                    for idx, (pattern, repl) in enumerate(xml_patterns):
-                        updated, count = pattern.subn(repl, updated)
-                        if count:
-                            counts[idx] += count
-                    if updated != xml_text:
-                        data = updated.encode("utf-8")
+                    namespaces = _extract_namespaces(xml_text)
+                    _register_namespaces(namespaces)
+                    root = ET.fromstring(xml_text)
+                    text_elements = [
+                        elem
+                        for elem in root.iter()
+                        if _local_name(elem.tag) in {"t", "instrText"}
+                    ]
+                    run_texts = [elem.text or "" for elem in text_elements]
+                    updated_texts, replacements_made = _replace_in_text_chunks(
+                        run_texts, replacements, counts
+                    )
+                    if replacements_made:
+                        for elem, text in zip(text_elements, updated_texts):
+                            elem.text = text
+                        xml_declaration = xml_text.lstrip().startswith("<?xml")
+                        updated_xml = ET.tostring(
+                            root, encoding="utf-8", xml_declaration=xml_declaration
+                        )
+                        data = updated_xml
                 target.writestr(info, data)
 
     _replace_with_retries(temp_path, docx_path)

@@ -38,3 +38,4 @@
 - Added retry handling for XML file replacement to avoid Windows file lock errors.
 - XML replacement now writes to a working file first to reduce OneDrive/preview locks.
 - Added `xml_replace_templates.py` for isolated XML-only replacement testing.
+- XML replacement now joins XML text nodes to replace across tags.
