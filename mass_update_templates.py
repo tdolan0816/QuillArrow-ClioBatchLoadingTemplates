@@ -41,9 +41,7 @@ class Replacement:
 
 # Normalize the header value to a lowercase string
 def _normalize_header(value: object) -> str:
-    if value is None:
-        return ""
-    return str(value).strip().lower()
+    return "" if value is None else str(value).strip().lower()
 
 
 # Resolve the column index based on the header value
@@ -115,7 +113,7 @@ def load_lookup_table(
     try:
         # Get the header row from the rows
         header_row = next(rows)
-    
+
     # If the header row is not found, raise an error
     except StopIteration as exc:
         raise ValueError("Lookup table sheet is empty.") from exc
@@ -123,8 +121,7 @@ def load_lookup_table(
     # Create a map of the header values to their column indices
     header_map: dict[str, int] = {}
     for idx, value in enumerate(header_row):
-        normalized = _normalize_header(value)
-        if normalized:
+        if normalized := _normalize_header(value):
             header_map[normalized] = idx
 
     # Resolve the column index for the Old value
@@ -162,7 +159,7 @@ def load_lookup_table(
         # Get the New value from the row
         new_value = row[new_idx] if new_idx < len(row) else None
         # If the Old value is None or empty, continue
-        if old_value is None or str(old_value).strip() == "":
+        if old_value is None or not str(old_value).strip():
             continue
 
         # Convert the Old value to a string
@@ -200,8 +197,7 @@ def load_lookup_table(
 # Iterate through the paragraphs in the container
 def iter_paragraphs(container) -> Iterable:
     # Iterate through the paragraphs in the container
-    for paragraph in container.paragraphs:
-        yield paragraph
+    yield from container.paragraphs
     # Iterate through the tables in the container
     for table in container.tables:
         # Iterate through the rows in the table
@@ -232,9 +228,7 @@ def apply_replacements(
 
 # Replace placeholders inside docx XML (e.g., text boxes/shapes)
 def _local_name(tag: str) -> str:
-    if "}" in tag:
-        return tag.split("}", 1)[1]
-    return tag
+    return tag.split("}", 1)[1] if "}" in tag else tag
 
 
 def _extract_namespaces(xml_text: str) -> dict[str, str]:
