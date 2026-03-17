@@ -39,3 +39,4 @@
 - XML replacement now writes to a working file first to reduce OneDrive/preview locks.
 - Added `xml_replace_templates.py` for isolated XML-only replacement testing.
 - XML replacement now joins XML text nodes to replace across tags.
+- XML replacement now tolerates whitespace differences in XML text nodes.

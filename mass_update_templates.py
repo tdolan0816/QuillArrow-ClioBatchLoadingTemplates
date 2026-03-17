@@ -312,8 +312,21 @@ def apply_xml_replacements(
     apply_changes: bool,
 ) -> List[int]:
     # Parse XML parts and replace across text nodes (including text boxes/shapes).
-    # ignore_case is baked into the compiled replacement patterns.
-    _ = ignore_case
+    # For XML we build flexible patterns that tolerate whitespace variations.
+    flags = re.IGNORECASE if ignore_case else 0
+    xml_replacements: List[Replacement] = []
+    for replacement in replacements:
+        pattern_text = re.escape(replacement.old_text)
+        # Allow any whitespace (space/tab/NBSP) where a space exists in the lookup.
+        pattern_text = pattern_text.replace(r"\ ", r"[\s\u00A0]*")
+        pattern = re.compile(pattern_text, flags=flags)
+        xml_replacements.append(
+            Replacement(
+                old_text=replacement.old_text,
+                new_text=replacement.new_text,
+                pattern=pattern,
+            )
+        )
     counts = [0] * len(replacements)
 
     def should_process(filename: str) -> bool:
@@ -341,8 +354,11 @@ def apply_xml_replacements(
                     for elem in root.iter()
                     if _local_name(elem.tag) in {"t", "instrText"}
                 ]
-                run_texts = [elem.text or "" for elem in text_elements]
-                _replace_in_text_chunks(run_texts, replacements, counts)
+                run_texts = [
+                    (elem.text or "").replace("\u00A0", " ")
+                    for elem in text_elements
+                ]
+                _replace_in_text_chunks(run_texts, xml_replacements, counts)
         return counts
 
     # Write a new zip to a temp file, then replace the original.
@@ -361,9 +377,12 @@ def apply_xml_replacements(
                         for elem in root.iter()
                         if _local_name(elem.tag) in {"t", "instrText"}
                     ]
-                    run_texts = [elem.text or "" for elem in text_elements]
+                    run_texts = [
+                        (elem.text or "").replace("\u00A0", " ")
+                        for elem in text_elements
+                    ]
                     updated_texts, replacements_made = _replace_in_text_chunks(
-                        run_texts, replacements, counts
+                        run_texts, xml_replacements, counts
                     )
                     if replacements_made:
                         for elem, text in zip(text_elements, updated_texts):
