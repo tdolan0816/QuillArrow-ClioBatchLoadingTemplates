@@ -18,7 +18,7 @@ import sys
 import time
 import uuid
 import zipfile
-import xml.etree.ElementTree as ET
+from html import escape, unescape
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, List, Tuple
@@ -226,26 +226,6 @@ def apply_replacements(
     return updated, total
 
 
-# Replace placeholders inside docx XML (e.g., text boxes/shapes)
-def _local_name(tag: str) -> str:
-    return tag.split("}", 1)[1] if "}" in tag else tag
-
-
-def _extract_namespaces(xml_text: str) -> dict[str, str]:
-    namespaces: dict[str, str] = {}
-    for prefix, uri in re.findall(
-        r'\sxmlns(?::([A-Za-z0-9_]+))?="([^"]+)"', xml_text
-    ):
-        key = prefix or ""
-        namespaces[key] = uri
-    return namespaces
-
-
-def _register_namespaces(namespaces: dict[str, str]) -> None:
-    for prefix, uri in namespaces.items():
-        ET.register_namespace(prefix, uri)
-
-
 def _replace_in_text_chunks(
     run_texts: List[str],
     replacements: List[Replacement],
@@ -311,7 +291,8 @@ def apply_xml_replacements(
     include_headers_footers: bool,
     apply_changes: bool,
 ) -> List[int]:
-    # Parse XML parts and replace across text nodes (including text boxes/shapes).
+    # Replace across XML text nodes without reserializing the full XML tree.
+    # This keeps the original XML structure intact and avoids Word warnings.
     # For XML we build flexible patterns that tolerate whitespace variations.
     flags = re.IGNORECASE if ignore_case else 0
     xml_replacements: List[Replacement] = []
@@ -329,6 +310,16 @@ def apply_xml_replacements(
         )
     counts = [0] * len(replacements)
 
+    text_node_pattern = re.compile(
+        r"(<(?P<tag>(?:w|a):t|w:instrText)\b[^>]*>)"
+        r"(?P<text>.*?)"
+        r"(</(?P=tag)>)",
+        re.DOTALL,
+    )
+    fallback_pattern = re.compile(
+        r"<mc:Fallback[^>]*>.*?</mc:Fallback>", re.DOTALL
+    )
+
     def should_process(filename: str) -> bool:
         # Only operate on Word XML parts, optionally skipping headers/footers.
         if not filename.startswith("word/") or not filename.endswith(".xml"):
@@ -339,6 +330,28 @@ def apply_xml_replacements(
             return False
         return True
 
+    def is_in_fallback(position: int, ranges: List[Tuple[int, int]]) -> bool:
+        for start, end in ranges:
+            if start <= position < end:
+                return True
+        return False
+
+    def extract_text_nodes(xml_text: str) -> Tuple[List[re.Match[str]], List[str]]:
+        fallback_ranges = [
+            (match.start(), match.end())
+            for match in fallback_pattern.finditer(xml_text)
+        ]
+        matches: List[re.Match[str]] = []
+        texts: List[str] = []
+        for match in text_node_pattern.finditer(xml_text):
+            if is_in_fallback(match.start(), fallback_ranges):
+                continue
+            matches.append(match)
+            raw_text = match.group("text")
+            decoded = unescape(raw_text).replace("\u00A0", " ")
+            texts.append(decoded)
+        return matches, texts
+
     if not apply_changes:
         # Read-only mode: count matches without writing any files.
         with zipfile.ZipFile(docx_path, "r") as source:
@@ -346,18 +359,7 @@ def apply_xml_replacements(
                 if not should_process(info.filename):
                     continue
                 xml_text = source.read(info.filename).decode("utf-8", errors="ignore")
-                namespaces = _extract_namespaces(xml_text)
-                _register_namespaces(namespaces)
-                root = ET.fromstring(xml_text)
-                text_elements = [
-                    elem
-                    for elem in root.iter()
-                    if _local_name(elem.tag) in {"t", "instrText"}
-                ]
-                run_texts = [
-                    (elem.text or "").replace("\u00A0", " ")
-                    for elem in text_elements
-                ]
+                _, run_texts = extract_text_nodes(xml_text)
                 _replace_in_text_chunks(run_texts, xml_replacements, counts)
         return counts
 
@@ -369,29 +371,22 @@ def apply_xml_replacements(
                 data = source.read(info.filename)
                 if should_process(info.filename):
                     xml_text = data.decode("utf-8", errors="ignore")
-                    namespaces = _extract_namespaces(xml_text)
-                    _register_namespaces(namespaces)
-                    root = ET.fromstring(xml_text)
-                    text_elements = [
-                        elem
-                        for elem in root.iter()
-                        if _local_name(elem.tag) in {"t", "instrText"}
-                    ]
-                    run_texts = [
-                        (elem.text or "").replace("\u00A0", " ")
-                        for elem in text_elements
-                    ]
+                    matches, run_texts = extract_text_nodes(xml_text)
                     updated_texts, replacements_made = _replace_in_text_chunks(
                         run_texts, xml_replacements, counts
                     )
-                    if replacements_made:
-                        for elem, text in zip(text_elements, updated_texts):
-                            elem.text = text
-                        xml_declaration = xml_text.lstrip().startswith("<?xml")
-                        updated_xml = ET.tostring(
-                            root, encoding="utf-8", xml_declaration=xml_declaration
-                        )
-                        data = updated_xml
+                    if replacements_made and matches:
+                        parts: List[str] = []
+                        last_end = 0
+                        for match, new_text in zip(matches, updated_texts):
+                            parts.append(xml_text[last_end:match.start()])
+                            start_tag = match.group(1)
+                            end_tag = match.group(3)
+                            encoded = escape(new_text, quote=False)
+                            parts.append(f"{start_tag}{encoded}{end_tag}")
+                            last_end = match.end()
+                        parts.append(xml_text[last_end:])
+                        data = "".join(parts).encode("utf-8")
                 target.writestr(info, data)
 
     _replace_with_retries(temp_path, docx_path)

@@ -40,3 +40,5 @@
 - Added `xml_replace_templates.py` for isolated XML-only replacement testing.
 - XML replacement now joins XML text nodes to replace across tags.
 - XML replacement now tolerates whitespace differences in XML text nodes.
+- XML replacement now preserves raw XML structure to avoid Word recovery prompts.
+- XML replacement skips mc:Fallback sections to prevent double-counted reports.
