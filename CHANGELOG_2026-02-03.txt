@@ -42,3 +42,4 @@
 - XML replacement now tolerates whitespace differences in XML text nodes.
 - XML replacement now preserves raw XML structure to avoid Word recovery prompts.
 - XML replacement skips mc:Fallback sections to prevent double-counted reports.
+- XML replacement now preserves unchanged text nodes to avoid XML corruption.

@@ -324,11 +324,11 @@ def apply_xml_replacements(
         # Only operate on Word XML parts, optionally skipping headers/footers.
         if not filename.startswith("word/") or not filename.endswith(".xml"):
             return False
-        if not include_headers_footers and (
-            filename.startswith("word/header") or filename.startswith("word/footer")
-        ):
-            return False
-        return True
+        return (
+            include_headers_footers
+            or not filename.startswith("word/header")
+            and not filename.startswith("word/footer")
+        )
 
     def is_in_fallback(position: int, ranges: List[Tuple[int, int]]) -> bool:
         for start, end in ranges:
@@ -336,13 +336,16 @@ def apply_xml_replacements(
                 return True
         return False
 
-    def extract_text_nodes(xml_text: str) -> Tuple[List[re.Match[str]], List[str]]:
+    def extract_text_nodes(
+        xml_text: str,
+    ) -> Tuple[List[re.Match[str]], List[str], List[str]]:
         fallback_ranges = [
             (match.start(), match.end())
             for match in fallback_pattern.finditer(xml_text)
         ]
         matches: List[re.Match[str]] = []
         texts: List[str] = []
+        raw_texts: List[str] = []
         for match in text_node_pattern.finditer(xml_text):
             if is_in_fallback(match.start(), fallback_ranges):
                 continue
@@ -350,7 +353,24 @@ def apply_xml_replacements(
             raw_text = match.group("text")
             decoded = unescape(raw_text).replace("\u00A0", " ")
             texts.append(decoded)
-        return matches, texts
+            raw_texts.append(raw_text)
+        return matches, texts, raw_texts
+
+    def encode_xml_text(text: str) -> str:
+        encoded_parts: List[str] = []
+        for ch in text:
+            code = ord(ch)
+            if ch == "&":
+                encoded_parts.append("&amp;")
+            elif ch == "<":
+                encoded_parts.append("&lt;")
+            elif ch == ">":
+                encoded_parts.append("&gt;")
+            elif code in {0x9, 0xA, 0xD} or 0x20 <= code <= 0xD7FF or 0xE000 <= code <= 0xFFFD:
+                encoded_parts.append(ch)
+            else:
+                encoded_parts.append(f"&#x{code:X};")
+        return "".join(encoded_parts)
 
     if not apply_changes:
         # Read-only mode: count matches without writing any files.
@@ -359,30 +379,35 @@ def apply_xml_replacements(
                 if not should_process(info.filename):
                     continue
                 xml_text = source.read(info.filename).decode("utf-8", errors="ignore")
-                _, run_texts = extract_text_nodes(xml_text)
+                _, run_texts, _ = extract_text_nodes(xml_text)
                 _replace_in_text_chunks(run_texts, xml_replacements, counts)
         return counts
 
     # Write a new zip to a temp file, then replace the original.
-    temp_path = docx_path.with_suffix(docx_path.suffix + ".tmp")
+    temp_path = docx_path.with_suffix(f"{docx_path.suffix}.tmp")
     with zipfile.ZipFile(docx_path, "r") as source:
         with zipfile.ZipFile(temp_path, "w") as target:
             for info in source.infolist():
                 data = source.read(info.filename)
                 if should_process(info.filename):
                     xml_text = data.decode("utf-8", errors="ignore")
-                    matches, run_texts = extract_text_nodes(xml_text)
+                    matches, run_texts, raw_texts = extract_text_nodes(xml_text)
                     updated_texts, replacements_made = _replace_in_text_chunks(
                         run_texts, xml_replacements, counts
                     )
                     if replacements_made and matches:
                         parts: List[str] = []
                         last_end = 0
-                        for match, new_text in zip(matches, updated_texts):
+                        for match, new_text, original_text, decoded_text in zip(
+                            matches, updated_texts, raw_texts, run_texts
+                        ):
                             parts.append(xml_text[last_end:match.start()])
                             start_tag = match.group(1)
                             end_tag = match.group(3)
-                            encoded = escape(new_text, quote=False)
+                            if new_text == decoded_text:
+                                encoded = original_text
+                            else:
+                                encoded = encode_xml_text(new_text)
                             parts.append(f"{start_tag}{encoded}{end_tag}")
                             last_end = match.end()
                         parts.append(xml_text[last_end:])
@@ -429,10 +454,14 @@ def _find_run_index(run_spans: List[Tuple[int, int]], position: int) -> int:
     for idx, (start, end) in enumerate(run_spans):
         if start <= position < end:
             return idx
-    for idx in range(len(run_spans) - 1, -1, -1):
-        if run_spans[idx][0] != run_spans[idx][1]:
-            return idx
-    return 0
+    return next(
+        (
+            idx
+            for idx in range(len(run_spans) - 1, -1, -1)
+            if run_spans[idx][0] != run_spans[idx][1]
+        ),
+        0,
+    )
 
 
 # Replace the text in the paragraph
