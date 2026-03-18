@@ -241,6 +241,7 @@ def _replace_in_text_chunks(
             break
         full_text = "".join(texts)
 
+        # Find the earliest match among all replacement patterns.
         earliest_match = None
         earliest_index = -1
         for idx, replacement in enumerate(replacements):
@@ -290,6 +291,8 @@ def apply_xml_replacements(
     ignore_case: bool,
     include_headers_footers: bool,
     apply_changes: bool,
+    debug_log: Path | None = None,
+    doc_label: str | None = None,
 ) -> List[int]:
     # Replace across XML text nodes without reserializing the full XML tree.
     # This keeps the original XML structure intact and avoids Word warnings.
@@ -372,6 +375,47 @@ def apply_xml_replacements(
                 encoded_parts.append(f"&#x{code:X};")
         return "".join(encoded_parts)
 
+    def log_xml_debug(
+        part_name: str,
+        match: re.Match[str],
+        node_index: int,
+        old_raw: str,
+        old_decoded: str,
+        new_decoded: str,
+        new_encoded: str,
+    ) -> None:
+        if not debug_log:
+            return
+        debug_log.parent.mkdir(parents=True, exist_ok=True)
+        exists = debug_log.exists()
+        with debug_log.open("a", newline="", encoding="utf-8") as handle:
+            writer = csv.writer(handle)
+            if not exists:
+                writer.writerow(
+                    [
+                        "document",
+                        "part",
+                        "tag",
+                        "node_index",
+                        "old_raw",
+                        "old_decoded",
+                        "new_decoded",
+                        "new_encoded",
+                    ]
+                )
+            writer.writerow(
+                [
+                    doc_label or "",
+                    part_name,
+                    match.group("tag"),
+                    node_index,
+                    old_raw,
+                    old_decoded,
+                    new_decoded,
+                    new_encoded,
+                ]
+            )
+
     if not apply_changes:
         # Read-only mode: count matches without writing any files.
         with zipfile.ZipFile(docx_path, "r") as source:
@@ -380,7 +424,10 @@ def apply_xml_replacements(
                     continue
                 xml_text = source.read(info.filename).decode("utf-8", errors="ignore")
                 _, run_texts, _ = extract_text_nodes(xml_text)
-                _replace_in_text_chunks(run_texts, xml_replacements, counts)
+                local_counts = [0] * len(xml_replacements)
+                _replace_in_text_chunks(run_texts, xml_replacements, local_counts)
+                for idx, value in enumerate(local_counts):
+                    counts[idx] += value
         return counts
 
     # Write a new zip to a temp file, then replace the original.
@@ -392,14 +439,17 @@ def apply_xml_replacements(
                 if should_process(info.filename):
                     xml_text = data.decode("utf-8", errors="ignore")
                     matches, run_texts, raw_texts = extract_text_nodes(xml_text)
+                    local_counts = [0] * len(xml_replacements)
                     updated_texts, replacements_made = _replace_in_text_chunks(
-                        run_texts, xml_replacements, counts
+                        run_texts, xml_replacements, local_counts
                     )
+                    for idx, value in enumerate(local_counts):
+                        counts[idx] += value
                     if replacements_made and matches:
                         parts: List[str] = []
                         last_end = 0
-                        for match, new_text, original_text, decoded_text in zip(
-                            matches, updated_texts, raw_texts, run_texts
+                        for node_index, (match, new_text, original_text, decoded_text) in enumerate(
+                            zip(matches, updated_texts, raw_texts, run_texts)
                         ):
                             parts.append(xml_text[last_end:match.start()])
                             start_tag = match.group(1)
@@ -408,6 +458,16 @@ def apply_xml_replacements(
                                 encoded = original_text
                             else:
                                 encoded = encode_xml_text(new_text)
+                            if new_text != decoded_text:
+                                log_xml_debug(
+                                    info.filename,
+                                    match,
+                                    node_index,
+                                    original_text,
+                                    decoded_text,
+                                    new_text,
+                                    encoded,
+                                )
                             parts.append(f"{start_tag}{encoded}{end_tag}")
                             last_end = match.end()
                         parts.append(xml_text[last_end:])
@@ -560,6 +620,8 @@ def process_document(
     join_runs: bool,
     xml_replace: bool,
     ignore_case: bool,
+    xml_debug_path: Path | None,
+    doc_label: str,
 ) -> Tuple[bool, int, List[int]]:
     # Load the document from the input path
     doc = Document(str(input_path))
@@ -623,6 +685,8 @@ def process_document(
                 ignore_case=ignore_case,
                 include_headers_footers=include_headers_footers,
                 apply_changes=False,
+                debug_log=xml_debug_path,
+                doc_label=doc_label,
             )
             for idx, count in enumerate(xml_counts):
                 if count:
@@ -653,6 +717,8 @@ def process_document(
             ignore_case=ignore_case,
             include_headers_footers=include_headers_footers,
             apply_changes=True,
+            debug_log=xml_debug_path,
+            doc_label=doc_label,
         )
         for idx, count in enumerate(xml_counts):
             if count:
@@ -742,6 +808,14 @@ def main() -> int:
         help="Also replace placeholders inside docx XML (text boxes/shapes).",
     )
     parser.add_argument(
+        "--xml-debug",
+        nargs="?",
+        const="__default__",
+        help=(
+            "Write XML debug log to path (default: xml_debug_log.csv in output dir)."
+        ),
+    )
+    parser.add_argument(
         "--join-runs",
         action="store_true",
         help=(
@@ -793,6 +867,15 @@ def main() -> int:
         if args.report
         else (input_dir if args.dry_run else output_dir) / "replacement_report.csv"
     )
+
+    xml_debug_path: Path | None = None
+    if args.xml_debug:
+        if args.xml_debug == "__default__":
+            xml_debug_path = (
+                (input_dir if args.dry_run else output_dir) / "xml_debug_log.csv"
+            )
+        else:
+            xml_debug_path = Path(args.xml_debug).resolve()
 
     # Load the lookup table
     replacements = load_lookup_table(
@@ -861,6 +944,10 @@ def main() -> int:
             xml_replace=args.xml_replace,
             # If ignore case is enabled, match case-insensitively
             ignore_case=args.ignore_case,
+            # Optional XML debug log path
+            xml_debug_path=xml_debug_path,
+            # Label for debug logs (relative path)
+            doc_label=str(rel_path),
         )
         # Increment the total count of replacements
         total_replacements += count

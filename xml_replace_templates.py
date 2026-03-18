@@ -77,6 +77,14 @@ def main() -> int:
             "Defaults to xml_replacement_report.csv in the output directory."
         ),
     )
+    parser.add_argument(
+        "--xml-debug",
+        nargs="?",
+        const="__default__",
+        help=(
+            "Write XML debug log to path (default: xml_debug_log.csv in output dir)."
+        ),
+    )
     args = parser.parse_args()
 
     input_dir = Path(args.input_dir).resolve()
@@ -93,6 +101,14 @@ def main() -> int:
         if args.report
         else (input_dir if args.dry_run else output_dir) / "xml_replacement_report.csv"
     )
+    xml_debug_path: Path | None = None
+    if args.xml_debug:
+        if args.xml_debug == "__default__":
+            xml_debug_path = (
+                (input_dir if args.dry_run else output_dir) / "xml_debug_log.csv"
+            )
+        else:
+            xml_debug_path = Path(args.xml_debug).resolve()
 
     # XML replacement uses literal matching (not regex) to avoid XML pattern errors.
     replacements = load_lookup_table(
@@ -131,6 +147,8 @@ def main() -> int:
                 ignore_case=args.ignore_case,
                 include_headers_footers=not args.skip_headers_footers,
                 apply_changes=False,
+                debug_log=xml_debug_path,
+                doc_label=str(rel_path),
             )
         else:
             target_path.parent.mkdir(parents=True, exist_ok=True)
@@ -141,6 +159,8 @@ def main() -> int:
                 ignore_case=args.ignore_case,
                 include_headers_footers=not args.skip_headers_footers,
                 apply_changes=True,
+                debug_log=xml_debug_path,
+                doc_label=str(rel_path),
             )
 
         count = sum(counts)

@@ -43,3 +43,4 @@
 - XML replacement now preserves raw XML structure to avoid Word recovery prompts.
 - XML replacement skips mc:Fallback sections to prevent double-counted reports.
 - XML replacement now preserves unchanged text nodes to avoid XML corruption.
+- Added `--xml-debug` to log XML node replacements for debugging.
