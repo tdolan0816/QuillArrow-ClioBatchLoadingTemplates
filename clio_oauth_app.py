@@ -28,10 +28,10 @@ app = Flask(__name__)
 
 
 def require_env(name: str) -> str:
-    value = os.environ.get(name)
-    if not value:
+    if value := os.environ.get(name):
+        return value
+    else:
         raise RuntimeError(f"Missing required environment variable: {name}")
-    return value
 
 
 def get_auth_base() -> str:
@@ -93,8 +93,7 @@ def login():
         "redirect_uri": redirect_uri,
         "state": state,
     }
-    scope = os.environ.get("CLIO_SCOPE")
-    if scope:
+    if scope := os.environ.get("CLIO_SCOPE"):
         params["scope"] = scope
 
     auth_url = f"{auth_base}/oauth/authorize?{urlencode(params)}"

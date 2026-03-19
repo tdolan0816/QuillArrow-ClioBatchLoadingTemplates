@@ -235,7 +235,8 @@ def _replace_in_text_chunks(
     safety_limit = 10000
     iterations = 0
     texts = list(run_texts)
-
+    
+    # sourcery skip: while-guard-to-condition
     while iterations < safety_limit:
         if not any(texts):
             break
@@ -416,13 +417,65 @@ def apply_xml_replacements(
                 ]
             )
 
+    def rebuild_xml(
+        xml_text: str,
+        matches: List[re.Match[str]],
+        updated_decoded: List[str],
+        original_decoded: List[str],
+        raw_texts: List[str],
+        part_name: str,
+    ) -> str:
+        """Splice updated node contents back into the original XML string.
+
+        Only nodes whose decoded text actually changed are re-encoded.
+        Everything else — including bytes between nodes — is taken verbatim
+        from xml_text so no structural XML is ever rewritten.
+        """
+        parts: List[str] = []
+        last_end = 0
+        for node_index, match in enumerate(matches):
+            # Append everything between the previous node and this one, unchanged.
+            parts.append(xml_text[last_end : match.start()])
+
+            new_decoded = updated_decoded[node_index]
+            orig_decoded = original_decoded[node_index]
+            raw = raw_texts[node_index]
+
+            if new_decoded == orig_decoded:
+                # Unchanged: splice the whole original element back verbatim.
+                parts.append(match.group(0))
+            else:
+                # Changed: encode new text and rebuild element with correct groups.
+                # group(1) = open tag, group(4) = close tag (group(3) = inner text).
+                encoded = encode_xml_text(new_decoded)
+                start_tag = match.group(1)
+                end_tag = match.group(4)
+                parts.append(f"{start_tag}{encoded}{end_tag}")
+
+                log_xml_debug(
+                    part_name,
+                    match,
+                    node_index,
+                    raw,
+                    orig_decoded,
+                    new_decoded,
+                    encoded,
+                )
+
+            last_end = match.end()
+
+        # Append everything after the last node, unchanged.
+        parts.append(xml_text[last_end:])
+        return "".join(parts)
+
     if not apply_changes:
         # Read-only mode: count matches without writing any files.
         with zipfile.ZipFile(docx_path, "r") as source:
             for info in source.infolist():
                 if not should_process(info.filename):
                     continue
-                xml_text = source.read(info.filename).decode("utf-8", errors="ignore")
+                # errors="replace" so no bytes silently vanish during decode.
+                xml_text = source.read(info.filename).decode("utf-8", errors="replace")
                 _, run_texts, _ = extract_text_nodes(xml_text)
                 local_counts = [0] * len(xml_replacements)
                 _replace_in_text_chunks(run_texts, xml_replacements, local_counts)
@@ -431,48 +484,50 @@ def apply_xml_replacements(
         return counts
 
     # Write a new zip to a temp file, then replace the original.
+    # Use a fresh ZipInfo for every entry — stale size/CRC/extra fields from
+    # the source (e.g. NTFS timestamps, ZIP64 fields) cause Word to refuse to
+    # open the file when the data size has changed.
     temp_path = docx_path.with_suffix(f"{docx_path.suffix}.tmp")
     with zipfile.ZipFile(docx_path, "r") as source:
-        with zipfile.ZipFile(temp_path, "w") as target:
+        with zipfile.ZipFile(temp_path, "w", compression=zipfile.ZIP_DEFLATED) as target:
             for info in source.infolist():
-                data = source.read(info.filename)
-                if should_process(info.filename):
-                    xml_text = data.decode("utf-8", errors="ignore")
-                    matches, run_texts, raw_texts = extract_text_nodes(xml_text)
-                    local_counts = [0] * len(xml_replacements)
-                    updated_texts, replacements_made = _replace_in_text_chunks(
-                        run_texts, xml_replacements, local_counts
+                raw_data = source.read(info.filename)
+
+                if not should_process(info.filename):
+                    # Non-XML or excluded part: copy verbatim with a clean ZipInfo.
+                    clean_info = zipfile.ZipInfo(
+                        filename=info.filename,
+                        date_time=info.date_time,
                     )
-                    for idx, value in enumerate(local_counts):
-                        counts[idx] += value
-                    if replacements_made and matches:
-                        parts: List[str] = []
-                        last_end = 0
-                        for node_index, (match, new_text, original_text, decoded_text) in enumerate(
-                            zip(matches, updated_texts, raw_texts, run_texts)
-                        ):
-                            parts.append(xml_text[last_end:match.start()])
-                            start_tag = match.group(1)
-                            end_tag = match.group(3)
-                            if new_text == decoded_text:
-                                encoded = original_text
-                            else:
-                                encoded = encode_xml_text(new_text)
-                            if new_text != decoded_text:
-                                log_xml_debug(
-                                    info.filename,
-                                    match,
-                                    node_index,
-                                    original_text,
-                                    decoded_text,
-                                    new_text,
-                                    encoded,
-                                )
-                            parts.append(f"{start_tag}{encoded}{end_tag}")
-                            last_end = match.end()
-                        parts.append(xml_text[last_end:])
-                        data = "".join(parts).encode("utf-8")
-                target.writestr(info, data)
+                    clean_info.compress_type = info.compress_type
+                    target.writestr(clean_info, raw_data)
+                    continue
+
+                xml_text = raw_data.decode("utf-8", errors="replace")
+                matches, run_texts, raw_texts = extract_text_nodes(xml_text)
+                local_counts = [0] * len(xml_replacements)
+                updated_texts, replacements_made = _replace_in_text_chunks(
+                    run_texts, xml_replacements, local_counts
+                )
+                for idx, value in enumerate(local_counts):
+                    counts[idx] += value
+
+                if replacements_made and matches:
+                    new_xml = rebuild_xml(
+                        xml_text, matches, updated_texts,
+                        run_texts, raw_texts, info.filename,
+                    )
+                    new_data = new_xml.encode("utf-8")
+                else:
+                    new_data = raw_data
+
+                # Always use a fresh ZipInfo with no stale metadata.
+                clean_info = zipfile.ZipInfo(
+                    filename=info.filename,
+                    date_time=info.date_time,
+                )
+                clean_info.compress_type = zipfile.ZIP_DEFLATED
+                target.writestr(clean_info, new_data)
 
     _replace_with_retries(temp_path, docx_path)
     return counts

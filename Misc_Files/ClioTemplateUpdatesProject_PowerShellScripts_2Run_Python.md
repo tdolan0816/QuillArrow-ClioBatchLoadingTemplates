@@ -40,13 +40,13 @@ python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_
 
 python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\inventory\_custom\_fields.py" `
 
-  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `
+&nbsp; --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `
 
-  --output "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\custom\_field\_inventory.xlsx" `
+&nbsp; --output "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\custom\_field\_inventory.xlsx" `
 
-  --deep-scan
+&nbsp; --deep-scan `
 
-
+&nbsp; --normalize-case
 
 
 
@@ -74,7 +74,31 @@ python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_
 
   --join-runs `
 
-  --ignore-case
+  --ignore-case `
+
+&nbsp; --xml-replace
+
+
+
+
+
+
+
+python mass\_update\_templates.py `
+
+--input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `
+
+--output-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" 
+
+--excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" 
+
+--sheet "LookupTable" 
+
+--literal 
+
+--ignore-case 
+
+--xml-replace
 
 
 
@@ -86,21 +110,21 @@ python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_
 
 python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\verify\_template\_updates.py" `
 
-&nbsp; --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
+  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
 
-&nbsp; --excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" `
+  --excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" `
 
-&nbsp; --sheet "LookupTable" `
+  --sheet "LookupTable" `
 
-&nbsp; --old-col "Old\_Value" `
+  --old-col "Old\_Value" `
 
-&nbsp; --new-col "New\_Value" `
+  --new-col "New\_Value" `
 
-&nbsp; --literal `
+  --literal `
 
-&nbsp; --ignore-case `
+  --ignore-case `
 
-&nbsp; --deep-scan
+  --deep-scan
 
 
 
@@ -112,23 +136,23 @@ python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_
 
 python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_sync.py" `
 
-&nbsp; --token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `
+  --token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `
 
-&nbsp; --verbose `
+  --verbose `
 
-&nbsp; upload `
+  upload `
 
-&nbsp; --manifest "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_manifest.json" `
+  --manifest "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_manifest.json" `
 
-&nbsp; --upload-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
+  --upload-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
 
-&nbsp; --template-upload-mode create `
+  --template-upload-mode create `
 
-&nbsp; --skip-unchanged `
+  --skip-unchanged `
 
-&nbsp; --skip-invalid `
+  --skip-invalid `
 
-&nbsp; --delete-old
+  --delete-old
 
 
 
@@ -164,17 +188,11 @@ $ids = @(
 
 foreach ($id in $ids) {
 
-&nbsp; Invoke-RestMethod -Method Delete `
+  Invoke-RestMethod -Method Delete `
 
-&nbsp;   -Headers $headers `
+    -Headers $headers `
 
-&nbsp;   -Uri "https://app.clio.com/api/v4/document\_templates/$id.json"
+    -Uri "https://app.clio.com/api/v4/document\_templates/$id.json"
 
 }
-
-
-
-
-
-
 

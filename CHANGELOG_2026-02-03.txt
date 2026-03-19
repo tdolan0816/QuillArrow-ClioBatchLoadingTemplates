@@ -44,3 +44,6 @@
 - XML replacement skips mc:Fallback sections to prevent double-counted reports.
 - XML replacement now preserves unchanged text nodes to avoid XML corruption.
 - Added `--xml-debug` to log XML node replacements for debugging.
+- Fixed XML Bug 1: wrong group reference for closing tag (group 3 vs group 4) that wrote inner text as the closing tag, corrupting XML.
+- Fixed XML Bug 2: changed nodes now compared to their own pre-replacement decoded text, not the wrong variable, preventing double-encoding of XML entities.
+- Fixed XML Bug 3: fresh ZipInfo for every ZIP entry so stale size/CRC/NTFS metadata never causes "Word experienced an error trying to open the file".
