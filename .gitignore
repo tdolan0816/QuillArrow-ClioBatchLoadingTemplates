@@ -214,12 +214,15 @@ Templates_Box/
 Testing_Files/
 Misc_Files/
 
-#JSON Files
+# JSON Files
 clio_templates_manifest.json
 clio_tokens.json
 
-#Temporary Reports/Excel Files
+# Temporary Reports/Excel Files
 custom_field_inventory.xlsx
 replacement_report.csv
 verification_report.csv
 CustomField_LookupTable.xlsx
+
+# Testing Files and Folders
+Testing_Files/
