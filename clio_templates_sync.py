@@ -221,7 +221,6 @@ def iter_pages(
     while True:
         # Send X-Page-Token header on all requests (empty string for first page).
         extra_headers = {"X-Page-Token": page_token if page_token else ""}
-
         response = request_json(
             session, "GET", url, params=params,
             max_retries=max_retries, extra_headers=extra_headers
@@ -235,12 +234,10 @@ def iter_pages(
         if isinstance(data, list):
             yield from data
 
-        # Clio returns the next page token in the X-Page-Token response header.
-        # An empty string means no more pages.
-        next_token = response.headers.get("X-Page-Token", "")
-        if not next_token:
+        if next_token := response.headers.get("X-Page-Token", ""):
+            page_token = next_token
+        else:
             break
-        page_token = next_token
 
 
 def sanitize_filename(name: str) -> str:
@@ -283,37 +280,72 @@ def try_list_document_templates(
     base_url: str,
     limit: int,
     max_retries: int,
+    verbose: bool = False,
 ) -> Tuple[Optional[List[Dict]], Optional[str]]:
     """
     Attempt to list templates using the document_templates endpoint.
 
     Returns (items, None) if supported, or (None, error_message) if not.
+    Uses X-Page-Token header pagination to fetch all pages.
     """
     candidate_urls = [
         f"{base_url}/document_templates",
         f"{base_url}/document_templates.json",
     ]
     fields = "document_category{id,name},filename,id"
+    params = {"limit": str(limit), "fields": fields}
     last_error = None
+
     for url in candidate_urls:
-        response = request_json(
-            session,
-            "GET",
-            url,
-            params={"limit": str(limit), "fields": fields},
-            max_retries=max_retries,
+        # Probe with a small request to check if the endpoint is available.
+        probe = request_json(
+            session, "GET", url, params=params, max_retries=max_retries,
+            extra_headers={"X-Page-Token": ""},
         )
-        if response.status_code in (404, 403):
-            last_error = response.text
+        if probe.status_code in (404, 403):
+            last_error = probe.text
             continue
-        if response.status_code != 200:
+        if probe.status_code != 200:
             raise RuntimeError(
-                f"Document templates list failed ({response.status_code}): {response.text}"
+                f"Document templates list failed ({probe.status_code}): {probe.text}"
             )
-        items = list(
-            iter_pages(session, url, {"limit": str(limit), "fields": fields}, max_retries)
-        )
+
+        # Endpoint works — collect all pages from here.
+        items: List[Dict] = []
+        page_num = 1
+        page_token = ""
+
+        while True:
+            extra_headers = {"X-Page-Token": page_token}
+            response = request_json(
+                session, "GET", url, params=params,
+                max_retries=max_retries, extra_headers=extra_headers,
+            )
+            if response.status_code != 200:
+                raise RuntimeError(
+                    f"Request failed on page {page_num} ({response.status_code}): "
+                    f"{response.text}"
+                )
+            payload = response.json()
+            data = payload.get("data", [])
+            if isinstance(data, list):
+                items.extend(data)
+            if verbose:
+                print(
+                    f"  [page {page_num}] received {len(data)} items "
+                    f"(total so far: {len(items)})"
+                )
+
+            next_token = response.headers.get("X-Page-Token", "")
+            if not next_token or next_token == page_token:
+                break
+            page_token = next_token
+            page_num += 1
+
+        if verbose:
+            print(f"  Listed {len(items)} templates across {page_num} page(s).")
         return items, None
+
     return None, last_error
 
 
@@ -883,7 +915,8 @@ def main_download(args, session):
 
     if args.source in ("auto", "document-templates"):
         templates, error = try_list_document_templates(
-            session, args.base_url, args.limit, args.max_retries
+            session, args.base_url, args.limit, args.max_retries,
+            verbose=getattr(args, "verbose", False),
         )
         if templates is not None:
             items = templates
