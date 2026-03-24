@@ -68,6 +68,7 @@ def request_json(
     - 5xx: retries with exponential backoff.
     - extra_headers: optional per-request headers (e.g. X-Page-Token for pagination).
     """
+    response: Optional[requests.Response] = None
     for attempt in range(max_retries + 1):
         response = session.request(
             method, url, params=params, data=data, files=files, headers=extra_headers
@@ -80,6 +81,8 @@ def request_json(
             time.sleep(2**attempt)
             continue
         return response
+    if response is None:
+        raise RuntimeError(f"No response received after {max_retries + 1} attempts for {method} {url}")
     return response
 
 
@@ -102,6 +105,7 @@ def request_token(
     url: str, data: Dict[str, str], max_retries: int
 ) -> requests.Response:
     """POST to the OAuth token endpoint with basic retry handling."""
+    response: Optional[requests.Response] = None
     for attempt in range(max_retries + 1):
         response = requests.post(url, data=data, timeout=30)
         if response.status_code == 429:
@@ -112,6 +116,8 @@ def request_token(
             time.sleep(2**attempt)
             continue
         return response
+    if response is None:
+        raise RuntimeError(f"No response received after {max_retries + 1} attempts for POST {url}")
     return response
 
 
@@ -176,19 +182,27 @@ def resolve_access_token(args: argparse.Namespace) -> str:
     payload = load_token_file(token_path)
 
     if token_expired(payload):
-        refresh_access_token(payload, args, token_path)
+        _handle_token_refresh(payload, args, token_path)
     if access_token := payload.get("access_token"):
         return access_token
     else:
         raise RuntimeError("Token file does not include an access_token.")
 
 
-def refresh_access_token(payload, args, token_path):
+def _handle_token_refresh(payload, args, token_path):
     # Attempt a refresh if the access token is expired.
-    if refresh_token := payload.get("refresh_token"):
-        return refresh_token
-    else:
+    refresh_tok = payload.get("refresh_token")
+    if not refresh_tok:
         raise RuntimeError("Access token expired and no refresh token found in token file.")
+    client_id = os.environ.get("CLIO_CLIENT_ID", "")
+    client_secret = os.environ.get("CLIO_CLIENT_SECRET", "")
+    auth_base = getattr(args, "auth_base", DEFAULT_AUTH_BASE)
+    max_retries = getattr(args, "max_retries", 3)
+    new_payload = refresh_access_token(
+        auth_base, client_id, client_secret, refresh_tok, max_retries
+    )
+    payload.update(new_payload)
+    write_token_file(token_path, payload)
 
 def iter_pages(
     session: requests.Session,
