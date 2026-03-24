@@ -172,15 +172,14 @@ def resolve_access_token(args: argparse.Namespace) -> str:
     payload = load_token_file(token_path)
 
     if token_expired(payload):
-        resolve_access_token(payload, args, token_path)
+        refresh_access_token(payload, args, token_path)
     if access_token := payload.get("access_token"):
         return access_token
     else:
         raise RuntimeError("Token file does not include an access_token.")
 
 
-# TODO Rename this here and in `resolve_access_token`
-def resolve_access_token(payload, args, token_path):
+def refresh_access_token(payload, args, token_path):
     # Attempt a refresh if the access token is expired.
     if refresh_token := payload.get("refresh_token"):
         return refresh_token
