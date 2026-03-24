@@ -47,3 +47,4 @@
 - Fixed XML Bug 1: wrong group reference for closing tag (group 3 vs group 4) that wrote inner text as the closing tag, corrupting XML.
 - Fixed XML Bug 2: changed nodes now compared to their own pre-replacement decoded text, not the wrong variable, preventing double-encoding of XML entities.
 - Fixed XML Bug 3: fresh ZipInfo for every ZIP entry so stale size/CRC/NTFS metadata never causes "Word experienced an error trying to open the file".
+- Fixed pagination in clio_templates_sync.py: iter_pages now uses X-Page-Token request/response headers (Clio's actual pagination mechanism) instead of a query parameter, enabling downloads beyond 200 templates.

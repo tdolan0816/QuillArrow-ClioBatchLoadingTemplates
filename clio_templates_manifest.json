@@ -1,22 +1,6 @@
 [
   {
-    "id": "10278755",
-    "name": "Verifications by Plaintiff (SROG, Set One).docx",
-    "source": "document-templates",
-    "file_name": "Verifications by Plaintiff (SROG, Set One).docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Verifications by Plaintiff (SROG, Set One).docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10278770",
-    "name": "2P's Amended Responses to RFPs - FCA.docx",
-    "source": "document-templates",
-    "file_name": "2P's Amended Responses to RFPs - FCA.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\2P's Amended Responses to RFPs - FCA.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10278830",
+    "id": "10285940",
     "name": "(AB GM) RFP Set ONE (v3; Single P).docx",
     "source": "document-templates",
     "file_name": "(AB GM) RFP Set ONE (v3; Single P).docx",
@@ -24,19 +8,1595 @@
     "document_category_id": null
   },
   {
-    "id": "10279085",
-    "name": "1P's Amended Responses to RFPs - FCA.docx",
+    "id": "10285955",
+    "name": "(AB) GM RFP Set ONE (NL).docx",
     "source": "document-templates",
-    "file_name": "1P's Amended Responses to RFPs - FCA.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\1P's Amended Responses to RFPs - FCA.docx",
+    "file_name": "(AB) GM RFP Set ONE (NL).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(AB) GM RFP Set ONE (NL).docx",
     "document_category_id": null
   },
   {
-    "id": "10279100",
+    "id": "10285970",
+    "name": "(AB) NL Decl ISO MTC RFP Without Obj (1).docx",
+    "source": "document-templates",
+    "file_name": "(AB) NL Decl ISO MTC RFP Without Obj (1).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(AB) NL Decl ISO MTC RFP Without Obj (1).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10285985",
+    "name": "(AB) NL MTC Responses Without Objections to RFPs.docx",
+    "source": "document-templates",
+    "file_name": "(AB) NL MTC Responses Without Objections to RFPs.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(AB) NL MTC Responses Without Objections to RFPs.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286000",
+    "name": "(AB) NL Proposed order ISO MTC Responses to RFPs Without Objection.docx",
+    "source": "document-templates",
+    "file_name": "(AB) NL Proposed order ISO MTC Responses to RFPs Without Objection.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(AB) NL Proposed order ISO MTC Responses to RFPs Without Objection.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286015",
+    "name": "(AHM) MIL - Honda Dispute Resolution Civil Penalities (Multi Ptf).docx",
+    "source": "document-templates",
+    "file_name": "(AHM) MIL - Honda Dispute Resolution Civil Penalities (Multi Ptf).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(AHM) MIL - Honda Dispute Resolution Civil Penalities (Multi Ptf).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286030",
+    "name": "(AHM) MIL - Honda Dispute Resolution Civil Penalities (Single Ptf).docx",
+    "source": "document-templates",
+    "file_name": "(AHM) MIL - Honda Dispute Resolution Civil Penalities (Single Ptf).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(AHM) MIL - Honda Dispute Resolution Civil Penalities (Single Ptf).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286045",
+    "name": "(AHM) MIL PO - Honda Dispute Resolution Civil Penalties (Single Ptf).docx",
+    "source": "document-templates",
+    "file_name": "(AHM) MIL PO - Honda Dispute Resolution Civil Penalties (Single Ptf).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(AHM) MIL PO - Honda Dispute Resolution Civil Penalties (Single Ptf).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286060",
+    "name": "(GM) MIL 1-Affirmative Duty (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 1-Affirmative Duty (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 1-Affirmative Duty (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286075",
+    "name": "(GM) MIL 1-Affirmative Duty (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 1-Affirmative Duty (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 1-Affirmative Duty (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286090",
+    "name": "(GM) MIL 2-Defendant Fixed Vehicle Number of Repair Attempts (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 2-Defendant Fixed Vehicle Number of Repair Attempts (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 2-Defendant Fixed Vehicle Number of Repair Attempts (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286105",
+    "name": "(GM) MIL 2-Defendant Fixed Vehicle Number of Repair Attempts (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 2-Defendant Fixed Vehicle Number of Repair Attempts (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 2-Defendant Fixed Vehicle Number of Repair Attempts (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286120",
+    "name": "(GM) MIL 3-Waiver of Implied Warranty (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 3-Waiver of Implied Warranty (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 3-Waiver of Implied Warranty (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286135",
+    "name": "(GM) MIL 3-Waiver of Implied Warranty (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 3-Waiver of Implied Warranty (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 3-Waiver of Implied Warranty (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286150",
+    "name": "(GM) MIL 4-Defenses Not Asserted at Deposition (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 4-Defenses Not Asserted at Deposition (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 4-Defenses Not Asserted at Deposition (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286165",
+    "name": "(GM) MIL 4-Defenses Not Asserted at Deposition (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 4-Defenses Not Asserted at Deposition (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 4-Defenses Not Asserted at Deposition (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286180",
+    "name": "(GM) MIL 5-Continued Use (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 5-Continued Use (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 5-Continued Use (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286195",
+    "name": "(GM) MIL 5-Continued Use (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 5-Continued Use (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 5-Continued Use (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286210",
+    "name": "(GM) MIL 6-Multiple Repair Attempts (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 6-Multiple Repair Attempts (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 6-Multiple Repair Attempts (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286225",
+    "name": "(GM) MIL 6-Multiple Repair Attempts (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 6-Multiple Repair Attempts (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 6-Multiple Repair Attempts (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286240",
+    "name": "(GM) MIL 7-Abuse, Neglect, Lack of Maintenance (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 7-Abuse, Neglect, Lack of Maintenance (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 7-Abuse, Neglect, Lack of Maintenance (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286255",
+    "name": "(GM) MIL 7-Abuse, Neglect, Lack of Maintenance (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 7-Abuse, Neglect, Lack of Maintenance (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 7-Abuse, Neglect, Lack of Maintenance (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286270",
+    "name": "(GM) MIL 8-Ability to Repair Vehicle (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 8-Ability to Repair Vehicle (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 8-Ability to Repair Vehicle (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286285",
+    "name": "(GM) MIL 8-Ability to Repair Vehicle (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 8-Ability to Repair Vehicle (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 8-Ability to Repair Vehicle (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286300",
+    "name": "(GM) MIL 9-Evidence Not Produced in Discovery (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 9-Evidence Not Produced in Discovery (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 9-Evidence Not Produced in Discovery (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286315",
+    "name": "(GM) MIL 9-Evidence Not Produced in Discovery (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 9-Evidence Not Produced in Discovery (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 9-Evidence Not Produced in Discovery (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286330",
+    "name": "(GM) MIL 10-Mileage Incurred Post-Warranty or Litigation (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 10-Mileage Incurred Post-Warranty or Litigation (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 10-Mileage Incurred Post-Warranty or Litigation (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286345",
+    "name": "(GM) MIL 10-Mileage Incurred Post-Warranty or Litigation (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "(GM) MIL 10-Mileage Incurred Post-Warranty or Litigation (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(GM) MIL 10-Mileage Incurred Post-Warranty or Litigation (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286360",
+    "name": "(Mult Plaintiffs) Meet and Confer Letter re CCP 871.26 Obj Only Responses.docx",
+    "source": "document-templates",
+    "file_name": "(Mult Plaintiffs) Meet and Confer Letter re CCP 871.26 Obj Only Responses.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(Mult Plaintiffs) Meet and Confer Letter re CCP 871.26 Obj Only Responses.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286375",
     "name": "(Proposed) Order to Continue Trial + POS (Plural).docx",
     "source": "document-templates",
     "file_name": "(Proposed) Order to Continue Trial + POS (Plural).docx",
     "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(Proposed) Order to Continue Trial + POS (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286390",
+    "name": "(Proposed) Order to Continue Trial + POS (Singular).docx",
+    "source": "document-templates",
+    "file_name": "(Proposed) Order to Continue Trial + POS (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(Proposed) Order to Continue Trial + POS (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286405",
+    "name": "(Single Plaintiff) Meet and Confer Letter re CCP 871.26 Obj Only Responses.docx",
+    "source": "document-templates",
+    "file_name": "(Single Plaintiff) Meet and Confer Letter re CCP 871.26 Obj Only Responses.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(Single Plaintiff) Meet and Confer Letter re CCP 871.26 Obj Only Responses.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286420",
+    "name": "(TESTRFD).docx",
+    "source": "document-templates",
+    "file_name": "(TESTRFD).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\(TESTRFD).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286435",
+    "name": "1 Person PS QA Lemon Disbursement.docx",
+    "source": "document-templates",
+    "file_name": "1 Person PS QA Lemon Disbursement.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\1 Person PS QA Lemon Disbursement.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286450",
+    "name": "1Ps Amended Responses to RFPs - FCA.docx",
+    "source": "document-templates",
+    "file_name": "1Ps Amended Responses to RFPs - FCA.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\1Ps Amended Responses to RFPs - FCA.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286465",
+    "name": "2 Person PS QA Lemon Disbursement.docx",
+    "source": "document-templates",
+    "file_name": "2 Person PS QA Lemon Disbursement.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\2 Person PS QA Lemon Disbursement.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286480",
+    "name": "2Ps Amended Responses to RFPs - FCA.docx",
+    "source": "document-templates",
+    "file_name": "2Ps Amended Responses to RFPs - FCA.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\2Ps Amended Responses to RFPs - FCA.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286495",
+    "name": "998 - Buyback.docx",
+    "source": "document-templates",
+    "file_name": "998 - Buyback.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\998 - Buyback.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286510",
+    "name": "998 - Cash.docx",
+    "source": "document-templates",
+    "file_name": "998 - Cash.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\998 - Cash.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286525",
+    "name": "998 Objection Letter - Multi Ptf.docx",
+    "source": "document-templates",
+    "file_name": "998 Objection Letter - Multi Ptf.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\998 Objection Letter - Multi Ptf.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286540",
+    "name": "998 Objection Letter - Single Ptf.docx",
+    "source": "document-templates",
+    "file_name": "998 Objection Letter - Single Ptf.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\998 Objection Letter - Single Ptf.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286555",
+    "name": "998 Objection Letter (no discovery).docx",
+    "source": "document-templates",
+    "file_name": "998 Objection Letter (no discovery).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\998 Objection Letter (no discovery).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286570",
+    "name": "2023 NNA CVT Opt-Out Letter.docx",
+    "source": "document-templates",
+    "file_name": "2023 NNA CVT Opt-Out Letter.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\2023 NNA CVT Opt-Out Letter.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286585",
+    "name": "17698-Sucuqui AB GM MTC PMK Declaration.docx",
+    "source": "document-templates",
+    "file_name": "17698-Sucuqui AB GM MTC PMK Declaration.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\17698-Sucuqui AB GM MTC PMK Declaration.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286600",
+    "name": "17698-Sucuqui AB GM MTC PMK Motion.docx",
+    "source": "document-templates",
+    "file_name": "17698-Sucuqui AB GM MTC PMK Motion.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\17698-Sucuqui AB GM MTC PMK Motion.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286615",
+    "name": "AB1755 Meet and Confer Letter RE Initial Deposition PMK (Multi P).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 Meet and Confer Letter RE Initial Deposition PMK (Multi P).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 Meet and Confer Letter RE Initial Deposition PMK (Multi P).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286630",
+    "name": "AB1755 Meet and Confer Letter RE Initial Deposition PMK (Single P).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 Meet and Confer Letter RE Initial Deposition PMK (Single P).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 Meet and Confer Letter RE Initial Deposition PMK (Single P).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286645",
+    "name": "AB1755 MTC INITIAL DISCLOSURE (Multiple Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 MTC INITIAL DISCLOSURE (Multiple Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 MTC INITIAL DISCLOSURE (Multiple Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286660",
+    "name": "AB1755 MTC INITIAL DISCLOSURE Declaration (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 MTC INITIAL DISCLOSURE Declaration (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 MTC INITIAL DISCLOSURE Declaration (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286675",
+    "name": "AB1755 MTC INITIAL DISCLOSURE Proposed Order (Multiple Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 MTC INITIAL DISCLOSURE Proposed Order (Multiple Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 MTC INITIAL DISCLOSURE Proposed Order (Multiple Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286690",
+    "name": "AB1755 PMK MTC Depo Declaration (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 PMK MTC Depo Declaration (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 PMK MTC Depo Declaration (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286705",
+    "name": "AB1755 PMK MTC Depo Points and Authorities (Multiple Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 PMK MTC Depo Points and Authorities (Multiple Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 PMK MTC Depo Points and Authorities (Multiple Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286720",
+    "name": "AB1755 PMK MTC Depo Proposed Order (Multiple Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 PMK MTC Depo Proposed Order (Multiple Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 PMK MTC Depo Proposed Order (Multiple Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286735",
+    "name": "AB1755 PMK Sanctions (Declaration).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 PMK Sanctions (Declaration).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 PMK Sanctions (Declaration).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286750",
+    "name": "AB1755 PMK Sanctions (Motion).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 PMK Sanctions (Motion).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 PMK Sanctions (Motion).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286765",
+    "name": "AB1755 PMK Sanctions (Proposed Order).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 PMK Sanctions (Proposed Order).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 PMK Sanctions (Proposed Order).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286780",
+    "name": "AB1755 PMK Sanctions (Separate Statement).docx",
+    "source": "document-templates",
+    "file_name": "AB1755 PMK Sanctions (Separate Statement).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\AB1755 PMK Sanctions (Separate Statement).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286795",
+    "name": "Alt Dates-Last Chance Template - Further Meet and Confer re Alternative PMK Deposition Dates (Multi P).docx",
+    "source": "document-templates",
+    "file_name": "Alt Dates-Last Chance Template - Further Meet and Confer re Alternative PMK Deposition Dates (Multi P).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Alt Dates-Last Chance Template - Further Meet and Confer re Alternative PMK Deposition Dates (Multi P).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286810",
+    "name": "Alt Dates-Last Chance Template - Further Meet and Confer re Alternative PMK Deposition Dates (Single P).docx",
+    "source": "document-templates",
+    "file_name": "Alt Dates-Last Chance Template - Further Meet and Confer re Alternative PMK Deposition Dates (Single P).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Alt Dates-Last Chance Template - Further Meet and Confer re Alternative PMK Deposition Dates (Single P).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286825",
+    "name": "Arb Mtn to Reconsider Declaration (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Arb Mtn to Reconsider Declaration (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Arb Mtn to Reconsider Declaration (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286840",
+    "name": "Arb Mtn to Reconsider Declaration (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Arb Mtn to Reconsider Declaration (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Arb Mtn to Reconsider Declaration (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286855",
+    "name": "Arb Mtn to Reconsider Motion (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Arb Mtn to Reconsider Motion (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Arb Mtn to Reconsider Motion (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286870",
+    "name": "Arb Mtn to Reconsider Motion (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Arb Mtn to Reconsider Motion (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Arb Mtn to Reconsider Motion (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286885",
+    "name": "Arb Mtn to Reconsider PO (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Arb Mtn to Reconsider PO (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Arb Mtn to Reconsider PO (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286900",
+    "name": "Arb Mtn to Reconsider PO (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Arb Mtn to Reconsider PO (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Arb Mtn to Reconsider PO (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286915",
+    "name": "BB FBM 1 Person Template.docx",
+    "source": "document-templates",
+    "file_name": "BB FBM 1 Person Template.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\BB FBM 1 Person Template.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286930",
+    "name": "BB FBM 2 Person Template.docx",
+    "source": "document-templates",
+    "file_name": "BB FBM 2 Person Template.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\BB FBM 2 Person Template.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286945",
+    "name": "Case Status Evaluation.docx",
+    "source": "document-templates",
+    "file_name": "Case Status Evaluation.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Case Status Evaluation.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286960",
+    "name": "Civ Case Cover (2026).docx",
+    "source": "document-templates",
+    "file_name": "Civ Case Cover (2026).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Civ Case Cover (2026).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286975",
+    "name": "CK 1 Person Template.docx",
+    "source": "document-templates",
+    "file_name": "CK 1 Person Template.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\CK 1 Person Template.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10286990",
+    "name": "CK 2 Person Template.docx",
+    "source": "document-templates",
+    "file_name": "CK 2 Person Template.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\CK 2 Person Template.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287005",
+    "name": "Class action suit Opt Out Letter - Chevy Bolt 2025.docx",
+    "source": "document-templates",
+    "file_name": "Class action suit Opt Out Letter - Chevy Bolt 2025.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Class action suit Opt Out Letter - Chevy Bolt 2025.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287020",
+    "name": "Class action suit opt out letter - FCA 2023.docx",
+    "source": "document-templates",
+    "file_name": "Class action suit opt out letter - FCA 2023.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Class action suit opt out letter - FCA 2023.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287035",
+    "name": "Class action suit Opt Out Letter - JLRNA 2024 Infotainment.docx",
+    "source": "document-templates",
+    "file_name": "Class action suit Opt Out Letter - JLRNA 2024 Infotainment.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Class action suit Opt Out Letter - JLRNA 2024 Infotainment.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287050",
+    "name": "Class action suit Opt Out Letter - VW 2023.docx",
+    "source": "document-templates",
+    "file_name": "Class action suit Opt Out Letter - VW 2023.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Class action suit Opt Out Letter - VW 2023.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287065",
+    "name": "Class action suit Opt Out Letter (AEB Volkswagen 2024).docx",
+    "source": "document-templates",
+    "file_name": "Class action suit Opt Out Letter (AEB Volkswagen 2024).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Class action suit Opt Out Letter (AEB Volkswagen 2024).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287080",
+    "name": "Class action suit Opt Out Letter (Eyesight SOA August 2025).docx",
+    "source": "document-templates",
+    "file_name": "Class action suit Opt Out Letter (Eyesight SOA August 2025).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Class action suit Opt Out Letter (Eyesight SOA August 2025).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287095",
+    "name": "Client Letter - Re Ds Discovery Requests on P.docx",
+    "source": "document-templates",
+    "file_name": "Client Letter - Re Ds Discovery Requests on P.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter - Re Ds Discovery Requests on P.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287110",
+    "name": "Client Letter - RFE for CVT (Altima).docx",
+    "source": "document-templates",
+    "file_name": "Client Letter - RFE for CVT (Altima).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter - RFE for CVT (Altima).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287125",
+    "name": "Client Letter - SPANISH - Afterlawsuit is filed.docx",
+    "source": "document-templates",
+    "file_name": "Client Letter - SPANISH - Afterlawsuit is filed.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter - SPANISH - Afterlawsuit is filed.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287140",
+    "name": "Client Letter (Rodriguez Update).docx",
+    "source": "document-templates",
+    "file_name": "Client Letter (Rodriguez Update).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter (Rodriguez Update).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287155",
+    "name": "Client Letter- Afterlawsuit is filed.docx",
+    "source": "document-templates",
+    "file_name": "Client Letter- Afterlawsuit is filed.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter- Afterlawsuit is filed.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287170",
+    "name": "Client Letter- Post CMC Hearing.docx",
+    "source": "document-templates",
+    "file_name": "Client Letter- Post CMC Hearing.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter- Post CMC Hearing.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287185",
+    "name": "Client Letter- Rejecting Offer.docx",
+    "source": "document-templates",
+    "file_name": "Client Letter- Rejecting Offer.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter- Rejecting Offer.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287200",
+    "name": "Client Letter- Welcome to QA (ENG) NON AB .docx",
+    "source": "document-templates",
+    "file_name": "Client Letter- Welcome to QA (ENG) NON AB .docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter- Welcome to QA (ENG) NON AB .docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287215",
+    "name": "Client Letter- Welcome to QA (ENG).docx",
+    "source": "document-templates",
+    "file_name": "Client Letter- Welcome to QA (ENG).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter- Welcome to QA (ENG).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287230",
+    "name": "Client Letter- Welcome to QA (SPA) (1) NON AB .docx",
+    "source": "document-templates",
+    "file_name": "Client Letter- Welcome to QA (SPA) (1) NON AB .docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter- Welcome to QA (SPA) (1) NON AB .docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287245",
+    "name": "Client Letter- Welcome to QA (SPA).docx",
+    "source": "document-templates",
+    "file_name": "Client Letter- Welcome to QA (SPA).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Client Letter- Welcome to QA (SPA).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287260",
+    "name": "Clio Test - Page 1.doc",
+    "source": "document-templates",
+    "file_name": "Clio Test - Page 1.doc.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 1.doc.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287275",
+    "name": "Clio Test - Page 2.doc",
+    "source": "document-templates",
+    "file_name": "Clio Test - Page 2.doc.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 2.doc.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287290",
+    "name": "Clio Test - Page 3 - New.doc",
+    "source": "document-templates",
+    "file_name": "Clio Test - Page 3 - New.doc.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 3 - New.doc.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287305",
+    "name": "Clio Test - Page 3.doc",
+    "source": "document-templates",
+    "file_name": "Clio Test - Page 3.doc.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 3.doc.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287320",
+    "name": "CLRA Demand Letter - Plural.docx",
+    "source": "document-templates",
+    "file_name": "CLRA Demand Letter - Plural.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\CLRA Demand Letter - Plural.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287335",
+    "name": "CLRA Demand Letter - Singular.docx",
+    "source": "document-templates",
+    "file_name": "CLRA Demand Letter - Singular.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\CLRA Demand Letter - Singular.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287350",
+    "name": "CMS - AB.docx",
+    "source": "document-templates",
+    "file_name": "CMS - AB.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\CMS - AB.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287365",
+    "name": "CMS - Non AB.docx",
+    "source": "document-templates",
+    "file_name": "CMS - Non AB.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\CMS - Non AB.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287380",
+    "name": "Complaint (Multiple Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Complaint (Multiple Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Complaint (Multiple Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287395",
+    "name": "Complaint (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Complaint (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Complaint (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287410",
+    "name": "Complaint Business (Multiple Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Complaint Business (Multiple Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Complaint Business (Multiple Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287425",
+    "name": "Complaint CPO (Multiple Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Complaint CPO (Multiple Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Complaint CPO (Multiple Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287440",
+    "name": "Complaint CPO (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Complaint CPO (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Complaint CPO (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287455",
+    "name": "Complaint CPO Negligent Repair (Multiple Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Complaint CPO Negligent Repair (Multiple Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Complaint CPO Negligent Repair (Multiple Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287470",
+    "name": "Complaint CPO Negligent Repair (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Complaint CPO Negligent Repair (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Complaint CPO Negligent Repair (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287485",
+    "name": "Complaint Negligent Repair (Multiple Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Complaint Negligent Repair (Multiple Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Complaint Negligent Repair (Multiple Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287500",
+    "name": "Complaint Negligent Repair (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Complaint Negligent Repair (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Complaint Negligent Repair (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287515",
+    "name": "Confirmed PMK - Meet and Confer letter re Outstanding PMK Depo GS Set 2 style (Multi P).docx",
+    "source": "document-templates",
+    "file_name": "Confirmed PMK - Meet and Confer letter re Outstanding PMK Depo GS Set 2 style (Multi P).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Confirmed PMK - Meet and Confer letter re Outstanding PMK Depo GS Set 2 style (Multi P).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287530",
+    "name": "Confirmed PMK Meet and Confer letter re Outstanding PMK Depo GS Set 2 style (Single P).docx",
+    "source": "document-templates",
+    "file_name": "Confirmed PMK Meet and Confer letter re Outstanding PMK Depo GS Set 2 style (Single P).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Confirmed PMK Meet and Confer letter re Outstanding PMK Depo GS Set 2 style (Single P).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287545",
+    "name": "Cover Letter for Discovery Re-Served thru Mail Service.docx",
+    "source": "document-templates",
+    "file_name": "Cover Letter for Discovery Re-Served thru Mail Service.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Cover Letter for Discovery Re-Served thru Mail Service.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287560",
+    "name": "Dec re MTC FROGs (plural).docx",
+    "source": "document-templates",
+    "file_name": "Dec re MTC FROGs (plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Dec re MTC FROGs (plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287575",
+    "name": "Dec re MTC FROGs (singular).docx",
+    "source": "document-templates",
+    "file_name": "Dec re MTC FROGs (singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Dec re MTC FROGs (singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287590",
+    "name": "Dec. re OC failure to Sign Joint Addendum (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Dec. re OC failure to Sign Joint Addendum (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Dec. re OC failure to Sign Joint Addendum (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287605",
+    "name": "Dec. re OC failure to Sign Joint Addendum (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Dec. re OC failure to Sign Joint Addendum (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Dec. re OC failure to Sign Joint Addendum (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287620",
+    "name": "Dec. re OC failure to Stip to ADR (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Dec. re OC failure to Stip to ADR (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Dec. re OC failure to Stip to ADR (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287635",
+    "name": "Dec. re OC failure to Stip to ADR (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Dec. re OC failure to Stip to ADR (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Dec. re OC failure to Stip to ADR (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287650",
+    "name": "Decl ISO Expert Designation of Plaintiffs Experts (Multi Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Decl ISO Expert Designation of Plaintiffs Experts (Multi Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl ISO Expert Designation of Plaintiffs Experts (Multi Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287665",
+    "name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (All 7).docx",
+    "source": "document-templates",
+    "file_name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (All 7).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (All 7).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287680",
+    "name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (BMW-MBUSA).docx",
+    "source": "document-templates",
+    "file_name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (BMW-MBUSA).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (BMW-MBUSA).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287695",
+    "name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (FCA).docx",
+    "source": "document-templates",
+    "file_name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (FCA).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (FCA).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287710",
+    "name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (FORD).docx",
+    "source": "document-templates",
+    "file_name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (FORD).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff) (FORD).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287725",
+    "name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl ISO Expert Designation of Plaintiffs Experts (Singular Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287740",
+    "name": "Decl ISO MTC RFP Set One (GM Version - Multi Ptf).docx",
+    "source": "document-templates",
+    "file_name": "Decl ISO MTC RFP Set One (GM Version - Multi Ptf).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl ISO MTC RFP Set One (GM Version - Multi Ptf).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287755",
+    "name": "Decl ISO MTC RFP Set One (GM Version - Single Ptf).docx",
+    "source": "document-templates",
+    "file_name": "Decl ISO MTC RFP Set One (GM Version - Single Ptf).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl ISO MTC RFP Set One (GM Version - Single Ptf).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287770",
+    "name": "Decl. (Atty) ISO MTC Further Resp to RFP (Improper Service Obj, Mail Service).docx",
+    "source": "document-templates",
+    "file_name": "Decl. (Atty) ISO MTC Further Resp to RFP (Improper Service Obj, Mail Service).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. (Atty) ISO MTC Further Resp to RFP (Improper Service Obj, Mail Service).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287785",
+    "name": "Decl. (Atty) ISO MTC Further Resp to RFP (Improper Service Obj, NO Mail Service).docx",
+    "source": "document-templates",
+    "file_name": "Decl. (Atty) ISO MTC Further Resp to RFP (Improper Service Obj, NO Mail Service).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. (Atty) ISO MTC Further Resp to RFP (Improper Service Obj, NO Mail Service).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287800",
+    "name": "Decl. ISO Ex Parte to Advance Motion for Stay GM (No MSJ) (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ex Parte to Advance Motion for Stay GM (No MSJ) (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ex Parte to Advance Motion for Stay GM (No MSJ) (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287815",
+    "name": "Decl. ISO Ex Parte to Advance Motion for Stay GM (No MSJ) (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ex Parte to Advance Motion for Stay GM (No MSJ) (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ex Parte to Advance Motion for Stay GM (No MSJ) (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287830",
+    "name": "Decl. ISO Motion to Stay GM (No MSJ) (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Motion to Stay GM (No MSJ) (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Motion to Stay GM (No MSJ) (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287845",
+    "name": "Decl. ISO Motion to Stay GM (No MSJ) (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Motion to Stay GM (No MSJ) (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Motion to Stay GM (No MSJ) (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287860",
+    "name": "Decl. ISO Motion to Stay Plural (GM).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Motion to Stay Plural (GM).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Motion to Stay Plural (GM).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287875",
+    "name": "Decl. ISO Motion to Stay Singular (GM).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Motion to Stay Singular (GM).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Motion to Stay Singular (GM).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287890",
+    "name": "Decl. ISO Ps Oppo to Demurrer FAC Plural (147p).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ps Oppo to Demurrer FAC Plural (147p).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ps Oppo to Demurrer FAC Plural (147p).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287905",
+    "name": "Decl. ISO Ps Oppo to Demurrer FAC Singular (147p).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ps Oppo to Demurrer FAC Singular (147p).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ps Oppo to Demurrer FAC Singular (147p).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287920",
+    "name": "Decl. ISO Ps Oppo to Demurrer GM (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ps Oppo to Demurrer GM (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ps Oppo to Demurrer GM (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287935",
+    "name": "Decl. ISO Ps Oppo to Demurrer GM (Single).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ps Oppo to Demurrer GM (Single).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ps Oppo to Demurrer GM (Single).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287950",
+    "name": "Decl. ISO Ps Oppo to MTS Punitive Damages FAC Plural (147p).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ps Oppo to MTS Punitive Damages FAC Plural (147p).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ps Oppo to MTS Punitive Damages FAC Plural (147p).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287965",
+    "name": "Decl. ISO Ps Oppo to MTS Punitive Damages FAC Singular (147p).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ps Oppo to MTS Punitive Damages FAC Singular (147p).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ps Oppo to MTS Punitive Damages FAC Singular (147p).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287980",
+    "name": "Decl. ISO Ps Oppo to MTS Punitive Damages GM (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ps Oppo to MTS Punitive Damages GM (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ps Oppo to MTS Punitive Damages GM (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10287995",
+    "name": "Decl. ISO Ps Oppo to MTS Punitive Damages GM (Single).docx",
+    "source": "document-templates",
+    "file_name": "Decl. ISO Ps Oppo to MTS Punitive Damages GM (Single).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. ISO Ps Oppo to MTS Punitive Damages GM (Single).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288010",
+    "name": "Decl. Template (Fed).docx",
+    "source": "document-templates",
+    "file_name": "Decl. Template (Fed).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Decl. Template (Fed).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288025",
+    "name": "Declaration - MTC RFP Set Two (Multi).docx",
+    "source": "document-templates",
+    "file_name": "Declaration - MTC RFP Set Two (Multi).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Declaration - MTC RFP Set Two (Multi).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288040",
+    "name": "Declaration - MTC RFP Set Two.docx",
+    "source": "document-templates",
+    "file_name": "Declaration - MTC RFP Set Two.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Declaration - MTC RFP Set Two.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288055",
+    "name": "Declaration ISO Motion for Attorneys fees costs and expenses - Template.docx",
+    "source": "document-templates",
+    "file_name": "Declaration ISO Motion for Attorneys fees costs and expenses - Template.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Declaration ISO Motion for Attorneys fees costs and expenses - Template.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288070",
+    "name": "Declaration ISO Motion for Change of Venue.docx",
+    "source": "document-templates",
+    "file_name": "Declaration ISO Motion for Change of Venue.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Declaration ISO Motion for Change of Venue.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288085",
+    "name": "Declaration ISO Motion to Enforce Settlement (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Declaration ISO Motion to Enforce Settlement (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Declaration ISO Motion to Enforce Settlement (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288100",
+    "name": "Declaration of Successor.docx",
+    "source": "document-templates",
+    "file_name": "Declaration of Successor.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Declaration of Successor.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288115",
+    "name": "Declaration re OSC re Dismissal (Surrender or Checks).docx",
+    "source": "document-templates",
+    "file_name": "Declaration re OSC re Dismissal (Surrender or Checks).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Declaration re OSC re Dismissal (Surrender or Checks).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288130",
+    "name": "Declaration to Continue OSC re Dismissal - Outstanding Fees.docx",
+    "source": "document-templates",
+    "file_name": "Declaration to Continue OSC re Dismissal - Outstanding Fees.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Declaration to Continue OSC re Dismissal - Outstanding Fees.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288145",
+    "name": "Declaration to Continue OSC re Dismissal.docx",
+    "source": "document-templates",
+    "file_name": "Declaration to Continue OSC re Dismissal.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Declaration to Continue OSC re Dismissal.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288160",
+    "name": "Demand for Exchange of Expert (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "Demand for Exchange of Expert (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Demand for Exchange of Expert (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288175",
+    "name": "Demand for Exchange of Expert (Singular Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Demand for Exchange of Expert (Singular Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Demand for Exchange of Expert (Singular Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288190",
+    "name": "Depo Sub for Production of Documents (Selling DLR).docx",
+    "source": "document-templates",
+    "file_name": "Depo Sub for Production of Documents (Selling DLR).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Depo Sub for Production of Documents (Selling DLR).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288205",
+    "name": "Depo Sub for Production of Documents (Serv DLR 1) (1).docx",
+    "source": "document-templates",
+    "file_name": "Depo Sub for Production of Documents (Serv DLR 1) (1).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Depo Sub for Production of Documents (Serv DLR 1) (1).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288220",
+    "name": "Depo Sub for Production of Documents (Serv DLR 2) (1) (1).docx",
+    "source": "document-templates",
+    "file_name": "Depo Sub for Production of Documents (Serv DLR 2) (1) (1).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Depo Sub for Production of Documents (Serv DLR 2) (1) (1).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288235",
+    "name": "Depo Sub for Production of Documents (Serv DLR 3) (1).docx",
+    "source": "document-templates",
+    "file_name": "Depo Sub for Production of Documents (Serv DLR 3) (1).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Depo Sub for Production of Documents (Serv DLR 3) (1).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288250",
+    "name": "Depo Sub for Production of Documents (Serv DLR 4) (1).docx",
+    "source": "document-templates",
+    "file_name": "Depo Sub for Production of Documents (Serv DLR 4) (1).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Depo Sub for Production of Documents (Serv DLR 4) (1).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288265",
+    "name": "Eastern Federal Complaint CPO Plural.docx",
+    "source": "document-templates",
+    "file_name": "Eastern Federal Complaint CPO Plural.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Eastern Federal Complaint CPO Plural.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288280",
+    "name": "Eastern Federal Complaint CPO Singular.docx",
+    "source": "document-templates",
+    "file_name": "Eastern Federal Complaint CPO Singular.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Eastern Federal Complaint CPO Singular.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288295",
+    "name": "Eastern Federal Complaint New Plural.docx",
+    "source": "document-templates",
+    "file_name": "Eastern Federal Complaint New Plural.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Eastern Federal Complaint New Plural.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288310",
+    "name": "Eastern Federal Complaint New Singular.docx",
+    "source": "document-templates",
+    "file_name": "Eastern Federal Complaint New Singular.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Eastern Federal Complaint New Singular.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288325",
+    "name": "Ex Parte Decl. ISO to Advance Motion for Stay MSJ (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte Decl. ISO to Advance Motion for Stay MSJ (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte Decl. ISO to Advance Motion for Stay MSJ (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288340",
+    "name": "Ex Parte Decl. ISO to Advance Motion for Stay MSJ (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte Decl. ISO to Advance Motion for Stay MSJ (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte Decl. ISO to Advance Motion for Stay MSJ (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288355",
+    "name": "Ex Parte PO re to Advance Motion for Stay MSJ (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte PO re to Advance Motion for Stay MSJ (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte PO re to Advance Motion for Stay MSJ (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288370",
+    "name": "Ex Parte PO re to Advance Motion for Stay MSJ (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte PO re to Advance Motion for Stay MSJ (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte PO re to Advance Motion for Stay MSJ (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288385",
+    "name": "Ex Parte to Adv. or Cont. (Proposed) Order (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Adv. or Cont. (Proposed) Order (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Adv. or Cont. (Proposed) Order (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288400",
+    "name": "Ex Parte to Adv. or Cont. (Proposed) Order MTC PMK MXNLLC.docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Adv. or Cont. (Proposed) Order MTC PMK MXNLLC.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Adv. or Cont. (Proposed) Order MTC PMK MXNLLC.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288415",
+    "name": "Ex Parte to Adv. or Cont. (Proposed) Order MTC RFP MXNLLC.docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Adv. or Cont. (Proposed) Order MTC RFP MXNLLC.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Adv. or Cont. (Proposed) Order MTC RFP MXNLLC.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288430",
+    "name": "Ex Parte to Adv. or Cont. Application (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Adv. or Cont. Application (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Adv. or Cont. Application (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288445",
+    "name": "Ex Parte to Adv. or Cont. Application MTC PMK MXNLLC.docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Adv. or Cont. Application MTC PMK MXNLLC.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Adv. or Cont. Application MTC PMK MXNLLC.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288460",
+    "name": "Ex Parte to Adv. or Cont. Application MTC RFP MXNLLC.docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Adv. or Cont. Application MTC RFP MXNLLC.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Adv. or Cont. Application MTC RFP MXNLLC.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288475",
+    "name": "Ex Parte to Adv. or Cont. Declaration (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Adv. or Cont. Declaration (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Adv. or Cont. Declaration (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288490",
+    "name": "Ex Parte to Adv. or Cont. Declaration MTC PMK MXNLLC.docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Adv. or Cont. Declaration MTC PMK MXNLLC.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Adv. or Cont. Declaration MTC PMK MXNLLC.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288505",
+    "name": "Ex Parte to Adv. or Cont. Declaration MTC RFP MXNLLC.docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Adv. or Cont. Declaration MTC RFP MXNLLC.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Adv. or Cont. Declaration MTC RFP MXNLLC.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288520",
+    "name": "Ex Parte to Advance Motion for Stay GM (No MSJ) (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Advance Motion for Stay GM (No MSJ) (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Advance Motion for Stay GM (No MSJ) (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288535",
+    "name": "Ex Parte to Advance Motion for Stay GM (No MSJ) (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Advance Motion for Stay GM (No MSJ) (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Advance Motion for Stay GM (No MSJ) (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288550",
+    "name": "Ex Parte to Advance Motion for Stay MSJ (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Advance Motion for Stay MSJ (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Advance Motion for Stay MSJ (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288565",
+    "name": "Ex Parte to Advance Motion for Stay MSJ (Singular).docx",
+    "source": "document-templates",
+    "file_name": "Ex Parte to Advance Motion for Stay MSJ (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Ex Parte to Advance Motion for Stay MSJ (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288580",
+    "name": "Expert Designation Fraud (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "Expert Designation Fraud (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Expert Designation Fraud (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288595",
+    "name": "Expert Designation Fraud (Singular Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Expert Designation Fraud (Singular Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Expert Designation Fraud (Singular Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288610",
+    "name": "Expert Designation of Experts (Singular Plaintiff) (All 7).docx",
+    "source": "document-templates",
+    "file_name": "Expert Designation of Experts (Singular Plaintiff) (All 7).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Expert Designation of Experts (Singular Plaintiff) (All 7).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288625",
+    "name": "Expert Designation of Experts (Singular Plaintiff) (BMW-MBUSA).docx",
+    "source": "document-templates",
+    "file_name": "Expert Designation of Experts (Singular Plaintiff) (BMW-MBUSA).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Expert Designation of Experts (Singular Plaintiff) (BMW-MBUSA).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288640",
+    "name": "Expert Designation of Experts (Singular Plaintiff) (FCA).docx",
+    "source": "document-templates",
+    "file_name": "Expert Designation of Experts (Singular Plaintiff) (FCA).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Expert Designation of Experts (Singular Plaintiff) (FCA).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288655",
+    "name": "Expert Designation of Experts (Singular Plaintiff) (FORD).docx",
+    "source": "document-templates",
+    "file_name": "Expert Designation of Experts (Singular Plaintiff) (FORD).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Expert Designation of Experts (Singular Plaintiff) (FORD).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288670",
+    "name": "Expert Designation of Lepper, Blasjo, Bounds, Sims, McDonald (Multi Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Expert Designation of Lepper, Blasjo, Bounds, Sims, McDonald (Multi Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Expert Designation of Lepper, Blasjo, Bounds, Sims, McDonald (Multi Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288685",
+    "name": "Expert Designation of Lepper, Blasjo, Bounds, Sims, McDonald (Singular Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Expert Designation of Lepper, Blasjo, Bounds, Sims, McDonald (Singular Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Expert Designation of Lepper, Blasjo, Bounds, Sims, McDonald (Singular Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288700",
+    "name": "FCA Missing Info Form re_opt out.docx",
+    "source": "document-templates",
+    "file_name": "FCA Missing Info Form re_opt out.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\FCA Missing Info Form re_opt out.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288715",
+    "name": "Federal Declaration re Order to Dismiss (Surrender or Checks).docx",
+    "source": "document-templates",
+    "file_name": "Federal Declaration re Order to Dismiss (Surrender or Checks).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Federal Declaration re Order to Dismiss (Surrender or Checks).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288730",
+    "name": "Federal NOD PMK RFP Set Two Template (Single P) (3 Def).docx",
+    "source": "document-templates",
+    "file_name": "Federal NOD PMK RFP Set Two Template (Single P) (3 Def).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Federal NOD PMK RFP Set Two Template (Single P) (3 Def).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288745",
+    "name": "Federal SUBP-DLR No. 1 (PMQ).docx",
+    "source": "document-templates",
+    "file_name": "Federal SUBP-DLR No. 1 (PMQ).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Federal SUBP-DLR No. 1 (PMQ).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288760",
+    "name": "Federal SUBP-DLR No. 1 (Tech).docx",
+    "source": "document-templates",
+    "file_name": "Federal SUBP-DLR No. 1 (Tech).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Federal SUBP-DLR No. 1 (Tech).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288775",
+    "name": "Federal SUBP-DLR No. 2 (PMQ).docx",
+    "source": "document-templates",
+    "file_name": "Federal SUBP-DLR No. 2 (PMQ).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Federal SUBP-DLR No. 2 (PMQ).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288790",
+    "name": "Federal SUBP-DLR No. 2 (Tech).docx",
+    "source": "document-templates",
+    "file_name": "Federal SUBP-DLR No. 2 (Tech).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Federal SUBP-DLR No. 2 (Tech).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288805",
+    "name": "Federal SUBP-DLR No. 3 (PMQ).docx",
+    "source": "document-templates",
+    "file_name": "Federal SUBP-DLR No. 3 (PMQ).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Federal SUBP-DLR No. 3 (PMQ).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288820",
+    "name": "Federal SUBP-DLR No. 4 (PMQ).docx",
+    "source": "document-templates",
+    "file_name": "Federal SUBP-DLR No. 4 (PMQ).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Federal SUBP-DLR No. 4 (PMQ).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288850",
+    "name": "Fee Agreement (Multiple Plaintiffs).docx",
+    "source": "document-templates",
+    "file_name": "Fee Agreement (Multiple Plaintiffs).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Fee Agreement (Multiple Plaintiffs).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288865",
+    "name": "Fee Agreement (Single Plaintiff).docx",
+    "source": "document-templates",
+    "file_name": "Fee Agreement (Single Plaintiff).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Fee Agreement (Single Plaintiff).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288880",
+    "name": "Fees Only MTES Declaration w Sanctions (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Fees Only MTES Declaration w Sanctions (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Fees Only MTES Declaration w Sanctions (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288895",
+    "name": "Fees Only MTES Declaration w Sanctions (Single).docx",
+    "source": "document-templates",
+    "file_name": "Fees Only MTES Declaration w Sanctions (Single).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Fees Only MTES Declaration w Sanctions (Single).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288910",
+    "name": "Fees Only MTES Proposed Order w Sanctions (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Fees Only MTES Proposed Order w Sanctions (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Fees Only MTES Proposed Order w Sanctions (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288925",
+    "name": "Fees Only MTES Proposed Order w Sanctions (Single).docx",
+    "source": "document-templates",
+    "file_name": "Fees Only MTES Proposed Order w Sanctions (Single).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Fees Only MTES Proposed Order w Sanctions (Single).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10288940",
+    "name": "Fees Only MTES w Sanctions (Plural).docx",
+    "source": "document-templates",
+    "file_name": "Fees Only MTES w Sanctions (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Fees Only MTES w Sanctions (Plural).docx",
     "document_category_id": null
   }
 ]

@@ -59,15 +59,19 @@ def request_json(
     data: Optional[Dict[str, str]] = None,
     files: Optional[Dict] = None,
     max_retries: int = 3,
+    extra_headers: Optional[Dict[str, str]] = None,
 ) -> requests.Response:
     """
     Make an HTTP request with retry handling for 429 and 5xx responses.
 
     - 429: respects Retry-After header.
     - 5xx: retries with exponential backoff.
+    - extra_headers: optional per-request headers (e.g. X-Page-Token for pagination).
     """
     for attempt in range(max_retries + 1):
-        response = session.request(method, url, params=params, data=data, files=files)
+        response = session.request(
+            method, url, params=params, data=data, files=files, headers=extra_headers
+        )
         if response.status_code == 429:
             retry_after = int(response.headers.get("Retry-After", "5"))
             time.sleep(retry_after)
@@ -195,34 +199,34 @@ def iter_pages(
     """
     Yield items across all pages for a list endpoint.
 
-    Uses Clio's paging token in the response metadata.
+    Clio uses the X-Page-Token response header to signal the next page.
+    We send it back as a request header on subsequent calls.
+    An empty string or missing header means we are on the last page.
     """
     page_token: Optional[str] = None
     while True:
-        page_params = dict(params)
-        if page_token:
-            page_params["page_token"] = page_token
+        # Send X-Page-Token header on all requests (empty string for first page).
+        extra_headers = {"X-Page-Token": page_token if page_token else ""}
 
         response = request_json(
-            session, "GET", url, params=page_params, max_retries=max_retries
+            session, "GET", url, params=params,
+            max_retries=max_retries, extra_headers=extra_headers
         )
         if response.status_code != 200:
             raise RuntimeError(
                 f"Request failed ({response.status_code}): {response.text}"
             )
         payload = response.json()
-        # Get the data from the payload
         data = payload.get("data", [])
-        # If the data is a list, iterate through the items and yield the items
         if isinstance(data, list):
-            # Iterate through the items and yield the items
             yield from data
-        # Get the next page token from the payload
-        page_token = payload.get("meta", {}).get("next_page_token")
-        if not page_token:
+
+        # Clio returns the next page token in the X-Page-Token response header.
+        # An empty string means no more pages.
+        next_token = response.headers.get("X-Page-Token", "")
+        if not next_token:
             break
-        page_token = page_token
-    return None
+        page_token = next_token
 
 
 def sanitize_filename(name: str) -> str:
