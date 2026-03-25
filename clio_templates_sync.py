@@ -310,37 +310,86 @@ def try_list_document_templates(
                 f"Document templates list failed ({probe.status_code}): {probe.text}"
             )
 
-        # Endpoint works — collect all pages from here.
+        # Endpoint works — use the probe response as page 1 and paginate.
         items: List[Dict] = []
-        page_num = 1
-        page_token = ""
+        page_num = 0
+        response = probe
 
         while True:
-            extra_headers = {"X-Page-Token": page_token}
-            response = request_json(
-                session, "GET", url, params=params,
-                max_retries=max_retries, extra_headers=extra_headers,
-            )
-            if response.status_code != 200:
-                raise RuntimeError(
-                    f"Request failed on page {page_num} ({response.status_code}): "
-                    f"{response.text}"
-                )
+            page_num += 1
             payload = response.json()
             data = payload.get("data", [])
+            meta = payload.get("meta", {})
+            paging = meta.get("paging", {})
             if isinstance(data, list):
                 items.extend(data)
+
             if verbose:
                 print(
                     f"  [page {page_num}] received {len(data)} items "
                     f"(total so far: {len(items)})"
                 )
+                print(f"    X-Page-Token header: {response.headers.get('X-Page-Token', '(missing)')!r}")
+                print(f"    meta.paging: {paging}")
+                if meta.get("records"):
+                    print(f"    meta.records: {meta['records']}")
 
-            next_token = response.headers.get("X-Page-Token", "")
-            if not next_token or next_token == page_token:
-                break
-            page_token = next_token
-            page_num += 1
+            # Try multiple pagination approaches:
+            # 1) X-Page-Token response header (non-empty, different from sent)
+            header_token = response.headers.get("X-Page-Token", "")
+            # 2) meta.paging.next URL
+            next_url = paging.get("next")
+            # 3) meta.paging.next_page_token
+            body_token = paging.get("next_page_token") or ""
+
+            if next_url and isinstance(next_url, str) and next_url.startswith("http"):
+                if verbose:
+                    print("    -> following meta.paging.next URL")
+                response = request_json(
+                    session, "GET", next_url, max_retries=max_retries,
+                )
+                if response.status_code != 200:
+                    raise RuntimeError(
+                        f"Request failed on page {page_num + 1} "
+                        f"({response.status_code}): {response.text}"
+                    )
+                continue
+
+            if header_token and header_token != "" and header_token != params.get("page_token", ""):
+                if verbose:
+                    print(f"    -> using X-Page-Token header: {header_token!r}")
+                response = request_json(
+                    session, "GET", url, params=params,
+                    max_retries=max_retries,
+                    extra_headers={"X-Page-Token": header_token},
+                )
+                if response.status_code != 200:
+                    raise RuntimeError(
+                        f"Request failed on page {page_num + 1} "
+                        f"({response.status_code}): {response.text}"
+                    )
+                continue
+
+            if body_token:
+                if verbose:
+                    print(f"    -> using body page_token: {body_token!r}")
+                page_params = dict(params)
+                page_params["page_token"] = body_token
+                response = request_json(
+                    session, "GET", url, params=page_params,
+                    max_retries=max_retries,
+                )
+                if response.status_code != 200:
+                    raise RuntimeError(
+                        f"Request failed on page {page_num + 1} "
+                        f"({response.status_code}): {response.text}"
+                    )
+                continue
+
+            # No pagination signal found — this is the last page.
+            if verbose:
+                print("    -> no next page signal found, stopping.")
+            break
 
         if verbose:
             print(f"  Listed {len(items)} templates across {page_num} page(s).")

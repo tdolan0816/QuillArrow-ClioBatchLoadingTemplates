@@ -21,7 +21,7 @@ import zipfile
 from html import escape, unescape
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Iterable, List, Tuple
+from typing import Iterable, List, Sequence, Tuple
 
 from docx import Document
 from openpyxl import load_workbook
@@ -46,7 +46,7 @@ def _normalize_header(value: object) -> str:
 
 # Resolve the column index based on the header value
 def _resolve_column_index(
-    header_row: Iterable[object],
+    header_row: Sequence[object],
     header_map: dict[str, int],
     column_arg: str | None,
     fallbacks: List[str],

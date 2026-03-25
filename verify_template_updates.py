@@ -13,9 +13,10 @@ import sys
 import zipfile
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Tuple
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 from docx import Document
+from docx.document import Document as DocxDocument
 from openpyxl import load_workbook
 
 
@@ -40,7 +41,7 @@ def _normalize_header(value: object) -> str:
 
 
 def _resolve_column_index(
-    header_row: Iterable[object],
+    header_row: Sequence[object],
     header_map: Dict[str, int],
     column_arg: Optional[str],
     fallbacks: List[str],
@@ -93,7 +94,7 @@ def load_lookup_table(
     sheet = workbook[sheet_name]
     rows = sheet.iter_rows(values_only=True)
     try:
-        header_row = next(rows)
+        header_row: Tuple[object, ...] = tuple(next(rows))
     except StopIteration as exc:
         raise ValueError("Lookup table sheet is empty.") from exc
 
@@ -194,7 +195,7 @@ def count_occurrences(text: str, pattern: re.Pattern[str]) -> int:
 
 
 def scan_docx_text(
-    doc: Document, replacements: List[Replacement], include_headers_footers: bool
+    doc: DocxDocument, replacements: List[Replacement], include_headers_footers: bool
 ) -> Dict[str, int]:
     text = collect_text(doc, include_headers_footers)
     counts: Dict[str, int] = {}

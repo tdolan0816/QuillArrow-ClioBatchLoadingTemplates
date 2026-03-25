@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Tuple
 
 from docx import Document
+from docx.document import Document as DocumentType
 from openpyxl import Workbook
 
 
@@ -29,7 +30,7 @@ def iter_paragraphs(container) -> Iterable:
                 yield from iter_paragraphs(cell)
 
 
-def collect_text(doc: Document, include_headers_footers: bool) -> str:
+def collect_text(doc: DocumentType, include_headers_footers: bool) -> str:
     chunks: List[str] = []
     for paragraph in iter_paragraphs(doc):
         if paragraph.text:
@@ -106,6 +107,7 @@ def write_xlsx(report_path: Path, rows: List[Tuple[str, str, int]]) -> None:
     report_path.parent.mkdir(parents=True, exist_ok=True)
     workbook = Workbook()
     sheet = workbook.active
+    assert sheet is not None, "Workbook has no active sheet"
     sheet.title = "Custom_Field_Inventory"
     sheet.append(["Template_Name", "Custom_Field", "CF_Count"])
     for row in rows:
