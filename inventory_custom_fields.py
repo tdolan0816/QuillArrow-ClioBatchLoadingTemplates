@@ -59,11 +59,19 @@ def collect_text(doc: DocumentType, include_headers_footers: bool) -> str:
     return "\n".join(chunks)
 
 
-def collect_text_from_xml(docx_path: Path, strip_fallback: bool) -> str:
+def collect_text_from_xml(
+    docx_path: Path,
+    strip_fallback: bool,
+    include_headers_footers: bool = True,
+) -> str:
     chunks: List[str] = []
     with zipfile.ZipFile(docx_path) as archive:
         for name in archive.namelist():
             if not name.startswith("word/") or not name.endswith(".xml"):
+                continue
+            if not include_headers_footers and (
+                name.startswith("word/header") or name.startswith("word/footer")
+            ):
                 continue
             if not (
                 name == "word/document.xml"
@@ -72,7 +80,7 @@ def collect_text_from_xml(docx_path: Path, strip_fallback: bool) -> str:
                 or name in {"word/footnotes.xml", "word/endnotes.xml", "word/comments.xml"}
             ):
                 continue
-            xml_text = archive.read(name).decode("utf-8", errors="ignore")
+            xml_text = archive.read(name).decode("utf-8", errors="replace")
             if strip_fallback:
                 xml_text = re.sub(
                     r"<mc:Fallback[^>]*>.*?</mc:Fallback>",
@@ -174,7 +182,11 @@ def main() -> int:
         template_name = docx_path.name
         try:
             if args.deep_scan:
-                text = collect_text_from_xml(docx_path, strip_fallback=not args.no_strip_fallback)
+                text = collect_text_from_xml(
+                    docx_path,
+                    strip_fallback=not args.no_strip_fallback,
+                    include_headers_footers=not args.skip_headers_footers,
+                )
             else:
                 doc = Document(str(docx_path))
                 text = collect_text(

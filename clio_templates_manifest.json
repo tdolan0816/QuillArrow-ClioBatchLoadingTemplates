@@ -704,38 +704,6 @@
     "document_category_id": null
   },
   {
-    "id": "10287260",
-    "name": "Clio Test - Page 1.doc",
-    "source": "document-templates",
-    "file_name": "Clio Test - Page 1.doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 1.doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10287275",
-    "name": "Clio Test - Page 2.doc",
-    "source": "document-templates",
-    "file_name": "Clio Test - Page 2.doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 2.doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10287290",
-    "name": "Clio Test - Page 3 - New.doc",
-    "source": "document-templates",
-    "file_name": "Clio Test - Page 3 - New.doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 3 - New.doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10287305",
-    "name": "Clio Test - Page 3.doc",
-    "source": "document-templates",
-    "file_name": "Clio Test - Page 3.doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 3.doc.docx",
-    "document_category_id": null
-  },
-  {
     "id": "10287320",
     "name": "CLRA Demand Letter - Plural.docx",
     "source": "document-templates",
@@ -1997,14 +1965,6 @@
     "source": "document-templates",
     "file_name": "Initial Disclosures (Single Plaintiff).docx",
     "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Initial Disclosures (Single Plaintiff).docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10289705",
-    "name": "Joint CACI Instruction List.doc",
-    "source": "document-templates",
-    "file_name": "Joint CACI Instruction List.doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Joint CACI Instruction List.doc.docx",
     "document_category_id": null
   },
   {
@@ -5600,38 +5560,6 @@
     "document_category_id": null
   },
   {
-    "id": "10296485",
-    "name": "TEMPLATE v. GM - Joint CACI Instruction List (Plural).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Joint CACI Instruction List (Plural).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Joint CACI Instruction List (Plural).doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10296500",
-    "name": "TEMPLATE v. GM - Joint CACI Instruction List (Singular).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Joint CACI Instruction List (Singular).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Joint CACI Instruction List (Singular).doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10296515",
-    "name": "TEMPLATE v. GM - Joint Statement of the Case (Plural).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Joint Statement of the Case (Plural).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Joint Statement of the Case (Plural).doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10296530",
-    "name": "TEMPLATE v. GM - Joint Statement of the Case (Singular).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Joint Statement of the Case (Singular).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Joint Statement of the Case (Singular).doc.docx",
-    "document_category_id": null
-  },
-  {
     "id": "10296545",
     "name": "TEMPLATE v. GM - Jury Instructions (Plural).docx",
     "source": "document-templates",
@@ -5664,22 +5592,6 @@
     "document_category_id": null
   },
   {
-    "id": "10296605",
-    "name": "TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Plural).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Plural).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Plural).doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10296620",
-    "name": "TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Singular).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Singular).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Singular).doc.docx",
-    "document_category_id": null
-  },
-  {
     "id": "10296635",
     "name": "TEMPLATE v. GM - Special Jury Instructions (Plural).docx",
     "source": "document-templates",
@@ -5693,38 +5605,6 @@
     "source": "document-templates",
     "file_name": "TEMPLATE v. GM - Special Jury Instructions (Singular).docx",
     "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Special Jury Instructions (Singular).docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10296665",
-    "name": "TEMPLATE v. GM - Statement of Stipulated Facts (Plural).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Statement of Stipulated Facts (Plural).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Statement of Stipulated Facts (Plural).doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10296680",
-    "name": "TEMPLATE v. GM - Statement of Stipulated Facts (Singular).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Statement of Stipulated Facts (Singular).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Statement of Stipulated Facts (Singular).doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10296695",
-    "name": "TEMPLATE v. GM - Witness List (Plural).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Witness List (Plural).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Witness List (Plural).doc.docx",
-    "document_category_id": null
-  },
-  {
-    "id": "10296710",
-    "name": "TEMPLATE v. GM - Witness List (Singular).doc",
-    "source": "document-templates",
-    "file_name": "TEMPLATE v. GM - Witness List (Singular).doc.docx",
-    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Witness List (Singular).doc.docx",
     "document_category_id": null
   },
   {
@@ -5845,6 +5725,126 @@
     "source": "document-templates",
     "file_name": "Witness fee letter to DLR.docx",
     "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Witness fee letter to DLR.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301660",
+    "name": "Clio Test - Page 1.docx",
+    "source": "document-templates",
+    "file_name": "Clio Test - Page 1.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 1.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301675",
+    "name": "Clio Test - Page 2.docx",
+    "source": "document-templates",
+    "file_name": "Clio Test - Page 2.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 2.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301690",
+    "name": "Clio Test - Page 3 - New.docx",
+    "source": "document-templates",
+    "file_name": "Clio Test - Page 3 - New.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 3 - New.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301705",
+    "name": "Clio Test - Page 3.docx",
+    "source": "document-templates",
+    "file_name": "Clio Test - Page 3.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Clio Test - Page 3.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301720",
+    "name": "Joint CACI Instruction List.docx",
+    "source": "document-templates",
+    "file_name": "Joint CACI Instruction List.docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\Joint CACI Instruction List.docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301735",
+    "name": "TEMPLATE  v. GM - Joint Statement of the Case (Plural).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Joint Statement of the Case (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Joint Statement of the Case (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301750",
+    "name": "TEMPLATE  v. GM - Joint Statement of the Case (Singular).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Joint Statement of the Case (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Joint Statement of the Case (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301765",
+    "name": "TEMPLATE  v. GM - Witness List (Plural).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Witness List (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Witness List (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301780",
+    "name": "TEMPLATE  v. GM - Witness List (Singular).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Witness List (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Witness List (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301795",
+    "name": "TEMPLATE v. GM - Joint CACI Instruction List (Plural).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Joint CACI Instruction List (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Joint CACI Instruction List (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301810",
+    "name": "TEMPLATE v. GM - Joint CACI Instruction List (Singular).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Joint CACI Instruction List (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Joint CACI Instruction List (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301825",
+    "name": "TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Plural).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301840",
+    "name": "TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Singular).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Proposed Voire Questions (JOINT) (Singular).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301855",
+    "name": "TEMPLATE v. GM - Statement of Stipulated Facts (Plural).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Statement of Stipulated Facts (Plural).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Statement of Stipulated Facts (Plural).docx",
+    "document_category_id": null
+  },
+  {
+    "id": "10301870",
+    "name": "TEMPLATE v. GM - Statement of Stipulated Facts (Singular).docx",
+    "source": "document-templates",
+    "file_name": "TEMPLATE v. GM - Statement of Stipulated Facts (Singular).docx",
+    "file_path": "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates_CustomFields_MassUpdate\\Template_Download\\TEMPLATE v. GM - Statement of Stipulated Facts (Singular).docx",
     "document_category_id": null
   }
 ]
