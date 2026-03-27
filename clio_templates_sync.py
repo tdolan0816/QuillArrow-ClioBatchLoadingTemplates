@@ -530,6 +530,36 @@ def download_document_template(
     raise RuntimeError(f"Document template download failed: {last_error}")
 
 
+def fetch_template_metadata(
+    session: requests.Session,
+    base_url: str,
+    template_id: str,
+    max_retries: int,
+) -> Dict:
+    """Fetch a single template's metadata by ID from the Clio API."""
+    url = f"{base_url}/document_templates/{template_id}.json"
+    params = {"fields": "document_category{id,name},filename,id"}
+    for attempt in range(max_retries + 1):
+        resp = session.get(url, params=params)
+        if resp.status_code == 429:
+            retry_after = int(resp.headers.get("Retry-After", "5"))
+            time.sleep(retry_after)
+            continue
+        if resp.status_code >= 500 and attempt < max_retries:
+            time.sleep(2**attempt)
+            continue
+        if resp.status_code == 200:
+            return resp.json().get("data", resp.json())
+        raise RuntimeError(
+            f"Failed to fetch metadata for template {template_id}: "
+            f"HTTP {resp.status_code}"
+        )
+    raise RuntimeError(
+        f"Failed to fetch metadata for template {template_id} after "
+        f"{max_retries + 1} attempts."
+    )
+
+
 def write_manifest(path: Path, entries: List[Dict]) -> None:
     """Write a manifest JSON describing downloaded templates."""
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -775,6 +805,14 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Allow downloading non-.docx files (default skips them).",
     )
+    download_cmd.add_argument(
+        "--ids",
+        help=(
+            "Comma-separated list of template IDs to download. "
+            "Only these templates will be fetched instead of the full list. "
+            "Example: --ids 10285940,10285941,10285942"
+        ),
+    )
 
     upload_cmd = sub.add_parser("upload", help="Upload updated templates from manifest.")
     upload_cmd.add_argument(
@@ -957,12 +995,31 @@ def main_upload(args, session):  # sourcery skip: low-code-quality
 
 # TODO Rename this here and in `main`
 def main_download(args, session):
+    # --ids: fetch metadata for specific templates instead of listing all.
+    requested_ids: Optional[List[str]] = None
+    if getattr(args, "ids", None):
+        requested_ids = [
+            tid.strip() for tid in args.ids.split(",") if tid.strip()
+        ]
+
     # Determine which source to use for templates.
     items: List[Dict] = []
     error: Optional[str] = None
     source_used = args.source
 
-    if args.source in ("auto", "document-templates"):
+    if requested_ids:
+        # Fetch metadata for each requested ID individually.
+        source_used = "document-templates"
+        print(f"Fetching metadata for {len(requested_ids)} template(s) by ID...")
+        for tid in requested_ids:
+            try:
+                meta = fetch_template_metadata(
+                    session, args.base_url, tid, args.max_retries
+                )
+                items.append(meta)
+            except RuntimeError as exc:
+                print(f"  WARNING: skipping template {tid}: {exc}")
+    elif args.source in ("auto", "document-templates"):
         templates, error = try_list_document_templates(
             session, args.base_url, args.limit, args.max_retries,
             verbose=getattr(args, "verbose", False),
@@ -977,7 +1034,7 @@ def main_download(args, session):
             )
             return 1
 
-    if not items and args.source in ("auto", "documents-folder"):
+    if not items and not requested_ids and args.source in ("auto", "documents-folder"):
         # Fall back to documents stored in a "Templates" folder.
         folder_id = resolve_folder_id(
             session,
