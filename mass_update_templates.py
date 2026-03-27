@@ -166,12 +166,21 @@ def load_lookup_table(
         old_text = str(old_value)
         # Convert the New value to a string
         new_text = "" if new_value is None else str(new_value)
-        # Convert the Old value to a regex pattern
-        pattern_text = old_text if use_regex else re.escape(old_text)
-        # Create a regex pattern from the Old value
+        # Build the regex pattern from the Old value.
+        # When using literal mode, spaces between << >> and the field name
+        # are made flexible so that variations like "<<Field>>" or
+        # "<<  Field  >>" all match the lookup entry "<< Field >>".
+        if use_regex:
+            pattern_text = old_text
+        else:
+            pattern_text = re.escape(old_text)
+            # Make spaces flexible (match zero or more whitespace chars).
+            pattern_text = pattern_text.replace(r"\ ", r"\s*")
+            # Also tolerate missing/extra spaces after << and before >>.
+            pattern_text = pattern_text.replace(r"\<\<", r"<<\s*")
+            pattern_text = pattern_text.replace(r"\>\>", r"\s*>>")
 
         try:
-            # Create a regex pattern from the Old value
             pattern = re.compile(pattern_text, flags=flags)
         # If the regex pattern is invalid, raise an error
         except re.error as exc:
