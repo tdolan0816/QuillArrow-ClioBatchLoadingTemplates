@@ -1,3 +1,4 @@
 {
-    "azureAutomation.directory.basePath": "c:\\Users\\Tim"
+    "azureAutomation.directory.basePath": "c:\\Users\\Tim",
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }

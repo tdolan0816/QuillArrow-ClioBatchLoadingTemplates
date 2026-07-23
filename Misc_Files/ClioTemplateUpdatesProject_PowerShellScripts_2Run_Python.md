@@ -1,198 +1,1 @@
-**Python Based Clio Batch Upload/Download Processing and Dynamic RegEx Substitution Dictionary Mapping for Custom Fields**
-
-
-
-
-
-
-
-**Clio Template Batch Download Processing - Python File "clio\_templates\_sync.py"** **- PowerShell Execution Script:**
-
-
-
-python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_sync.py" `
-
-  --token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `
-
-  download `
-
-  --source document-templates `
-
-  --output-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `
-
-  --manifest "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_manifest.json"
-
-
-
-\*The above PowerShell Script is for Downloading Word Documents (.docx) ***ONLY,*** In order to Download ***All*** files within the folder you need to include this additional flag:
-
-
-
-**--include-non-docx**
-
-
-
-
-
-**Validation Script for Determining All Custom Fields w/in a Template and All Templates w/in - Python File "verify\_template\_updates.py" - PowerShell Execution Script:**
-
-
-
-python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\inventory\_custom\_fields.py" `
-
-&nbsp; --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `
-
-&nbsp; --output "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\custom\_field\_inventory.xlsx" `
-
-&nbsp; --deep-scan `
-
-&nbsp; --normalize-case
-
-
-
-
-
-**Clio Template RegEx Dictionary Mapping for Custom Fields - Python File "mass\_update\_templates.py" - PowerShell Execution Script:**
-
-
-
-python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\mass\_update\_templates.py" `
-
-  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `
-
-  --output-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
-
-  --excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" `
-
-  --sheet "LookupTable" `
-
-  --old-col "Old\_Value" `
-
-  --new-col "New\_Value" `
-
-  --literal `
-
-  --join-runs `
-
-  --ignore-case `
-
-&nbsp; --xml-replace
-
-
-
-
-
-
-
-python mass\_update\_templates.py `
-
---input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `
-
---output-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" 
-
---excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" 
-
---sheet "LookupTable" 
-
---literal 
-
---ignore-case 
-
---xml-replace
-
-
-
-
-
-**Validation Script for the Verification of Custom Field Update - Python File "verify\_template\_updates.py" - PowerShell Execution Script:**
-
-
-
-python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\verify\_template\_updates.py" `
-
-  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
-
-  --excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" `
-
-  --sheet "LookupTable" `
-
-  --old-col "Old\_Value" `
-
-  --new-col "New\_Value" `
-
-  --literal `
-
-  --ignore-case `
-
-  --deep-scan
-
-
-
-
-
-**Clio Template Batch Upload Processing - Python File "clio\_templates\_sync.py"** **- PowerShell Execution Script:**
-
-
-
-python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_sync.py" `
-
-  --token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `
-
-  --verbose `
-
-  upload `
-
-  --manifest "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_manifest.json" `
-
-  --upload-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `
-
-  --template-upload-mode create `
-
-  --skip-unchanged `
-
-  --skip-invalid `
-
-  --delete-old
-
-
-
-
-
-**Clio Batch Delete Processing - PowerShell Script:**
-
-
-
-$token = (Get-Content ".\\clio\_tokens.json" | ConvertFrom-Json).access\_token
-
-$headers = @{ Authorization = "Bearer $token" }
-
-
-
-\# Example list of IDs
-
-$ids = @(
-
-"10233800",
-
-"10233815",
-
-"10233830",
-
-"10233845",
-
-"10233860"
-
-)
-
-
-
-foreach ($id in $ids) {
-
-  Invoke-RestMethod -Method Delete `
-
-    -Headers $headers `
-
-    -Uri "https://app.clio.com/api/v4/document\_templates/$id.json"
-
-}
-
+**Python Based Clio Batch Upload/Download Processing and Dynamic RegEx Substitution Dictionary Mapping for Custom Fields**1. ***Clio Template Batch Download Processing - Python File "clio\_templates\_sync.py"*** <i>**- PowerShell Execution Script**</i>**Most Common Downloading Templates CLI Command:**python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_sync.py" `  --token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `  --verbose `  download `  --source document-templates `  --output-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `  --manifest "clio\_templates\_manifest.json"  --dry-run**Selective Template Download CLI Command:**python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_sync.py" `\--token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `download `\--ids "ID1,ID2,ID3,ID4,ID5" `\--output-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `\--manifest "clio\_templates\_manifest.json"**Download Templates - Specific Arguments:****Argument		Default				Description**\--source		auto				Where to pull from: auto, document-templates, or documents-folder\--output-dir		Template\_Download		Folder to save downloaded .docx files\--manifest		clio\_templates\_manifest.json	Path to write the manifest file\--folder-id		—				Specific Clio folder ID (for documents-folder source)\--folder-name		Templates			Folder name to search (for documents-folder source)\--include-non-docx	off				Download non-.docx files too (default skips them)\--ids			off				Can list Template IDs to Download Individually\--dry-run		off				Preview what would be downloaded without writing files***2. Validation Script for Determining All Custom Fields w/in a Template and All Templates w/in - Python File "inventory\_custom\_fields.py" - PowerShell Execution Script*****Most Common Baseline Inventory CLI Command:**python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\inventory\_custom\_fields.py" `  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `  --output "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\custom\_field\_inventory.xlsx" `  --deep-scan `  --pattern "<<.\*?>>" `  --normalize-casepython "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\inventory\_custom\_fields.py" `  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Testing\_Files\\ErrorTestingFiolder" `  --output "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\BadWordDocs\_CFinventory.xlsx" `  --deep-scan `  --pattern "<<.\*?>>" `  --normalize-case**Baseline Inventory Report - Specific Arguments:****Argument		Default						Description**\--input-dir		(required)					Folder containing templates to scan\--output		custom\_field\_inventory.xlsx in input dir	Output file path (.csv or .xlsx)\--pattern		<<.\*?>>						Regex pattern to identify custom fields\--deep-scan		off						Scan XML to catch fields in text boxes and shapes\--no-strip-fallback	off						Keep mc:Fallback XML content (can cause double counts)\--normalize-case	off						Lowercase all field names for case-insensitive counting\--skip-headers-footers	off						Skip headers and footers during scan**3.** ***Clio Template RegEx Dictionary Mapping for Custom Fields - Python File "mass\_update\_templates.py" - PowerShell Execution Script*****\*\*\*Remember the 4 Temps - Clio Test That are .doc and not .docx - It F's up the Updating Script\*\*\*****Most Common Mass Update CLI Command:**python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\mass\_update\_templates.py" `  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Download" `  --output-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `  --excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" `  --sheet "LookupTable" `  --old-col "Old\_Value" `  --new-col "New\_Value" `  --literal `  --join-runs `  --ignore-case `  --xml-replace  --dry-runpython "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\mass\_update\_templates.py" `  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Testing\_Files\\ErrorTestingFiolder" `  --output-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `  --excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" `  --sheet "LookupTable" `  --old-col "Old\_Value" `  --new-col "New\_Value" `  --literal `  --join-runs `  --ignore-case `  --xml-replace**Mass Update - Specific Arguments:****Argument		Default					Description**\--input-dir		(required)				Folder containing templates to update (Template\_Download)\--output-dir		<input-dir>\_updated			Folder to write updated templates (Template\_Upload)\--in-place		off					Overwrite source files directly instead of writing to output folder\--excel			CustomField\_LookupTable.xlsx		Path to the Excel lookup table\--sheet			LookupTable				Worksheet name in the Excel file\--old-col		Old\_Value				Column header for old custom field values\--new-col		New\_Value				Column header for new custom field values\--literal		off					Treat old values as plain text (not regex patterns)\--ignore-case		off					Match old values case-insensitively\--join-runs		off					Replace fields that span multiple Word formatting runs\--xml-replace		off					Also replace fields in text boxes and shapes (XML pass)\--xml-debug		off					Write an XML debug log (xml\_debug\_log.csv) for troubleshooting\--skip-headers-footers	off					Skip scanning/replacing in headers and footers\--report		replacement\_report.csv in output dir	Custom path for the replacement report\--dry-run		off					Preview replacements without writing any files***4. Validation Script for the Verification of Custom Field Update - Python File "verify\_template\_updates.py" - PowerShell Execution Script*****Most Common Verification Report CLI Command:**python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\verify\_template\_updates.py" `  --input-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `  --excel "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\CustomField\_LookupTable.xlsx" `  --sheet "LookupTable" `  --old-col "Old\_Value" `  --new-col "New\_Value" `  --literal `  --ignore-case `  --deep-scan**Verification Report - Specific Arguments:****Argument		Default					Description**\--input-dir		(required)				Folder of updated templates to verify (Template\_Upload)\--excel			CustomField\_LookupTable.xlsx		Path to the Excel lookup table\--sheet			LookupTable				Worksheet name\--old-col		Old\_Value				Column header for old custom field values\--new-col		New\_Value				Column header for new custom field values\--literal		off					Treat old values as plain text (not regex)\--ignore-case		off					Case-insensitive matching\--deep-scan		off					Scan XML to catch fields in text boxes and shapes\--skip-headers-footers	off					Skip headers and footers during scan\--report		verification\_report.csv in input dir	Custom output path for the report\--report-all		off					Include all field/template combos even with zero counts\--fail-on-findings	off					Exit with code 2 if any old values are still found (useful for automation gates)***5. Clio Template Batch Upload Processing - Python File "clio\_templates\_sync.py"*** <i>**- PowerShell Execution Script**</i>**Most Common Uploading Templates CLI Command:**python "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_sync.py" `  --token-file "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_tokens.json" `  --verbose `  upload `  --manifest "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\clio\_templates\_manifest.json" `  --upload-dir "C:\\Users\\Tim\\OneDrive - quillarrowlaw.com\\Documents\\ClioTemplates\_CustomFields\_MassUpdate\\Template\_Upload" `  --template-upload-mode update `  --skip-unchanged `  --skip-invalid  --dry-run**Uploading Templates - Specific Arguments:****Argument		Default					Description**\--manifest		clio\_templates\_manifest.json		Path to the manifest created during download\--upload-dir		(from manifest)				Override where to pull files from; uses file\_name from manifest\--template-upload-mode	update					update = PATCH existing template by ID; create = POST as a brand new template\--name-suffix		\_Updated\_{date}				Suffix added to filename before the extension; {date} = MMDDYY\--no-name-suffix	off					Disables the suffix entirely, keeps original filename\--skip-unchanged	off					Skips uploading any template that had 0 replacements (reads replacement\_report.csv)\--report-path		<upload-dir>/replacement\_report.csv	Path to the replacement report used by --skip-unchanged\--skip-invalid		off					Skips files that are missing or 0 bytes instead of stopping with an error\--delete-old		off					After a successful create, deletes the original template by its old ID (only works with --template-upload-mode create)\--dry-run		off					Previews what would be uploaded without making any API calls***6. Clio Batch Delete Processing - PowerShell Script:***$token = (Get-Content ".\\clio\_tokens.json" | ConvertFrom-Json).access\_token$headers = @{ Authorization = "Bearer $token" }\# Example list of IDs$ids = @("10272320","10272335","10272350","10272365","10272380","10273175")foreach ($id in $ids) {  Invoke-RestMethod -Method Delete `    -Headers $headers `    -Uri "https://app.clio.com/api/v4/document\_templates/$id.json"}

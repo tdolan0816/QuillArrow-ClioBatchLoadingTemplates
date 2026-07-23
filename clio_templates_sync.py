@@ -257,6 +257,28 @@ def apply_name_suffix(filename: str, suffix: str) -> str:
     return f"{filename}{suffix}"
 
 
+def sanitize_upload_filename(name: str) -> str:
+    """Strip characters that Clio's API rejects in the filename field.
+
+    The Clio UI allows uploading files with characters like & in the name,
+    but the API's PATCH/POST validation rejects them.  We replace the
+    problematic characters with safe alternatives while keeping the name
+    recognisable.
+    """
+    replacements = {
+        "&": "and",
+        "#": "",
+        "%": "pct",
+        "!": "",
+        "@": "at",
+        "+": "and",
+    }
+    for char, replacement in replacements.items():
+        name = name.replace(char, replacement)
+    name = re.sub(r"\s{2,}", " ", name).strip()
+    return name
+
+
 def format_suffix(template: str, current_date: datetime) -> str:
     """Replace {date} with MMDDYY."""
     return template.replace("{date}", current_date.strftime("%m%d%y"))
@@ -874,6 +896,16 @@ def parse_args() -> argparse.Namespace:
     )
     upload_cmd.add_argument("--dry-run", action="store_true")
 
+    rename_cmd = sub.add_parser(
+        "rename",
+        help="Rename templates in Clio back to their original filenames using the manifest.",
+    )
+    rename_cmd.add_argument(
+        "--manifest",
+        default=DEFAULT_MANIFEST,
+    )
+    rename_cmd.add_argument("--dry-run", action="store_true")
+
     return parser.parse_args()
 
 
@@ -891,6 +923,8 @@ def main() -> int:
 
     if args.command in ("list", "download"):
         return main_download(args, session)
+    if args.command == "rename":
+        return main_rename(args, session)
     return main_upload(args, session) if args.command == "upload" else 0
 
 
@@ -910,6 +944,10 @@ def main_upload(args, session):  # sourcery skip: low-code-quality
         replacement_counts = load_replacement_report(report_path)
         if args.verbose:
             print(f"Loaded replacement report: {report_path}")
+    uploaded_count = 0
+    skipped_count = 0
+    failed_uploads: List[Tuple[str, str, str]] = []
+
     for entry in entries:
         source = entry.get("source")
         template_id = entry.get("id")
@@ -933,6 +971,7 @@ def main_upload(args, session):  # sourcery skip: low-code-quality
             if count == 0:
                 if args.verbose:
                     print(f"Skipping unchanged template: {file_name}")
+                skipped_count += 1
                 continue
 
         if not file_path.exists() or file_path.stat().st_size == 0:
@@ -942,54 +981,141 @@ def main_upload(args, session):  # sourcery skip: low-code-quality
             )
             if args.skip_invalid:
                 print(f"Warning: {message}")
+                failed_uploads.append((str(template_id), file_name, message))
                 continue
             raise RuntimeError(message)
 
-        if source != "documents-folder":
-            upload_filename = file_name
-            if not args.no_name_suffix:
-                suffix_template = args.name_suffix or "_Updated_{date}"
-                suffix = format_suffix(suffix_template, datetime.now())
-                upload_filename = apply_name_suffix(file_name, suffix)
+        try:
+            if source != "documents-folder":
+                upload_filename = file_name
+                if args.name_suffix:
+                    suffix = format_suffix(args.name_suffix, datetime.now())
+                    upload_filename = apply_name_suffix(file_name, suffix)
+                elif not args.no_name_suffix and args.template_upload_mode == "create":
+                    suffix = format_suffix("_Updated_{date}", datetime.now())
+                    upload_filename = apply_name_suffix(file_name, suffix)
+                upload_filename = sanitize_upload_filename(upload_filename)
 
-            created_id = upload_document_template(
-                session,
-                args.base_url,
-                str(template_id),
-                file_path,
-                file_name,
-                document_category_id,
-                upload_filename,
-                args.template_upload_mode,
-                args.max_retries,
-                args.verbose,
-            )
-            if args.template_upload_mode == "create" and args.delete_old:
-                if created_id:
-                    delete_document_template(
-                        session,
-                        args.base_url,
-                        str(template_id),
-                        args.max_retries,
-                        args.verbose,
-                    )
-                else:
+                if args.verbose:
                     print(
-                        "Warning: create succeeded but no new id returned; "
-                        "skipping delete of original template."
+                        f"  Uploading template {template_id}: "
+                        f"file={file_path.name} -> API filename={upload_filename}"
                     )
+
+                created_id = upload_document_template(
+                    session,
+                    args.base_url,
+                    str(template_id),
+                    file_path,
+                    file_name,
+                    document_category_id,
+                    upload_filename,
+                    args.template_upload_mode,
+                    args.max_retries,
+                    args.verbose,
+                )
+                if args.template_upload_mode == "create" and args.delete_old:
+                    if created_id:
+                        delete_document_template(
+                            session,
+                            args.base_url,
+                            str(template_id),
+                            args.max_retries,
+                            args.verbose,
+                        )
+                    else:
+                        print(
+                            "Warning: create succeeded but no new id returned; "
+                            "skipping delete of original template."
+                        )
+            else:
+                upload_document_version(
+                    session,
+                    args.base_url,
+                    str(template_id),
+                    file_path,
+                    args.max_retries,
+                    args.verbose,
+                )
+            uploaded_count += 1
+        except RuntimeError as exc:
+            short_reason = str(exc).split("\n")[0][:200]
+            print(f"  FAILED template {template_id} ({file_name}): {short_reason}")
+            failed_uploads.append((str(template_id), file_name, short_reason))
+
+    print(f"\n{'='*60}")
+    print(f"Upload complete: {uploaded_count} succeeded, "
+          f"{skipped_count} skipped, {len(failed_uploads)} failed "
+          f"(out of {len(entries)} in manifest)")
+    if failed_uploads:
+        print(f"\nFailed uploads:")
+        for tid, fname, reason in failed_uploads:
+            print(f"  - ID {tid}: {fname}")
+            print(f"    Reason: {reason}")
+    print(f"{'='*60}")
+    return 0
+
+
+def rename_template(
+    session: requests.Session,
+    base_url: str,
+    template_id: str,
+    new_filename: str,
+    max_retries: int,
+) -> bool:
+    """PATCH only the filename of an existing template (no file re-upload)."""
+    urls = [
+        f"{base_url}/document_templates/{template_id}.json",
+        f"{base_url}/document_templates/{template_id}",
+    ]
+    for url in urls:
+        resp = request_json(
+            session, "PATCH", url,
+            data={"data[filename]": new_filename},
+            max_retries=max_retries,
+        )
+        if resp.status_code in (200, 204):
+            return True
+        if resp.status_code in (404, 405):
+            continue
+        return False
+    return False
+
+
+def main_rename(args, session) -> int:
+    """Rename all templates in Clio back to original filenames from manifest."""
+    manifest_path = Path(args.manifest).resolve()
+    entries = load_manifest(manifest_path)
+    print(f"Loaded {len(entries)} entries from {manifest_path}")
+
+    renamed = 0
+    failed = 0
+    for entry in entries:
+        template_id = str(entry.get("id", ""))
+        original_name = entry.get("file_name") or entry.get("name") or ""
+        if not template_id or not original_name:
             continue
 
-        upload_document_version(
-            session,
-            args.base_url,
-            str(template_id),
-            file_path,
-            args.max_retries,
-            args.verbose,
-        )
+        if args.dry_run:
+            print(f"  [DRY RUN] Would rename {template_id} -> {original_name}")
+            continue
 
-    print(f"Uploaded {len(entries)} templates from manifest.")
+        ok = rename_template(
+            session, args.base_url, template_id, original_name,
+            args.max_retries,
+        )
+        if ok:
+            renamed += 1
+            if renamed % 50 == 0:
+                print(f"  Progress: {renamed} templates renamed...")
+        else:
+            failed += 1
+            print(f"  FAILED to rename template {template_id} -> {original_name}")
+
+    print(f"\n{'='*60}")
+    print(f"Rename complete: {renamed} succeeded, {failed} failed "
+          f"(out of {len(entries)} in manifest)")
+    print(f"{'='*60}")
     return 0
 
 
